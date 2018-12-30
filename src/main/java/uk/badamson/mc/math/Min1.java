@@ -854,7 +854,7 @@ public final class Min1 {
             fNew = f.value(xNew);
             r *= 0.5;
         } while (Double.isNaN(fNew) && 0.0 < r && Double.doubleToLongBits(xNew) != Double.doubleToLongBits(x2));
-        if (xNew != x2) {
+        if (Double.doubleToLongBits(xNew) != Double.doubleToLongBits(x2)) {
             return new Function1Value(xNew, fNew);
         } else {
             throw new PoorlyConditionedFunctionException(f);
