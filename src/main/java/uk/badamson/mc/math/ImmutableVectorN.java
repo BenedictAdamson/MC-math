@@ -277,8 +277,8 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
 
     @Override
     public double dot(final Vector that) {
-        if (that instanceof ImmutableVector3) {
-            return dot(that);
+        if (that instanceof ImmutableVectorN) {
+            return dot((ImmutableVectorN) that);
         } else {
             Objects.requireNonNull(that, "that");
             requireConsistentDimensions(this, that);

@@ -68,7 +68,7 @@ public final class Quaternion {
      */
     public static final Quaternion K = new Quaternion(0, 0, 0, 1);
 
-    private static double EXP_TOL = Math.pow(Double.MIN_NORMAL, 1.0 / 6.0) * 840.0;
+    private static final double EXP_TOL = Math.pow(Double.MIN_NORMAL, 1.0 / 6.0) * 840.0;
 
     /**
      * <p>

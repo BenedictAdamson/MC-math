@@ -853,7 +853,7 @@ public final class Min1 {
             xNew = x2 + r * dx;
             fNew = f.value(xNew);
             r *= 0.5;
-        } while (Double.isNaN(fNew) && 0.0 < r && xNew != x2);
+        } while (Double.isNaN(fNew) && 0.0 < r && Double.doubleToLongBits(xNew) != Double.doubleToLongBits(x2));
         if (xNew != x2) {
             return new Function1Value(xNew, fNew);
         } else {
