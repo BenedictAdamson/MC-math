@@ -82,7 +82,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * <li>Always creates a (non null) rotation.</li>
      * <li>The {@linkplain #getAngle() rotation angle} of the created rotation is
      * equal to the given angle.</li>
-     * <li>The {@linkplain #getAxis()) rotation axis} of the created rotation points
+     * <li>The {@linkplain #getAxis() rotation axis} of the created rotation points
      * in the same direction as the given axis.</li>
      * </ul>
      *
