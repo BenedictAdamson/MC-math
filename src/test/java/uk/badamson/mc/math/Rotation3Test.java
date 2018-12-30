@@ -21,12 +21,11 @@ package uk.badamson.mc.math;
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.IsCloseTo.closeTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.badamson.mc.math.VectorTest.closeToVector;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -78,7 +77,7 @@ public class Rotation3Test {
 
         final ImmutableVector3 rv = r.apply(v);
 
-        assertNotNull("Always produces a rotated vector.", rv);// guard
+        assertNotNull(rv, "Always produces a rotated vector.");// guard
         assertInvariants(r);// check for side effects
         ImmutableVector3Test.assertInvariants(v);// check for side effects
         ImmutableVector3Test.assertInvariants(rv);
@@ -93,8 +92,8 @@ public class Rotation3Test {
         final Quaternion versor = rotation.getVersor();
         final ImmutableVector3 axis = rotation.getAxis();
 
-        assertNotNull("Always have a versor.", versor);// guard
-        assertNotNull("Always have an axis.", axis);// guard
+        assertNotNull(versor, "Always have a versor.");// guard
+        assertNotNull(axis, "Always have an axis.");// guard
         QuaternionTest.assertInvariants(versor);
         ImmutableVector3Test.assertInvariants(axis);
 
@@ -109,12 +108,10 @@ public class Rotation3Test {
         // Do nothing
     }
 
-    @Factory
     public static Matcher<Rotation3> closeToRotation3(Rotation3 operand) {
         return new IsCloseTo(operand, TOLERANCE);
     }
 
-    @Factory
     public static Matcher<Rotation3> closeToRotation3(Rotation3 operand, double tolerance) {
         return new IsCloseTo(operand, tolerance);
     }
@@ -125,7 +122,7 @@ public class Rotation3Test {
 
         final Rotation3 m = r.minus();
 
-        assertNotNull("Not null, result", m);
+        assertNotNull(m, "Not null, result");
 
         assertInvariants(r);// check for side effects
         assertInvariants(m);
@@ -149,7 +146,7 @@ public class Rotation3Test {
     public static Rotation3 minus(Rotation3 r, Rotation3 that) {
         final Rotation3 diff = r.minus(that);
 
-        assertNotNull("Not null, result", diff);
+        assertNotNull(diff, "Not null, result");
 
         assertInvariants(r);// check for side effects
         assertInvariants(diff);
@@ -171,7 +168,7 @@ public class Rotation3Test {
     public static Rotation3 plus(Rotation3 r, Rotation3 that) {
         final Rotation3 sum = r.plus(that);
 
-        assertNotNull("Not null, result", sum);
+        assertNotNull(sum, "Not null, result");
         assertInvariants(r);// check for side effects
         assertInvariants(that);// check for side effects
         assertInvariants(r, that);// check for side effects
@@ -185,14 +182,13 @@ public class Rotation3Test {
     public static Rotation3 scale(Rotation3 r, double f) {
         final Rotation3 fr = r.scale(f);
 
-        assertNotNull("Not null, result", fr);
+        assertNotNull(fr, "Not null, result");
         assertInvariants(r);// check for side effects
         assertInvariants(fr);
         assertInvariants(fr, r);
 
-        assertTrue("The scaled rotation has same axis as this, unless the scaling factor is zero",
-                Math.abs(f) < Double.MIN_NORMAL
-                        || ImmutableVector3Test.closeTo(r.getAxis(), TOLERANCE).matches(fr.getAxis()));
+        assertTrue(Math.abs(f) < Double.MIN_NORMAL
+                        || ImmutableVector3Test.closeTo(r.getAxis(), TOLERANCE).matches(fr.getAxis()), "The scaled rotation has same axis as this, unless the scaling factor is zero");
         assertThat("The scaled rotation has its angle nominally scaled by the scaling factor.",
                 normalizedAngle(fr.getAngle()), closeTo(normalizedAngle(r.getAngle() * f), TOLERANCE));
 

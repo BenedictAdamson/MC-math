@@ -18,11 +18,10 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +40,6 @@ public class ImmutableVector1Test {
         VectorTest.assertInvariants(x1, x2);// inherited
     }
 
-    @Factory
     public static Matcher<Vector> closeTo(ImmutableVector1 operand, double tolerance) {
         return VectorTest.closeToVector(operand, tolerance);
     }
@@ -49,10 +47,10 @@ public class ImmutableVector1Test {
     private static ImmutableVector1 create(double x) {
         final ImmutableVector1 v = ImmutableVector1.create(x);
 
-        assertNotNull("Not null, result", v);
+        assertNotNull(v, "Not null, result");
         assertInvariants(v);
 
-        assertEquals("x", Double.doubleToLongBits(x), Double.doubleToLongBits(v.get(0)));
+        assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(v.get(0)), "x");
 
         return v;
     }
@@ -62,7 +60,7 @@ public class ImmutableVector1Test {
         final ImmutableVector1 v2 = ImmutableVector1.create(x);
 
         assertInvariants(v1, v2);
-        assertEquals("Equivalent", v1, v2);
+        assertEquals(v1, v2, "Equivalent");
     }
 
     private static ImmutableVector1 mean(ImmutableVector1 x, ImmutableVector1 that) {
@@ -142,14 +140,14 @@ public class ImmutableVector1Test {
     private static ImmutableVector1 sum(ImmutableVector1... x) {
         final ImmutableVector1 sum = ImmutableVector1.sum(x);
 
-        assertNotNull("Always returns a sum vector.", sum);// guard
+        assertNotNull(sum, "Always returns a sum vector.");// guard
         assertInvariants(sum);
         for (ImmutableVector1 xi : x) {
             assertInvariants(sum, xi);
         }
 
-        assertEquals("The dimension of the sum equals the dimension of the summed vectors.", x[0].getDimension(),
-                sum.getDimension());
+        assertEquals(x[0].getDimension(),
+                sum.getDimension(), "The dimension of the sum equals the dimension of the summed vectors.");
 
         return sum;
     }
@@ -157,20 +155,20 @@ public class ImmutableVector1Test {
     private static final void sum_multiple1(double x) {
         final ImmutableVector1 sum = sum(new ImmutableVector1[] { ImmutableVector1.create(x) });
 
-        assertEquals("sum x", x, sum.get(0), Double.MIN_NORMAL);
+        assertEquals(x, sum.get(0), Double.MIN_NORMAL, "sum x");
     }
 
     private static final void sum_multiple2(double x1, double x2) {
         final ImmutableVector1 sum = sum(
                 new ImmutableVector1[] { ImmutableVector1.create(x1), ImmutableVector1.create(x2) });
 
-        assertEquals("sum x", x1 + x2, sum.get(0), Double.MIN_NORMAL);
+        assertEquals(x1 + x2, sum.get(0), Double.MIN_NORMAL, "sum x");
     }
 
     private static ImmutableVector1 weightedSum(double[] weight, ImmutableVector1[] x) {
         final ImmutableVector1 sum = ImmutableVector1.weightedSum(weight, x);
 
-        assertNotNull("Always returns a sum vector.", sum);// guard
+        assertNotNull(sum, "Always returns a sum vector.");// guard
         assertInvariants(sum);
         for (ImmutableVector1 xi : x) {
             assertInvariants(sum, xi);
@@ -183,15 +181,15 @@ public class ImmutableVector1Test {
         final ImmutableVector1 sum = weightedSum(new double[] { weight },
                 new ImmutableVector1[] { ImmutableVector1.create(x) });
 
-        assertEquals("sum x", weight * x, sum.get(0), Double.MIN_NORMAL);
+        assertEquals(weight * x, sum.get(0), Double.MIN_NORMAL, "sum x");
     }
 
     @Test
     public void create_0() {
         final ImmutableVector1 x = create(0.0);
 
-        assertEquals("magnitude^2", 0.0, x.magnitude2(), Double.MIN_NORMAL);
-        assertEquals("magnitude", 0.0, x.magnitude(), Double.MIN_NORMAL);
+        assertEquals(0.0, x.magnitude2(), Double.MIN_NORMAL, "magnitude^2");
+        assertEquals(0.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
     }
 
     @Test
@@ -215,7 +213,7 @@ public class ImmutableVector1Test {
         final ImmutableVector1 v2 = ImmutableVector1.create(1.0);
 
         assertInvariants(v1, v2);
-        assertNotEquals("Not equivalent", v1, v2);
+        assertNotEquals(v1, v2, "Not equivalent");
     }
 
     @Test
@@ -223,7 +221,7 @@ public class ImmutableVector1Test {
         final double max = Double.MAX_VALUE;
         final ImmutableVector1 x = create(max);
 
-        assertEquals("magnitude", max, x.magnitude(), max * 1.0E-6);
+        assertEquals(max, x.magnitude(), max * 1.0E-6, "magnitude");
     }
 
     @Test
@@ -232,66 +230,66 @@ public class ImmutableVector1Test {
 
         final double magnitude2 = x.magnitude2();
         final double magnitude = x.magnitude();
-        assertEquals("magnitude^2 <" + magnitude2 + "> (bits)", Double.doubleToLongBits(magnitude2),
-                Double.doubleToLongBits(Double.POSITIVE_INFINITY));
-        assertEquals("magnitude <" + magnitude + "> (bits)", Double.doubleToLongBits(magnitude),
-                Double.doubleToLongBits(Double.POSITIVE_INFINITY));
+        assertEquals(Double.doubleToLongBits(magnitude2),
+                Double.doubleToLongBits(Double.POSITIVE_INFINITY), "magnitude^2 <" + magnitude2 + "> (bits)");
+        assertEquals(Double.doubleToLongBits(magnitude),
+                Double.doubleToLongBits(Double.POSITIVE_INFINITY), "magnitude <" + magnitude + "> (bits)");
     }
 
     @Test
     public void create_negative() {
         final ImmutableVector1 x = create(-1.0);
 
-        assertEquals("magnitude^2", 1.0, x.magnitude2(), Double.MIN_NORMAL);
-        assertEquals("magnitude", 1.0, x.magnitude(), Double.MIN_NORMAL);
+        assertEquals(1.0, x.magnitude2(), Double.MIN_NORMAL, "magnitude^2");
+        assertEquals(1.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
     }
 
     @Test
     public void dot_x11() {
         final double d = ImmutableVector1.create(1).dot(ImmutableVector1.create(1));
-        assertEquals("dot product", 1.0, d, Double.MIN_NORMAL);
+        assertEquals(1.0, d, Double.MIN_NORMAL, "dot product");
     }
 
     @Test
     public void dot_x12() {
         final double d = ImmutableVector1.create(1).dot(ImmutableVector1.create(2));
-        assertEquals("dot product", 2.0, d, Double.MIN_NORMAL);
+        assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
     }
 
     @Test
     public void dot_x21() {
         final double d = ImmutableVector1.create(2).dot(ImmutableVector1.create(1));
-        assertEquals("dot product", 2.0, d, Double.MIN_NORMAL);
+        assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
     }
 
     @Test
     public void dot_x22() {
         final double d = ImmutableVector1.create(2).dot(ImmutableVector1.create(2));
-        assertEquals("dot product", 4.0, d, Double.MIN_NORMAL);
+        assertEquals(4.0, d, Double.MIN_NORMAL, "dot product");
     }
 
     @Test
     public void mean_x02() {
         final ImmutableVector1 mean = mean(ImmutableVector1.create(0), ImmutableVector1.create(2));
-        assertEquals("mean[0]", 1.0, mean.get(0), Double.MIN_NORMAL);
+        assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
     }
 
     @Test
     public void mean_x11() {
         final ImmutableVector1 mean = mean(ImmutableVector1.create(1), ImmutableVector1.create(1));
-        assertEquals("mean[0]", 1.0, mean.get(0), Double.MIN_NORMAL);
+        assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
     }
 
     @Test
     public void mean_x1m1() {
         final ImmutableVector1 mean = mean(ImmutableVector1.create(1), ImmutableVector1.create(-1));
-        assertEquals("mean[0]", 0.0, mean.get(0), Double.MIN_NORMAL);
+        assertEquals(0.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
     }
 
     @Test
     public void mean_x20() {
         final ImmutableVector1 mean = mean(ImmutableVector1.create(2), ImmutableVector1.create(0));
-        assertEquals("mean[0]", 1.0, mean.get(0), Double.MIN_NORMAL);
+        assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
     }
 
     @Test
@@ -411,35 +409,35 @@ public class ImmutableVector1Test {
     public void scale_01() {
         final ImmutableVector1 scaled = scale(ImmutableVector1.create(0), 1.0);
 
-        assertEquals("scaled[0]", 0.0, scaled.get(0), Double.MIN_NORMAL);
+        assertEquals(0.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
     }
 
     @Test
     public void scale_10() {
         final ImmutableVector1 scaled = scale(ImmutableVector1.create(1), 0.0);
 
-        assertEquals("scaled[0]", 0.0, scaled.get(0), Double.MIN_NORMAL);
+        assertEquals(0.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
     }
 
     @Test
     public void scale_11() {
         final ImmutableVector1 scaled = scale(ImmutableVector1.create(1), 1.0);
 
-        assertEquals("scaled[0]", 1.0, scaled.get(0), Double.MIN_NORMAL);
+        assertEquals(1.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
     }
 
     @Test
     public void scale_1m2() {
         final ImmutableVector1 scaled = scale(ImmutableVector1.create(1), -2.0);
 
-        assertEquals("scaled[0]", -2.0, scaled.get(0), Double.MIN_NORMAL);
+        assertEquals(-2.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
     }
 
     @Test
     public void scale_A() {
         final ImmutableVector1 scaled = scale(ImmutableVector1.create(1), 4.0);
 
-        assertEquals("scaled[0]", 4.0, scaled.get(0), Double.MIN_NORMAL);
+        assertEquals(4.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
     }
 
     @Test
@@ -487,6 +485,6 @@ public class ImmutableVector1Test {
         final ImmutableVector1 sum = weightedSum(new double[] { 1.0, 2.0 },
                 new ImmutableVector1[] { ImmutableVector1.create(3), ImmutableVector1.create(5) });
 
-        assertEquals("sum[0]", 13.0, sum.get(0), Double.MIN_NORMAL);
+        assertEquals(13.0, sum.get(0), Double.MIN_NORMAL, "sum[0]");
     }
 }

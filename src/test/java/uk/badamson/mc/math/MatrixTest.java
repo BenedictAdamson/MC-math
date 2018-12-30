@@ -18,9 +18,9 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * <p>
@@ -30,20 +30,20 @@ import static org.junit.Assert.assertTrue;
 public class MatrixTest {
 
     public static void assertInvariants(Matrix matrix) {
-        assertTrue("rows is positive", 0 < matrix.getRows());
-        assertTrue("columns is positive", 0 < matrix.getColumns());
+        assertTrue(0 < matrix.getRows(), "rows is positive");
+        assertTrue(0 < matrix.getColumns(), "columns is positive");
     }
 
     public static void assertInvariants(Matrix matrix1, Matrix matrix2) {
         if (matrix1.equals(matrix2)) {
             final int rows1 = matrix1.getRows();
             final int columns1 = matrix1.getColumns();
-            assertEquals("Equality requires equal rows", rows1, matrix2.getRows());// guard
-            assertEquals("Equality requires equal columns", columns1, matrix2.getColumns());// guard
+            assertEquals(rows1, matrix2.getRows(), "Equality requires equal rows");// guard
+            assertEquals(columns1, matrix2.getColumns(), "Equality requires equal columns");// guard
             for (int i = 0; i < rows1; i++) {
                 for (int j = 0; j < columns1; j++) {
-                    assertEquals("Equality requires equal components [" + i + "," + j + "]", matrix1.get(i, j),
-                            matrix2.get(i, j), Double.MIN_NORMAL);
+                    assertEquals(matrix1.get(i, j),
+                            matrix2.get(i, j), Double.MIN_NORMAL, "Equality requires equal components [" + i + "," + j + "]");
                 }
             }
         }
@@ -52,13 +52,13 @@ public class MatrixTest {
     public static final Vector multiply(Matrix a, Vector x) {
         final Vector ax = a.multiply(x);
 
-        assertNotNull("Not null, result", ax);// guard
+        assertNotNull(ax, "Not null, result");// guard
         VectorTest.assertInvariants(ax);
         assertInvariants(a, ax);
         VectorTest.assertInvariants(x, ax);
 
-        assertEquals("The number of rows of the product is equal to the number of rows of this matrix.", a.getRows(),
-                ax.getRows());
+        assertEquals(a.getRows(),
+                ax.getRows(), "The number of rows of the product is equal to the number of rows of this matrix.");
 
         return ax;
     }

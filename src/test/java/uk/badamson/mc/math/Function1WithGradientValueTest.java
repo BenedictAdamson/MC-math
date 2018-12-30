@@ -18,8 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,21 +40,21 @@ public class Function1WithGradientValueTest {
         ObjectTest.assertInvariants(v1, v2);// inherited
 
         final boolean equals = v1.equals(v2);
-        assertFalse("Value semantics, x",
-                equals && Double.doubleToLongBits(v1.getX()) != Double.doubleToLongBits(v2.getX()));
-        assertFalse("Value semantics, f",
-                equals && Double.doubleToLongBits(v1.getF()) != Double.doubleToLongBits(v2.getF()));
-        assertFalse("Value semantics, dfdx",
-                equals && Double.doubleToLongBits(v1.getDfDx()) != Double.doubleToLongBits(v2.getDfDx()));
+        assertFalse(
+                equals && Double.doubleToLongBits(v1.getX()) != Double.doubleToLongBits(v2.getX()), "Value semantics, x");
+        assertFalse(
+                equals && Double.doubleToLongBits(v1.getF()) != Double.doubleToLongBits(v2.getF()), "Value semantics, f");
+        assertFalse(
+                equals && Double.doubleToLongBits(v1.getDfDx()) != Double.doubleToLongBits(v2.getDfDx()), "Value semantics, dfdx");
     }
 
     private static Function1WithGradientValue constructor(double x, double f, double dfdx) {
         final Function1WithGradientValue point = new Function1WithGradientValue(x, f, dfdx);
 
         assertInvariants(point);
-        assertEquals("x bits", Double.doubleToLongBits(x), Double.doubleToLongBits(point.getX()));
-        assertEquals("f bits", Double.doubleToLongBits(f), Double.doubleToLongBits(point.getF()));
-        assertEquals("dfdx bits", Double.doubleToLongBits(dfdx), Double.doubleToLongBits(point.getDfDx()));
+        assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(point.getX()), "x bits");
+        assertEquals(Double.doubleToLongBits(f), Double.doubleToLongBits(point.getF()), "f bits");
+        assertEquals(Double.doubleToLongBits(dfdx), Double.doubleToLongBits(point.getDfDx()), "dfdx bits");
         return point;
     }
 
@@ -63,7 +63,7 @@ public class Function1WithGradientValueTest {
         final Function1WithGradientValue point2 = new Function1WithGradientValue(x, f, dfdx);
 
         assertInvariants(point1, point2);
-        assertEquals("Equivalent", point1, point2);
+        assertEquals(point1, point2, "Equivalent");
     }
 
     @Test

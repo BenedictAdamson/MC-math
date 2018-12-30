@@ -18,9 +18,9 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * <p>
@@ -48,8 +48,8 @@ public class Function1WithGradientTest {
             final Function1WithGradientValue fr = fx[i + 1];
             final double dfl = fi.getF() - fl.getF();
             final double dfr = fr.getF() - fi.getF();
-            assertTrue("Consistent gradient <" + fl + "," + fi + "," + fr + ">",
-                    sign(dfl) != sign(dfr) || sign(fi.getDfDx()) == sign(dfl));
+            assertTrue(
+                    sign(dfl) != sign(dfr) || sign(fi.getDfDx()) == sign(dfl), "Consistent gradient <" + fl + "," + fi + "," + fr + ">");
         }
     }
 
@@ -66,9 +66,9 @@ public class Function1WithGradientTest {
     public static Function1WithGradientValue value(Function1WithGradient f, double x) {
         final Function1WithGradientValue v = f.value(x);
 
-        assertNotNull("Not null, result", v);// guard
+        assertNotNull(v, "Not null, result");// guard
         Function1WithGradientValueTest.assertInvariants(v);
-        assertEquals("x", x, v.getX(), Double.MIN_NORMAL);
+        assertEquals(x, v.getX(), Double.MIN_NORMAL, "x");
 
         return v;
     }

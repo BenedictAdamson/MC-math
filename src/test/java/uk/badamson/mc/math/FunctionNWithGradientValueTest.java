@@ -18,10 +18,10 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,29 +40,29 @@ public class FunctionNWithGradientValueTest {
         final ImmutableVectorN x = f.getX();
         final ImmutableVectorN dfdx = f.getDfDx();
 
-        assertNotNull("Not null, x", x);// guard
-        assertNotNull("Not null, dfdx", dfdx);// guard
-        assertEquals("The dimension of the gradient vector is equal to the dimension of the domain vector",
-                x.getDimension(), dfdx.getDimension());
+        assertNotNull(x, "Not null, x");// guard
+        assertNotNull(dfdx, "Not null, dfdx");// guard
+        assertEquals(
+                x.getDimension(), dfdx.getDimension(), "The dimension of the gradient vector is equal to the dimension of the domain vector");
     }
 
     public static void assertInvariants(FunctionNWithGradientValue f1, FunctionNWithGradientValue f2) {
         ObjectTest.assertInvariants(f1, f2);
 
         final boolean equals = f1.equals(f2);
-        assertFalse("Equality requires equivalent attributes, f",
-                equals && Double.doubleToLongBits(f1.getF()) != Double.doubleToLongBits(f2.getF()));
-        assertFalse("Equality requires equivalent attributes, x", equals && !f1.getX().equals(f2.getX()));
-        assertFalse("Equality requires equivalent attributes, dfdx", equals && !f1.getDfDx().equals(f2.getDfDx()));
+        assertFalse(
+                equals && Double.doubleToLongBits(f1.getF()) != Double.doubleToLongBits(f2.getF()), "Equality requires equivalent attributes, f");
+        assertFalse(equals && !f1.getX().equals(f2.getX()), "Equality requires equivalent attributes, x");
+        assertFalse(equals && !f1.getDfDx().equals(f2.getDfDx()), "Equality requires equivalent attributes, dfdx");
     }
 
     private static FunctionNWithGradientValue constructor(ImmutableVectorN x, double f, ImmutableVectorN dfdx) {
         final FunctionNWithGradientValue v = new FunctionNWithGradientValue(x, f, dfdx);
 
         assertInvariants(v);
-        assertEquals("f (bits)", Double.doubleToLongBits(f), Double.doubleToLongBits(v.getF()));
-        assertEquals("x", x, v.getX());
-        assertEquals("dfdx", dfdx, v.getDfDx());
+        assertEquals(Double.doubleToLongBits(f), Double.doubleToLongBits(v.getF()), "f (bits)");
+        assertEquals(x, v.getX(), "x");
+        assertEquals(dfdx, v.getDfDx(), "dfdx");
 
         return v;
     }

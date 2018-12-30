@@ -18,8 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,18 +40,18 @@ public class Function1ValueTest {
         ObjectTest.assertInvariants(point1, point2);// inherited
 
         final boolean equals = point1.equals(point2);
-        assertFalse("Value semantics, x",
-                equals && Double.doubleToLongBits(point1.getX()) != Double.doubleToLongBits(point2.getX()));
-        assertFalse("Value semantics, f",
-                equals && Double.doubleToLongBits(point1.getF()) != Double.doubleToLongBits(point2.getF()));
+        assertFalse(
+                equals && Double.doubleToLongBits(point1.getX()) != Double.doubleToLongBits(point2.getX()), "Value semantics, x");
+        assertFalse(
+                equals && Double.doubleToLongBits(point1.getF()) != Double.doubleToLongBits(point2.getF()), "Value semantics, f");
     }
 
     private static Function1Value constructor(double x, double f) {
         final Function1Value point = new Function1Value(x, f);
 
         assertInvariants(point);
-        assertEquals("x bits", Double.doubleToLongBits(x), Double.doubleToLongBits(point.getX()));
-        assertEquals("f bits", Double.doubleToLongBits(f), Double.doubleToLongBits(point.getF()));
+        assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(point.getX()), "x bits");
+        assertEquals(Double.doubleToLongBits(f), Double.doubleToLongBits(point.getF()), "f bits");
         return point;
     }
 
@@ -60,7 +60,7 @@ public class Function1ValueTest {
         final Function1Value point2 = new Function1Value(x, f);
 
         assertInvariants(point1, point2);
-        assertEquals("Equivalent", point1, point2);
+        assertEquals(point1, point2, "Equivalent");
     }
 
     @Test

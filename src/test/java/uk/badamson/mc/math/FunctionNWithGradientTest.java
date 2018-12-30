@@ -18,8 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * <p>
@@ -42,10 +42,10 @@ public class FunctionNWithGradientTest {
     public static FunctionNWithGradientValue value(FunctionNWithGradient f, ImmutableVectorN x) {
         final FunctionNWithGradientValue v = f.value(x);
 
-        assertNotNull("Not null, result", v);// guard
+        assertNotNull(v, "Not null, result");// guard
         FunctionNWithGradientValueTest.assertInvariants(v);
-        assertTrue("x <expected " + x + ", actual " + v.getX() + ">",
-                x.minus(v.getX()).magnitude2() <= Double.MIN_NORMAL);
+        assertTrue(
+                x.minus(v.getX()).magnitude2() <= Double.MIN_NORMAL, "x <expected " + x + ", actual " + v.getX() + ">");
 
         return v;
     }

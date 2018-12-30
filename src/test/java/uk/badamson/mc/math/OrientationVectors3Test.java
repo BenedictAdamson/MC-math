@@ -18,8 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -39,20 +39,20 @@ public class OrientationVectors3Test {
         final ImmutableVectorN e2 = orientation.getE2();
         final ImmutableVectorN e3 = orientation.getE3();
 
-        assertNotNull("Not null, e1", e1);// guard
-        assertNotNull("Not null, e2", e2);// guard
-        assertNotNull("Not null, e3", e3);// guard
+        assertNotNull(e1, "Not null, e1");// guard
+        assertNotNull(e2, "Not null, e2");// guard
+        assertNotNull(e3, "Not null, e3");// guard
 
-        assertEquals("The e1 vector is 3 dimensional.", 3, e1.getDimension());// guard
-        assertEquals("The e2 vector is 3 dimensional.", 3, e2.getDimension());// guard
-        assertEquals("The e3 vector is 3 dimensional.", 3, e3.getDimension());// guard
+        assertEquals(3, e1.getDimension(), "The e1 vector is 3 dimensional.");// guard
+        assertEquals(3, e2.getDimension(), "The e2 vector is 3 dimensional.");// guard
+        assertEquals(3, e3.getDimension(), "The e3 vector is 3 dimensional.");// guard
 
-        assertEquals("The e1 vector has unit magnitude.", 1.0, e1.magnitude(), Double.MIN_NORMAL);
-        assertEquals("The e2 vector has unit magnitude.", 1.0, e2.magnitude(), Double.MIN_NORMAL);
-        assertEquals("The e3 vector has unit magnitude.", 1.0, e3.magnitude(), Double.MIN_NORMAL);
-        assertEquals("The e1 vector is orthogonal to vector e2.", 0.0, e1.dot(e2), Double.MIN_NORMAL);
-        assertEquals("The e1 vector is orthogonal to vector e3.", 0.0, e1.dot(e3), Double.MIN_NORMAL);
-        assertEquals("The e2 vector is orthogonal to vector e3.", 0.0, e2.dot(e3), Double.MIN_NORMAL);
+        assertEquals(1.0, e1.magnitude(), Double.MIN_NORMAL, "The e1 vector has unit magnitude.");
+        assertEquals(1.0, e2.magnitude(), Double.MIN_NORMAL, "The e2 vector has unit magnitude.");
+        assertEquals(1.0, e3.magnitude(), Double.MIN_NORMAL, "The e3 vector has unit magnitude.");
+        assertEquals(0.0, e1.dot(e2), Double.MIN_NORMAL, "The e1 vector is orthogonal to vector e2.");
+        assertEquals(0.0, e1.dot(e3), Double.MIN_NORMAL, "The e1 vector is orthogonal to vector e3.");
+        assertEquals(0.0, e2.dot(e3), Double.MIN_NORMAL, "The e2 vector is orthogonal to vector e3.");
     }
 
     public static void assertInvariants(OrientationVectors3 orientation1, OrientationVectors3 orientation2) {
@@ -63,11 +63,11 @@ public class OrientationVectors3Test {
             ImmutableVectorN e3) {
         final OrientationVectors3 orientation = OrientationVectors3.createFromOrthogonalUnitBasisVectors(e1, e2, e3);
 
-        assertNotNull("Not null, result", orientation);// guard
+        assertNotNull(orientation, "Not null, result");// guard
         assertInvariants(orientation);
-        assertEquals("e1", e1, orientation.getE1());
-        assertEquals("e2", e2, orientation.getE2());
-        assertEquals("e3", e3, orientation.getE3());
+        assertEquals(e1, orientation.getE1(), "e1");
+        assertEquals(e2, orientation.getE2(), "e2");
+        assertEquals(e3, orientation.getE3(), "e3");
 
         return orientation;
     }
@@ -112,10 +112,10 @@ public class OrientationVectors3Test {
 
     @Test
     public void statics() {
-        assertNotNull("Not null, blobal basis", OrientationVectors3.GLOBAL_BASIS);// guard
+        assertNotNull(OrientationVectors3.GLOBAL_BASIS, "Not null, blobal basis");// guard
         assertInvariants(OrientationVectors3.GLOBAL_BASIS);
-        assertEquals("Global basis e1 x.", 1.0, OrientationVectors3.GLOBAL_BASIS.getE1().get(0), Double.MIN_NORMAL);
-        assertEquals("Global basis e2 y.", 1.0, OrientationVectors3.GLOBAL_BASIS.getE2().get(1), Double.MIN_NORMAL);
-        assertEquals("Global basis e3 z.", 1.0, OrientationVectors3.GLOBAL_BASIS.getE3().get(2), Double.MIN_NORMAL);
+        assertEquals(1.0, OrientationVectors3.GLOBAL_BASIS.getE1().get(0), Double.MIN_NORMAL, "Global basis e1 x.");
+        assertEquals(1.0, OrientationVectors3.GLOBAL_BASIS.getE2().get(1), Double.MIN_NORMAL, "Global basis e2 y.");
+        assertEquals(1.0, OrientationVectors3.GLOBAL_BASIS.getE3().get(2), Double.MIN_NORMAL, "Global basis e3 z.");
     }
 }

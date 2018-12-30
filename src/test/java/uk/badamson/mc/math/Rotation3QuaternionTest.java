@@ -24,9 +24,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.badamson.mc.math.ImmutableVector3Test.closeToImmutableVector3;
 import static uk.badamson.mc.math.Rotation3Test.closeToRotation3;
 
@@ -69,8 +69,7 @@ public class Rotation3QuaternionTest {
         final ImmutableVector3 rv = apply(r, axis);
 
         assertTrue(
-                "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.",
-                axis.minus(rv).magnitude() < TOLERANCE * (magnitude0 + 1.0));
+                axis.minus(rv).magnitude() < TOLERANCE * (magnitude0 + 1.0),                 "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.");
         assertThat(
                 "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.",
                 rv, ImmutableVector3Test.closeTo(axis, TOLERANCE * (magnitude0 + 1.0)));
@@ -185,7 +184,7 @@ public class Rotation3QuaternionTest {
     private static Rotation3Quaternion valueOf(Quaternion quaternion) {
         final Rotation3Quaternion rotation = Rotation3Quaternion.valueOf(quaternion);
 
-        assertNotNull("Always creates a rotation", rotation);// guard
+        assertNotNull(rotation, "Always creates a rotation");// guard
         assertInvariants(rotation);
 
         return rotation;
@@ -206,7 +205,7 @@ public class Rotation3QuaternionTest {
 
         final Rotation3Quaternion rotation = Rotation3Quaternion.valueOfAxisAngle(axis, angle);
 
-        assertNotNull("Always creates a rotation", rotation);// guard
+        assertNotNull(rotation, "Always creates a rotation");// guard
         assertInvariants(rotation);
         assertThat("rotation cosine.", Math.cos(angle), closeTo(Math.cos(rotation.getAngle()), TOLERANCE));
         assertThat("rotation sine.", sinAngle, closeTo(Math.sin(rotation.getAngle()), TOLERANCE));
@@ -479,17 +478,17 @@ public class Rotation3QuaternionTest {
 
     @Test
     public void statics() {
-        assertNotNull("Has a zero rotation", Rotation3Quaternion.ZERO);
+        assertNotNull(Rotation3Quaternion.ZERO, "Has a zero rotation");
         assertInvariants(Rotation3Quaternion.ZERO);
-        assertEquals("rotation angle of the zero rotation", 0.0, Rotation3Quaternion.ZERO.getAngle(),
-                Double.MIN_NORMAL);
+        assertEquals(0.0, Rotation3Quaternion.ZERO.getAngle(),
+                Double.MIN_NORMAL, "rotation angle of the zero rotation");
     }
 
     @Test
     public void valueOf_quaternion_0() {
         final Rotation3Quaternion rotation = valueOf(Quaternion.ZERO);
 
-        assertEquals("rotation", rotation, Rotation3Quaternion.ZERO);
+        assertEquals(rotation, Rotation3Quaternion.ZERO, "rotation");
     }
 
     @Test

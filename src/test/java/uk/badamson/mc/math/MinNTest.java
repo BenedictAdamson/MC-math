@@ -18,8 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Arrays;
 
@@ -88,13 +88,15 @@ public class MinNTest {
 
     private static final double adjacentPrecision(double x) {
         final double next = Math.nextAfter(x, Double.POSITIVE_INFINITY);
-        return Math.max(x - next, Min1.TOLERANCE * Math.abs(x));
+        final double precision = Math.max(next - x, Min1.TOLERANCE * Math.abs(x));
+        assert 0.0 < precision;
+        return precision;
     }
 
     private static Function1 createLineFunction(final FunctionN f, final double[] x0, final double[] dx) {
         final Function1 lineFunction = MinN.createLineFunction(f, x0, dx);
 
-        assertNotNull("Not null, result", lineFunction);
+        assertNotNull(lineFunction, "Not null, result");
 
         return lineFunction;
     }
@@ -103,7 +105,7 @@ public class MinNTest {
             ImmutableVectorN dx) {
         final Function1WithGradient lineFunction = MinN.createLineFunction(f, x0, dx);
 
-        assertNotNull("Not null, result", lineFunction);
+        assertNotNull(lineFunction, "Not null, result");
 
         return lineFunction;
     }
@@ -116,15 +118,15 @@ public class MinNTest {
         final Function1WithGradient f = createLineFunction(PARABOLOID_WITH_GRADIENT, x, dx);
 
         final Function1WithGradientValue fw = Function1WithGradientTest.value(f, w);
-        assertEquals("f(" + w + ")", expectedF, fw.getF(), toleranceF);
-        assertEquals("dfdw(" + w + ")", expectedDfDw, fw.getDfDx(), toleranceDfDw);
+        assertEquals(expectedF, fw.getF(), toleranceF, "f(" + w + ")");
+        assertEquals(expectedDfDw, fw.getDfDx(), toleranceDfDw, "dfdw(" + w + ")");
     }
 
     private static FunctionNWithGradientValue findFletcherReevesPolakRibere(final FunctionNWithGradient f,
             ImmutableVectorN x, double tolerance) throws PoorlyConditionedFunctionException {
         final FunctionNWithGradientValue min = MinN.findFletcherReevesPolakRibere(f, x, tolerance);
 
-        assertNotNull("Not null, result", min);// guard
+        assertNotNull(min, "Not null, result");// guard
         FunctionNWithGradientValueTest.assertInvariants(min);
 
         return min;
@@ -137,14 +139,14 @@ public class MinNTest {
         final FunctionNWithGradientValue min = findFletcherReevesPolakRibere(PARABOLOID_WITH_GRADIENT, x, tolerance);
 
         final ImmutableVectorN minX = min.getX();
-        assertEquals("x[0]", 0.0, minX.get(0), precision);
-        assertEquals("x[1]", 0.0, min.getX().get(1), precision);
+        assertEquals(0.0, minX.get(0), precision, "x[0]");
+        assertEquals(0.0, min.getX().get(1), precision, "x[1]");
     }
 
     private static double findPowell(final FunctionN f, final double[] x, double tolerance) {
         final double min = MinN.findPowell(f, x, tolerance);
 
-        assertEquals("Minimum value", f.value(x), min, adjacentPrecision(min));
+        assertEquals(f.value(x), min, adjacentPrecision(min), "Minimum value");
 
         return min;
     }
@@ -155,8 +157,8 @@ public class MinNTest {
 
         findPowell(PARABOLOID, x, tolerance);
 
-        assertEquals("x[0]", 0.0, x[0], precision);
-        assertEquals("x[1]", 0.0, x[1], precision);
+        assertEquals(0.0, x[0], precision, "x[0]");
+        assertEquals(0.0, x[1], precision, "x[1]");
     }
 
     private static double magnitude(double[] x) {
@@ -176,10 +178,10 @@ public class MinNTest {
 
         final double[] e = normalized(dx);
         final double em = magnitude(e);
-        assertEquals("Minimum value", f.value(x), min, adjacentPrecision(min));
+        assertEquals(f.value(x), min, adjacentPrecision(min), "Minimum value");
         for (int i = 0; i < n; ++i) {
-            assertEquals("dx[" + i + "]", x[i] - x0[i], dx[i], adjacentPrecision(magnitude(dx)));
-            assertEquals("direction[" + i + "]", em < Double.MIN_NORMAL ? 0.0 : e0[i], e[i], adjacentPrecision(e0[i]));
+            assertEquals(x[i] - x0[i], dx[i], adjacentPrecision(magnitude(dx)), "dx[" + i + "]");
+            assertEquals(em < Double.MIN_NORMAL ? 0.0 : e0[i], e[i], adjacentPrecision(e0[i]), "direction[" + i + "]");
         }
 
         return min;
@@ -189,7 +191,7 @@ public class MinNTest {
             final ImmutableVectorN dx) {
         final FunctionNWithGradientValue min = MinN.minimiseAlongLine(f, x, dx);
 
-        assertNotNull("Not null, result", min);// guard
+        assertNotNull(min, "Not null, result");// guard
         FunctionNWithGradientValueTest.assertInvariants(min);
 
         return min;
@@ -203,8 +205,8 @@ public class MinNTest {
 
         minimiseAlongLine(PARABOLOID, x, dx);
 
-        assertEquals("x[0]", expectedXMin0, x[0], precision);
-        assertEquals("x[1]", expectedXMin1, x[1], precision);
+        assertEquals(expectedXMin0, x[0], precision, "x[0]");
+        assertEquals(expectedXMin1, x[1], precision, "x[1]");
     }
 
     private static void minimiseAlongLine_paraboloidAtMin(final double x0, final double x1, final double dx0,
@@ -224,8 +226,8 @@ public class MinNTest {
         final FunctionNWithGradientValue min = minimiseAlongLine(PARABOLOID_WITH_GRADIENT, x, dx);
 
         final ImmutableVectorN xMin = min.getX();
-        assertEquals("xMin[0]", expectedXMin0, xMin.get(0), precision);
-        assertEquals("xMin[1]", expectedXMin1, min.getX().get(1), precision);
+        assertEquals(expectedXMin0, xMin.get(0), precision, "xMin[0]");
+        assertEquals(expectedXMin1, min.getX().get(1), precision, "xMin[1]");
     }
 
     private static void minimiseAlongLine_paraboloidWithGradientAtMin(final double x0, final double x1,
@@ -254,9 +256,9 @@ public class MinNTest {
 
         final Function1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
 
-        assertEquals("lineFunction[0]", 0.0, lineFunction.value(0.0), 1E-3);
-        assertEquals("lineFunction[1.0]", 1.0, lineFunction.value(1.0), 1E-3);
-        assertEquals("lineFunction[-1.0]", -1.0, lineFunction.value(-1.0), 1E-3);
+        assertEquals(0.0, lineFunction.value(0.0), 1E-3, "lineFunction[0]");
+        assertEquals(1.0, lineFunction.value(1.0), 1E-3, "lineFunction[1.0]");
+        assertEquals(-1.0, lineFunction.value(-1.0), 1E-3, "lineFunction[-1.0]");
     }
 
     @Test
@@ -266,9 +268,9 @@ public class MinNTest {
 
         final Function1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
 
-        assertEquals("lineFunction[0]", 0.0, lineFunction.value(0.0), 1E-3);
-        assertEquals("lineFunction[1.0]", 1.0, lineFunction.value(1.0), 1E-3);
-        assertEquals("lineFunction[-1.0]", -1.0, lineFunction.value(-1.0), 1E-3);
+        assertEquals(0.0, lineFunction.value(0.0), 1E-3, "lineFunction[0]");
+        assertEquals(1.0, lineFunction.value(1.0), 1E-3, "lineFunction[1.0]");
+        assertEquals(-1.0, lineFunction.value(-1.0), 1E-3, "lineFunction[-1.0]");
     }
 
     @Test
@@ -278,9 +280,9 @@ public class MinNTest {
 
         final Function1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
 
-        assertEquals("lineFunction[0]", 0.0, lineFunction.value(0.0), 1E-3);
-        assertEquals("lineFunction[1.0]", 2.0, lineFunction.value(1.0), 1E-3);
-        assertEquals("lineFunction[-1.0]", -2.0, lineFunction.value(-1.0), 1E-3);
+        assertEquals(0.0, lineFunction.value(0.0), 1E-3, "lineFunction[0]");
+        assertEquals(2.0, lineFunction.value(1.0), 1E-3, "lineFunction[1.0]");
+        assertEquals(-2.0, lineFunction.value(-1.0), 1E-3, "lineFunction[-1.0]");
     }
 
     @Test
@@ -290,9 +292,9 @@ public class MinNTest {
 
         final Function1 lineFunction = createLineFunction(CONSTANT_1, x0, dx);
 
-        assertEquals("lineFunction[0]", 1.0, lineFunction.value(0.0), 1E-3);
-        assertEquals("lineFunction[1.0]", 1.0, lineFunction.value(1.0), 1E-3);
-        assertEquals("lineFunction[-1.0]", 1.0, lineFunction.value(-1.0), 1E-3);
+        assertEquals(1.0, lineFunction.value(0.0), 1E-3, "lineFunction[0]");
+        assertEquals(1.0, lineFunction.value(1.0), 1E-3, "lineFunction[1.0]");
+        assertEquals(1.0, lineFunction.value(-1.0), 1E-3, "lineFunction[-1.0]");
     }
 
     @Test

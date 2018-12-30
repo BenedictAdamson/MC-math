@@ -18,9 +18,9 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -46,14 +46,14 @@ public class ImmutableMatrixNTest {
     private static ImmutableMatrixN create(int rows, int columns, double[] elements) {
         final ImmutableMatrixN matrix = ImmutableMatrixN.create(rows, columns, elements);
 
-        assertNotNull("Always creates a matrix", matrix);// guard
+        assertNotNull(matrix, "Always creates a matrix");// guard
         assertInvariants(matrix);
-        assertEquals("rows", rows, matrix.getRows());
-        assertEquals("columns", columns, matrix.getColumns());
+        assertEquals(rows, matrix.getRows(), "rows");
+        assertEquals(columns, matrix.getColumns(), "columns");
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                assertEquals("element [" + i + "," + j + "] bits", Double.doubleToLongBits(elements[i * columns + j]),
-                        Double.doubleToLongBits(matrix.get(i, j)));
+                assertEquals(Double.doubleToLongBits(elements[i * columns + j]),
+                        Double.doubleToLongBits(matrix.get(i, j)), "element [" + i + "," + j + "] bits");
             }
         }
         return matrix;
@@ -68,7 +68,7 @@ public class ImmutableMatrixNTest {
         final ImmutableMatrixN matrix2 = ImmutableMatrixN.create(rows, columns, elements);
 
         assertInvariants(matrix1, matrix2);
-        assertEquals("Equivalent", matrix1, matrix2);
+        assertEquals(matrix1, matrix2, "Equivalent");
     }
 
     private static void create_equals_1x1(double x) {
@@ -84,7 +84,7 @@ public class ImmutableMatrixNTest {
         final ImmutableMatrixN matrix2 = ImmutableMatrixN.create(1, 1, new double[] { x2 });
 
         assertInvariants(matrix1, matrix2);
-        assertNotEquals("Not equivalent", matrix1, matrix2);
+        assertNotEquals(matrix1, matrix2, "Not equivalent");
     }
 
     private static ImmutableMatrixN create_vector(double... elements) {
@@ -94,7 +94,7 @@ public class ImmutableMatrixNTest {
     private static final ImmutableVectorN multiply(ImmutableMatrixN a, Vector x) {
         final ImmutableVectorN ax = (ImmutableVectorN) MatrixTest.multiply(a, x);// inherited
 
-        assertNotNull("Not null, result", ax);// guard
+        assertNotNull(ax, "Not null, result");// guard
         assertInvariants(a);// check for side effects
         ImmutableVectorNTest.assertInvariants(ax);
 
@@ -107,7 +107,7 @@ public class ImmutableMatrixNTest {
 
         final ImmutableVectorN ax = multiply(a, x);
 
-        assertEquals("product element", a11 * x11, ax.get(0), Double.MIN_NORMAL);
+        assertEquals(a11 * x11, ax.get(0), Double.MIN_NORMAL, "product element");
     }
 
     private static void multiply_1x2(double a11, double a12, double x11, double x21) {
@@ -116,7 +116,7 @@ public class ImmutableMatrixNTest {
 
         final ImmutableVectorN ax = multiply(a, x);
 
-        assertEquals("product element", a11 * x11 + a12 * x21, ax.get(0), Double.MIN_NORMAL);
+        assertEquals(a11 * x11 + a12 * x21, ax.get(0), Double.MIN_NORMAL, "product element");
     }
 
     private static void multiply_2x1(double a11, double a21, double x11) {
@@ -125,8 +125,8 @@ public class ImmutableMatrixNTest {
 
         final ImmutableVectorN ax = multiply(a, x);
 
-        assertEquals("ax[0]", a11 * x11, ax.get(0), Double.MIN_NORMAL);
-        assertEquals("ax[1]", a21 * x11, ax.get(1), Double.MIN_NORMAL);
+        assertEquals(a11 * x11, ax.get(0), Double.MIN_NORMAL, "ax[0]");
+        assertEquals(a21 * x11, ax.get(1), Double.MIN_NORMAL, "ax[1]");
     }
 
     @Test
@@ -194,7 +194,7 @@ public class ImmutableMatrixNTest {
         final ImmutableMatrixN matrix2 = ImmutableMatrixN.create(1, 2, elements);
 
         assertInvariants(matrix1, matrix2);
-        assertNotEquals("Not equivalent", matrix1, matrix2);
+        assertNotEquals(matrix1, matrix2, "Not equivalent");
     }
 
     @Test

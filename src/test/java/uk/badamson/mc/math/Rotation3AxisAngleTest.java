@@ -20,9 +20,9 @@ package uk.badamson.mc.math;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.IsCloseTo.closeTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.badamson.mc.math.ImmutableVector3Test.closeToImmutableVector3;
 import static uk.badamson.mc.math.Rotation3Test.closeToRotation3;
 
@@ -66,8 +66,7 @@ public class Rotation3AxisAngleTest {
         final ImmutableVector3 rv = apply(r, axis);
 
         assertTrue(
-                "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.",
-                axis.minus(rv).magnitude() < TOLERANCE * (magnitude0 + 1.0));
+                axis.minus(rv).magnitude() < TOLERANCE * (magnitude0 + 1.0),                 "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.");
         assertThat(
                 "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.",
                 rv, ImmutableVector3Test.closeTo(axis, TOLERANCE * (magnitude0 + 1.0)));
@@ -180,7 +179,7 @@ public class Rotation3AxisAngleTest {
     private static Rotation3AxisAngle valueOf(Quaternion quaternion) {
         final Rotation3AxisAngle rotation = Rotation3AxisAngle.valueOf(quaternion);
 
-        assertNotNull("Always creates a rotation", rotation);// guard
+        assertNotNull(rotation, "Always creates a rotation");// guard
         assertInvariants(rotation);
 
         return rotation;
@@ -201,9 +200,9 @@ public class Rotation3AxisAngleTest {
 
         final Rotation3AxisAngle rotation = Rotation3AxisAngle.valueOfAxisAngle(axis, angle);
 
-        assertNotNull("Always creates a rotation", rotation);// guard
+        assertNotNull(rotation, "Always creates a rotation");// guard
         assertInvariants(rotation);
-        assertEquals("angle.", angle, rotation.getAngle(), TOLERANCE);
+        assertEquals(angle, rotation.getAngle(), TOLERANCE, "angle.");
         assertThat("The rotation axis of the created rotation points in the same direction as the given axis.",
                 axisMagnitude, closeTo(axis.dot(rotation.getAxis()), axisMagnitude * TOLERANCE));
 
@@ -458,9 +457,9 @@ public class Rotation3AxisAngleTest {
 
     @Test
     public void statics() {
-        assertNotNull("Has a zero rotation", Rotation3AxisAngle.ZERO);
+        assertNotNull(Rotation3AxisAngle.ZERO, "Has a zero rotation");
         assertInvariants(Rotation3AxisAngle.ZERO);
-        assertEquals("rotation angle of the zero rotation", 0.0, Rotation3AxisAngle.ZERO.getAngle(), Double.MIN_NORMAL);
+        assertEquals(0.0, Rotation3AxisAngle.ZERO.getAngle(), Double.MIN_NORMAL, "rotation angle of the zero rotation");
     }
 
     @Test
