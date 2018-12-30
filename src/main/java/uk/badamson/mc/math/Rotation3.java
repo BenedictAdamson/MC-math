@@ -108,7 +108,7 @@ public interface Rotation3 {
      * rotation, <em>or</em> the same angle but an axis that points in the
      * {@linkplain Vector#minus() opposite} direction.</li>
      * </ul>
-     * 
+     *
      * @return the opposite rotation.
      */
     public @NonNull Rotation3 minus();

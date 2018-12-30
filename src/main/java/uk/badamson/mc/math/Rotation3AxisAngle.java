@@ -161,7 +161,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * <li>The opposite rotation has the same {@linkplain #getAxis() axis} but the
      * negative of the {@linkplain #getAngle() angle} of this rotation.</li>
      * </ul>
-     * 
+     *
      * @return the opposite rotation.
      */
     @Override
