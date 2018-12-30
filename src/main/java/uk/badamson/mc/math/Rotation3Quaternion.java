@@ -83,7 +83,7 @@ public final class Rotation3Quaternion implements Rotation3 {
      * <li>Always creates a (non null) rotation.</li>
      * <li>The {@linkplain #getAngle() rotation angle} of the created rotation is
      * equal to the given angle (converted to the range -2&pi; to 2&pi;).</li>
-     * <li>The {@linkplain #getAxis()) rotation axis} of the created rotation points
+     * <li>The {@linkplain #getAxis() rotation axis} of the created rotation points
      * in the same direction as the given axis.</li>
      * </ul>
      *

@@ -200,7 +200,6 @@ public interface Vector extends Matrix {
      * @throws IllegalArgumentException
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
-     * @see #sum(ImmutableVector3...)
      */
     public @NonNull Vector plus(@NonNull Vector that);
 

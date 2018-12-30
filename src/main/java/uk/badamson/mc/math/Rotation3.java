@@ -56,7 +56,7 @@ public interface Rotation3 {
      * </p>
      * <ul>
      * <li>Rotation by a complete circle has no effect. The angle might therefore be
-     * forced to be in the range -2&pi; to 2&pi.</li>
+     * forced to be in the range -2&pi; to 2&pi;.</li>
      * </ul>
      *
      * @return the angle
@@ -108,9 +108,7 @@ public interface Rotation3 {
      * rotation, <em>or</em> the same angle but an axis that points in the
      * {@linkplain Vector#minus() opposite} direction.</li>
      * </ul>
-     *
-     * @param that
-     *            The other rotation
+     * 
      * @return the opposite rotation.
      */
     public @NonNull Rotation3 minus();
@@ -149,7 +147,7 @@ public interface Rotation3 {
      * <li>The sum of two rotations that have the same {@linkplain #getAxis() axis}
      * has the same axis, with the {@linkplain #getAngle() angle} of the sum
      * nominally equal to the sum of the angles of the two rotations. However, the
-     * sum might be constrained to the range -2&pi; to 2&pi.</li>
+     * sum might be constrained to the range -2&pi; to 2&pi;.</li>
      * <li>Adding a zero rotation produces an equivalent rotation to the
      * original.</li>
      * </ul>
@@ -175,7 +173,7 @@ public interface Rotation3 {
      * zero.</li>
      * <li>The scaled rotation has its angle nominally scaled by the scaling factor.
      * However, the scaled value might be constrained to the range -2&pi; to
-     * 2&pi.</li>
+     * 2&pi;.</li>
      * <li>Scaling with a factor of 1 produces an equivalent rotation to the
      * original.</li>
      * </ul>
