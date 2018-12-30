@@ -50,7 +50,7 @@ public final class Min1 {
      * value smaller than the values at the end points of the range. Furthermore, it
      * is is useful to retain the position and the function value for that point.
      * Hence a bracket has three {@linkplain Function1Value points}:
-     * 
+     *
      * </p>
      */
     @Immutable
@@ -77,7 +77,7 @@ public final class Min1 {
          *            The inner point of this Bracket.
          * @param right
          *            The right point of of this Bracket.
-         * 
+         *
          * @throws NullPointerException
          *             <ul>
          *             <li>If {@code left} is null.</li>
@@ -92,7 +92,7 @@ public final class Min1 {
          *             <li>If {@code right} point is not above {@code inner}.</li>
          *             </ul>
          */
-        public Bracket(Function1Value left, Function1Value inner, Function1Value right) {
+        public Bracket(final Function1Value left, final Function1Value inner, final Function1Value right) {
             Objects.requireNonNull(left, "left");
             Objects.requireNonNull(inner, "inner");
             Objects.requireNonNull(right, "right");
@@ -127,14 +127,17 @@ public final class Min1 {
          * </p>
          */
         @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
+        public boolean equals(final Object obj) {
+            if (this == obj) {
                 return true;
-            if (obj == null)
+            }
+            if (obj == null) {
                 return false;
-            if (getClass() != obj.getClass())
+            }
+            if (getClass() != obj.getClass()) {
                 return false;
-            Bracket other = (Bracket) obj;
+            }
+            final Bracket other = (Bracket) obj;
             return left.equals(other.left) && inner.equals(other.inner) && right.equals(other.right);
         }
 
@@ -176,7 +179,7 @@ public final class Min1 {
          * the {@linkplain Function1Value#getF() y value (ordinate)} of the
          * {@linkplain #getInner() inner point} of the bracket.</li>
          * </ul>
-         * 
+         *
          * @return
          */
         public final double getMin() {
@@ -211,7 +214,7 @@ public final class Min1 {
          * x coordinate (abscissa)} of the {@linkplain #getRight() rightmost} point and
          * the x coordinate of the {@linkplain #getLeft() leftmost} point.</li>
          * </ul>
-         * 
+         *
          * @return the width
          */
         public final double getWidth() {
@@ -253,7 +256,7 @@ public final class Min1 {
      */
     private static double avoidTinyStep(final double xNew, final double xTolerance, final double xLeft,
             final double xInner, final double xRight) {
-        double dx = xNew - xInner;
+        final double dx = xNew - xInner;
         if (Math.abs(dx) < xTolerance) {
             return stepIntoLargestInterval(xLeft, xInner, xRight);
         } else {
@@ -261,8 +264,8 @@ public final class Min1 {
         }
     }
 
-    private static double bisect(Function1WithGradientValue left, Function1WithGradientValue inner,
-            Function1WithGradientValue right, double xTolerance, double fTolerance) {
+    private static double bisect(final Function1WithGradientValue left, final Function1WithGradientValue inner,
+            final Function1WithGradientValue right, final double xTolerance, final double fTolerance) {
         final double xi = inner.getX();
         final double dfdxi = inner.getDfDx();
         if (fTolerance / xTolerance < Math.abs(dfdxi)) {
@@ -285,7 +288,7 @@ public final class Min1 {
         }
     }
 
-    private static Function1Value evaluate(Function1 f, double x) {
+    private static Function1Value evaluate(final Function1 f, final double x) {
         return new Function1Value(x, f.value(x));
     }
 
@@ -307,7 +310,7 @@ public final class Min1 {
      * values calculated from the corresponding {@linkplain Function1Value#getX() x
      * (abscissa)} values using the given function.</li>
      * </ul>
-     * 
+     *
      * @param f
      *            The function for which a bracket is to be found.
      * @param x1
@@ -315,7 +318,7 @@ public final class Min1 {
      * @param x2
      *            A second guess for the position of the minimum
      * @return a bracket
-     * 
+     *
      * @throws NullPointerException
      *             If {@code f} is null.
      * @throws IllegalArgumentException
@@ -333,9 +336,9 @@ public final class Min1 {
      *             function has an odd-powered high order term that causes the
      *             iterative procedure to diverge.</li>
      *             </ul>
-     * 
+     *
      */
-    public static Bracket findBracket(final Function1 f, double x1, double x2)
+    public static Bracket findBracket(final Function1 f, final double x1, final double x2)
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         if (x1 == x2) {
@@ -483,7 +486,7 @@ public final class Min1 {
      * point is not larger than the {@linkplain Bracket#getMin() minimum value} of
      * the given bracket.</li>
      * </ul>
-     * 
+     *
      * @param f
      *            The function for which a minimum is to be found.
      * @param bracket
@@ -492,7 +495,7 @@ public final class Min1 {
      *            The convergence tolerance. This should not normally exceed the
      *            {@linkplain #TOLERANCE recommended minimum tolerance}.
      * @return a minimum of the function.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
@@ -505,7 +508,7 @@ public final class Min1 {
      *             {@code f}.</li>
      *             </ul>
      */
-    public static Function1Value findBrent(final Function1 f, Bracket bracket, double tolerance) {
+    public static Function1Value findBrent(final Function1 f, final Bracket bracket, final double tolerance) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(bracket, "bracket");
         if (!(0.0 < tolerance && tolerance < 1.0)) {
@@ -613,7 +616,7 @@ public final class Min1 {
      * returned point is not larger than the {@linkplain Bracket#getMin() minimum
      * value} of the given bracket.</li>
      * </ul>
-     * 
+     *
      * @param f
      *            The function for which a minimum is to be found.
      * @param bracket
@@ -622,7 +625,7 @@ public final class Min1 {
      *            The convergence tolerance. This should not normally exceed the
      *            {@linkplain #TOLERANCE recommended minimum tolerance}.
      * @return a minimum of the function.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
@@ -635,8 +638,8 @@ public final class Min1 {
      *             {@code f}.</li>
      *             </ul>
      */
-    public static Function1WithGradientValue findBrent(final Function1WithGradient f, Bracket bracket,
-            double tolerance) {
+    public static Function1WithGradientValue findBrent(final Function1WithGradient f, final Bracket bracket,
+            final double tolerance) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(bracket, "bracket");
         if (!(0.0 < tolerance && tolerance < 1.0)) {
@@ -775,7 +778,8 @@ public final class Min1 {
         return inner;
     }
 
-    private static double goldenSectionSearch(Function1Value p1, Function1Value p2, Function1Value p3) {
+    private static double goldenSectionSearch(final Function1Value p1, final Function1Value p2,
+            final Function1Value p3) {
         final double x2 = p2.getX();
         final double x21 = x2 - p1.getX();
         final double x32 = p3.getX() - x2;
@@ -788,7 +792,7 @@ public final class Min1 {
         }
     }
 
-    private static boolean isBetween(double x1, double x2, double x3) {
+    private static boolean isBetween(final double x1, final double x2, final double x3) {
         if (x1 < x3) {
             return x1 < x2 && x2 < x3;
         } else {
@@ -796,7 +800,7 @@ public final class Min1 {
         }
     }
 
-    private static boolean isBeyond(double x1, double x2, double x3) {
+    private static boolean isBeyond(final double x1, final double x2, final double x3) {
         if (x1 < x2) {
             return x2 < x3;
         } else {
@@ -804,7 +808,8 @@ public final class Min1 {
         }
     }
 
-    private static double parabolicExtrapolation(Function1Value p1, Function1Value p2, Function1Value p3) {
+    private static double parabolicExtrapolation(final Function1Value p1, final Function1Value p2,
+            final Function1Value p3) {
         final double x2 = p2.getX();
         final double y2 = p2.getF();
         final double x21 = x2 - p1.getX();
@@ -817,12 +822,13 @@ public final class Min1 {
         return xNew;
     }
 
-    private static boolean secantExtrapolationOk(double xNew, Function1WithGradientValue left,
-            Function1WithGradientValue inner, Function1WithGradientValue right) {
+    private static boolean secantExtrapolationOk(final double xNew, final Function1WithGradientValue left,
+            final Function1WithGradientValue inner, final Function1WithGradientValue right) {
         return left.getX() < xNew && xNew < right.getX() && (xNew - inner.getX()) * inner.getDfDx() <= 0;
     }
 
-    private static double secantGradientExtrapolation(Function1WithGradientValue p1, Function1WithGradientValue p2) {
+    private static double secantGradientExtrapolation(final Function1WithGradientValue p1,
+            final Function1WithGradientValue p2) {
         final double x1 = p1.getX();
         final double x2 = p2.getX();
         final double y1 = p1.getDfDx();
@@ -836,7 +842,7 @@ public final class Min1 {
         return x1 - y1 * dxdy;
     }
 
-    private static Function1Value stepFurther(Function1 f, Function1Value p1, Function1Value p2)
+    private static Function1Value stepFurther(final Function1 f, final Function1Value p1, final Function1Value p2)
             throws PoorlyConditionedFunctionException {
         final double x2 = p2.getX();
         final double dx = x2 - p1.getX();

@@ -42,7 +42,7 @@ public interface Matrix {
      * <p>
      * The value of an element of this matrix.
      * </p>
-     * 
+     *
      * @param i
      *            the cardinal number of the row of the element (0 for the first
      *            row, 1 for the second row, and so on).
@@ -50,7 +50,7 @@ public interface Matrix {
      *            the cardinal number of the column of the element (0 for the first
      *            column, 1 for the second column, and so on).
      * @return the value of the element
-     * 
+     *
      * @throws IndexOutOfBoundsException
      *             <ul>
      *             <li>If {@code i} is negative.</li>
@@ -90,11 +90,11 @@ public interface Matrix {
      * <li>The {@linkplain ImmutableVectorN#getRows() number of rows} of the product
      * is equal to the number of rows of this matrix.</li>
      * </ul>
-     * 
+     *
      * @param x
      *            The vector to multiply
      * @return the product of this and the given vector.
-     * 
+     *
      * @throws NullPointerException
      *             If {@code x} is null.
      * @throws IllegalArgumentException

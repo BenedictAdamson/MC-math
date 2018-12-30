@@ -39,7 +39,7 @@ public interface Rotation3 {
      * <li>Rotation of a vector that lies along the {@linkplain #getAxis() rotation
      * axis} produces a rotated vector equal to the given vector.</li>
      * </ul>
-     * 
+     *
      * @param v
      *            The direction vector to be rotated.
      * @return The rotated vector.
@@ -56,7 +56,7 @@ public interface Rotation3 {
      * <li>Rotation by a complete circle has no effect. The angle might therefore be
      * forced to be in the range -2&pi; to 2&pi.</li>
      * </ul>
-     * 
+     *
      * @return the angle
      */
     public double getAngle();
@@ -71,7 +71,7 @@ public interface Rotation3 {
      * or 0.</li>
      * <li>The axis has a 0 magnitude for a zero rotation.</li>
      * </ul>
-     * 
+     *
      * @return the axis
      */
     public ImmutableVector3 getAxis();
@@ -89,7 +89,7 @@ public interface Rotation3 {
      * unit direction vector of the {@linkplain #getAxis() rotation axis} multiplied
      * by the sine of half the rotation angle.</li>
      * </ul>
-     * 
+     *
      * @return the versor.
      */
     public Quaternion getVersor();
@@ -106,7 +106,7 @@ public interface Rotation3 {
      * rotation, <em>or</em> the same angle but an axis that points in the
      * {@linkplain Vector#minus() opposite} direction.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The other rotation
      * @return the opposite rotation.
@@ -126,11 +126,11 @@ public interface Rotation3 {
      * <li>The difference between a rotation and the zero rotation is itself.</li>
      * <li>The difference between a rotation and itself is the zero rotation.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The other rotation
      * @return the rotation difference.
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      */
@@ -151,11 +151,11 @@ public interface Rotation3 {
      * <li>Adding a zero rotation produces an equivalent rotation to the
      * original.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The other rotation
      * @return the sum rotation
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      */
@@ -177,7 +177,7 @@ public interface Rotation3 {
      * <li>Scaling with a factor of 1 produces an equivalent rotation to the
      * original.</li>
      * </ul>
-     * 
+     *
      * @param f
      *            the scaling factor
      * @return the scaled rotation

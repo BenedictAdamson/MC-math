@@ -34,7 +34,7 @@ import uk.badamson.mc.ObjectTest;
  */
 public class FunctionNWithGradientValueTest {
 
-    public static void assertInvariants(FunctionNWithGradientValue f) {
+    public static void assertInvariants(final FunctionNWithGradientValue f) {
         ObjectTest.assertInvariants(f);
 
         final ImmutableVectorN x = f.getX();
@@ -42,21 +42,22 @@ public class FunctionNWithGradientValueTest {
 
         assertNotNull(x, "Not null, x");// guard
         assertNotNull(dfdx, "Not null, dfdx");// guard
-        assertEquals(
-                x.getDimension(), dfdx.getDimension(), "The dimension of the gradient vector is equal to the dimension of the domain vector");
+        assertEquals(x.getDimension(), dfdx.getDimension(),
+                "The dimension of the gradient vector is equal to the dimension of the domain vector");
     }
 
-    public static void assertInvariants(FunctionNWithGradientValue f1, FunctionNWithGradientValue f2) {
+    public static void assertInvariants(final FunctionNWithGradientValue f1, final FunctionNWithGradientValue f2) {
         ObjectTest.assertInvariants(f1, f2);
 
         final boolean equals = f1.equals(f2);
-        assertFalse(
-                equals && Double.doubleToLongBits(f1.getF()) != Double.doubleToLongBits(f2.getF()), "Equality requires equivalent attributes, f");
+        assertFalse(equals && Double.doubleToLongBits(f1.getF()) != Double.doubleToLongBits(f2.getF()),
+                "Equality requires equivalent attributes, f");
         assertFalse(equals && !f1.getX().equals(f2.getX()), "Equality requires equivalent attributes, x");
         assertFalse(equals && !f1.getDfDx().equals(f2.getDfDx()), "Equality requires equivalent attributes, dfdx");
     }
 
-    private static FunctionNWithGradientValue constructor(ImmutableVectorN x, double f, ImmutableVectorN dfdx) {
+    private static FunctionNWithGradientValue constructor(final ImmutableVectorN x, final double f,
+            final ImmutableVectorN dfdx) {
         final FunctionNWithGradientValue v = new FunctionNWithGradientValue(x, f, dfdx);
 
         assertInvariants(v);
@@ -67,7 +68,7 @@ public class FunctionNWithGradientValueTest {
         return v;
     }
 
-    private static void constructor_equals(ImmutableVectorN x, double f, ImmutableVectorN dfdx) {
+    private static void constructor_equals(final ImmutableVectorN x, final double f, final ImmutableVectorN dfdx) {
         final FunctionNWithGradientValue v1 = new FunctionNWithGradientValue(x, f, dfdx);
         final FunctionNWithGradientValue v2 = new FunctionNWithGradientValue(x, f, dfdx);
 

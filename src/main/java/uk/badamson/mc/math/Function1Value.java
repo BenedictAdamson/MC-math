@@ -37,13 +37,13 @@ public final class Function1Value {
      * <p>
      * Construct an object with given attribute values.
      * </p>
-     * 
+     *
      * @param x
      *            The domain value.
      * @param f
      *            The codomain value.
      */
-    public Function1Value(double x, double f) {
+    public Function1Value(final double x, final double f) {
         this.x = x;
         this.f = f;
     }
@@ -60,14 +60,17 @@ public final class Function1Value {
      * </p>
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Function1Value other = (Function1Value) obj;
+        }
+        final Function1Value other = (Function1Value) obj;
         return Double.doubleToLongBits(x) == Double.doubleToLongBits(other.x)
                 && Double.doubleToLongBits(f) == Double.doubleToLongBits(other.f);
     }
@@ -96,8 +99,8 @@ public final class Function1Value {
         int result = 1;
         final long xBits = Double.doubleToLongBits(x);
         final long fBits = Double.doubleToLongBits(f);
-        result = prime * result + (int) (xBits ^ (xBits >>> 32));
-        result = prime * result + (int) (fBits ^ (fBits >>> 32));
+        result = prime * result + (int) (xBits ^ xBits >>> 32);
+        result = prime * result + (int) (fBits ^ fBits >>> 32);
         return result;
     }
 

@@ -37,46 +37,48 @@ public class VectorTest {
         private final double tolerance;
         private final Vector value;
 
-        private IsCloseTo(Vector value, double tolerance) {
+        private IsCloseTo(final Vector value, final double tolerance) {
             this.tolerance = tolerance;
             this.value = value;
         }
 
         @Override
-        public void describeMismatchSafely(Vector item, Description mismatchDescription) {
-            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(Double.valueOf(distance(item)));
+        public void describeMismatchSafely(final Vector item, final Description mismatchDescription) {
+            mismatchDescription.appendValue(item).appendText(" differed by ")
+                    .appendValue(Double.valueOf(distance(item)));
         }
 
         @Override
-        public void describeTo(Description description) {
-            description.appendText("a vector within ").appendValue(Double.valueOf(tolerance)).appendText(" of ").appendValue(value);
+        public void describeTo(final Description description) {
+            description.appendText("a vector within ").appendValue(Double.valueOf(tolerance)).appendText(" of ")
+                    .appendValue(value);
         }
 
-        private final double distance(Vector item) {
+        private final double distance(final Vector item) {
             return value.minus(item).magnitude();
         }
 
         @Override
-        public boolean matchesSafely(Vector item) {
+        public boolean matchesSafely(final Vector item) {
             return distance(item) <= tolerance;
         }
     }
 
-    public static void assertInvariants(Vector vector) {
+    public static void assertInvariants(final Vector vector) {
         MatrixTest.assertInvariants(vector);// inherited
         assertEquals(1, vector.getColumns(), "columns");
         assertEquals(vector.getRows(), vector.getDimension(), "The number of dimensions equals the number of rows.");
     }
 
-    public static void assertInvariants(Vector vector1, Vector vector2) {
+    public static void assertInvariants(final Vector vector1, final Vector vector2) {
         MatrixTest.assertInvariants(vector1, vector2);// inherited
     }
 
-    public static Matcher<Vector> closeToVector(Vector operand, double tolerance) {
+    public static Matcher<Vector> closeToVector(final Vector operand, final double tolerance) {
         return new IsCloseTo(operand, tolerance);
     }
 
-    public static Vector mean(Vector x, Vector that) {
+    public static Vector mean(final Vector x, final Vector that) {
         final Vector mean = x.mean(that);
 
         assertNotNull(mean, "Not null, mean");// guard
@@ -88,7 +90,7 @@ public class VectorTest {
         return mean;
     }
 
-    public static final Vector minus(Vector x) {
+    public static final Vector minus(final Vector x) {
         final Vector minus = x.minus();
 
         assertNotNull(minus, "Not null, result");// guard
@@ -101,14 +103,14 @@ public class VectorTest {
             final double xI = x.get(i);
             final double minusI = minus.get(i);
             final boolean signed = Double.isInfinite(xI) || Double.isFinite(xI);
-            assertTrue(
-                    !signed || Double.doubleToLongBits(-xI) == Double.doubleToLongBits(minus.get(i)), "minus[" + i + "] <" + xI + "," + minusI + ">");
+            assertTrue(!signed || Double.doubleToLongBits(-xI) == Double.doubleToLongBits(minus.get(i)),
+                    "minus[" + i + "] <" + xI + "," + minusI + ">");
         }
 
         return minus;
     }
 
-    public static final Vector minus(Vector x, Vector that) {
+    public static final Vector minus(final Vector x, final Vector that) {
         final Vector diff = x.minus(that);
 
         assertNotNull(diff, "Not null, result");// guard
@@ -125,7 +127,7 @@ public class VectorTest {
         return diff;
     }
 
-    public static final Vector multiply(Vector a, Vector x) {
+    public static final Vector multiply(final Vector a, final Vector x) {
         final Vector ax = MatrixTest.multiply(a, x);// inherited
 
         assertInvariants(a);// check for side-efffects
@@ -134,7 +136,7 @@ public class VectorTest {
         return ax;
     }
 
-    public static final Vector plus(Vector x, Vector that) {
+    public static final Vector plus(final Vector x, final Vector that) {
         final Vector sum = x.plus(that);
 
         assertNotNull(sum, "Not null, result");// guard
@@ -151,7 +153,7 @@ public class VectorTest {
         return sum;
     }
 
-    public static Vector scale(Vector x, double f) {
+    public static Vector scale(final Vector x, final double f) {
         final Vector scaled = x.scale(f);
 
         assertNotNull(scaled, "Not null, result");

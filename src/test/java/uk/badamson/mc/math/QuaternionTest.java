@@ -44,36 +44,38 @@ public class QuaternionTest {
         private final double tolerance;
         private final Quaternion value;
 
-        private IsCloseTo(Quaternion value, double tolerance) {
+        private IsCloseTo(final Quaternion value, final double tolerance) {
             this.tolerance = tolerance;
             this.value = value;
         }
 
         @Override
-        public void describeMismatchSafely(Quaternion item, Description mismatchDescription) {
-            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(Double.valueOf(distance(item)));
+        public void describeMismatchSafely(final Quaternion item, final Description mismatchDescription) {
+            mismatchDescription.appendValue(item).appendText(" differed by ")
+                    .appendValue(Double.valueOf(distance(item)));
         }
 
         @Override
-        public void describeTo(Description description) {
-            description.appendText("a quaternion within ").appendValue(Double.valueOf(tolerance)).appendText(" of ").appendValue(value);
+        public void describeTo(final Description description) {
+            description.appendText("a quaternion within ").appendValue(Double.valueOf(tolerance)).appendText(" of ")
+                    .appendValue(value);
         }
 
-        private final double distance(Quaternion item) {
+        private final double distance(final Quaternion item) {
             return value.distance(item);
         }
 
         @Override
-        public boolean matchesSafely(Quaternion item) {
+        public boolean matchesSafely(final Quaternion item) {
             return distance(item) <= tolerance;
         }
     }// class
 
-    public static void assertInvariants(Quaternion q) {
+    public static void assertInvariants(final Quaternion q) {
         ObjectTest.assertInvariants(q);// inherited
     }
 
-    public static void assertInvariants(Quaternion q1, Quaternion q2) {
+    public static void assertInvariants(final Quaternion q1, final Quaternion q2) {
         ObjectTest.assertInvariants(q1, q2);// inherited
 
         final boolean equals = q1.equals(q2);
@@ -87,11 +89,11 @@ public class QuaternionTest {
                 "Equality requires equivalent attributes, d");
     }
 
-    public static Matcher<Quaternion> closeToQuaternion(Quaternion operand, double tolerance) {
+    public static Matcher<Quaternion> closeToQuaternion(final Quaternion operand, final double tolerance) {
         return new IsCloseTo(operand, tolerance);
     }
 
-    private static Quaternion conjugate(Quaternion q) {
+    private static Quaternion conjugate(final Quaternion q) {
         final Quaternion c = q.conjugate();
 
         assertNotNull(c, "Not null, conjugate");// guard
@@ -108,7 +110,7 @@ public class QuaternionTest {
         return c;
     }
 
-    public static final Quaternion conjugation(Quaternion q, Quaternion p) {
+    public static final Quaternion conjugation(final Quaternion q, final Quaternion p) {
         final double tolerance = Math.max(q.norm() * p.norm(), Double.MIN_NORMAL);
         final Quaternion expected = q.product(p).product(q.reciprocal());
 
@@ -126,7 +128,7 @@ public class QuaternionTest {
         return c;
     }
 
-    private static Quaternion constructor(double a, double b, double c, double d) {
+    private static Quaternion constructor(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
 
         assertInvariants(q);
@@ -138,7 +140,7 @@ public class QuaternionTest {
         return q;
     }
 
-    private static void constructor_2equivalent(double a, double b, double c, double d) {
+    private static void constructor_2equivalent(final double a, final double b, final double c, final double d) {
         final Quaternion q1 = Quaternion.create(a, b, c, d);
         final Quaternion q2 = Quaternion.create(a, b, c, d);
 
@@ -146,7 +148,7 @@ public class QuaternionTest {
         assertEquals(q1, q2);
     }
 
-    private static double distance(Quaternion q, Quaternion that) {
+    private static double distance(final Quaternion q, final Quaternion that) {
         final double d = q.distance(that);
 
         assertInvariants(q);
@@ -154,7 +156,7 @@ public class QuaternionTest {
         return d;
     }
 
-    private static void distance_0(double a, double b, double c, double d) {
+    private static void distance_0(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
 
         final double distance = distance(q, Quaternion.ZERO);
@@ -162,7 +164,7 @@ public class QuaternionTest {
         assertEquals(q.norm(), distance, Double.MIN_NORMAL, "The distance of a quaternion from zero is its norm");
     }
 
-    private static void distance_self(double a, double b, double c, double d) {
+    private static void distance_self(final double a, final double b, final double c, final double d) {
         final Quaternion p = Quaternion.create(a, b, c, d);
 
         final double distance = distance(p, p);
@@ -170,7 +172,7 @@ public class QuaternionTest {
         assertEquals(0.0, distance, Double.MIN_NORMAL, "The distance of a quaternion from itself is zero");
     }
 
-    private static double dot(Quaternion q, Quaternion that) {
+    private static double dot(final Quaternion q, final Quaternion that) {
         final double p = q.dot(that);
 
         assertInvariants(q);// check for side-effects
@@ -180,7 +182,7 @@ public class QuaternionTest {
         return p;
     }
 
-    private static Quaternion exp(Quaternion q) {
+    private static Quaternion exp(final Quaternion q) {
         final Quaternion eq = q.exp();
 
         assertNotNull(eq, "Not null, result");// guard
@@ -191,7 +193,7 @@ public class QuaternionTest {
         return eq;
     }
 
-    private static void exp_finite(double a, double b, double c, double d) {
+    private static void exp_finite(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
         final Quaternion m = Quaternion.create(-a, -b, -c, -d);
         final double precision = q.norm();
@@ -207,7 +209,7 @@ public class QuaternionTest {
         assertTrue(q.distance(logexp) < precision, "exp and log are inverse operations");
     }
 
-    private static void exp_finiteScalar(double a) {
+    private static void exp_finiteScalar(final double a) {
         final double precision = Double.MIN_NORMAL * Math.max(Math.abs(a), 1.0);
         final Quaternion q = Quaternion.create(a, 0, 0, 0);
 
@@ -219,7 +221,7 @@ public class QuaternionTest {
         assertEquals(0.0, eq.getD(), precision, "exponential d");
     }
 
-    private static Quaternion log(Quaternion q) {
+    private static Quaternion log(final Quaternion q) {
         final Quaternion log = q.log();
 
         assertNotNull(log, "Not null, result");// guard
@@ -230,7 +232,7 @@ public class QuaternionTest {
         return log;
     }
 
-    private static void log_finite(double a, double b, double c, double d) {
+    private static void log_finite(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
         final double precision = q.norm();
 
@@ -242,7 +244,7 @@ public class QuaternionTest {
         assertTrue(q.distance(explog) < precision, "log and exp are inverse operations");
     }
 
-    private static void log_finitePositiveScalar(double a) {
+    private static void log_finitePositiveScalar(final double a) {
         final double precision = Double.MIN_NORMAL * Math.abs(a);
         final Quaternion q = Quaternion.create(a, 0, 0, 0);
 
@@ -254,7 +256,7 @@ public class QuaternionTest {
         assertEquals(0.0, log.getD(), precision, "log d");
     }
 
-    public static Quaternion mean(Quaternion x, Quaternion that) {
+    public static Quaternion mean(final Quaternion x, final Quaternion that) {
         final Quaternion mean = x.mean(that);
 
         assertNotNull(mean, "Not null, mean");// guard
@@ -265,7 +267,7 @@ public class QuaternionTest {
         return mean;
     }
 
-    private static Quaternion minus(Quaternion q, Quaternion that) {
+    private static Quaternion minus(final Quaternion q, final Quaternion that) {
         final Quaternion sum = q.minus(that);
 
         assertInvariants(sum);
@@ -275,7 +277,7 @@ public class QuaternionTest {
         return sum;
     }
 
-    private static void minus_0(double a, double b, double c, double d) {
+    private static void minus_0(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
 
         final Quaternion sum = minus(q, Quaternion.ZERO);
@@ -283,7 +285,7 @@ public class QuaternionTest {
         assertEquals(q, sum, "Unchanged");
     }
 
-    private static void minus_self(double a, double b, double c, double d) {
+    private static void minus_self(final double a, final double b, final double c, final double d) {
         final Quaternion p = Quaternion.create(a, b, c, d);
 
         final Quaternion sum = minus(p, p);
@@ -291,7 +293,7 @@ public class QuaternionTest {
         assertEquals(Quaternion.ZERO, sum, "sum");
     }
 
-    private static Quaternion plus(Quaternion q, Quaternion that) {
+    private static Quaternion plus(final Quaternion q, final Quaternion that) {
         final Quaternion sum = q.plus(that);
 
         assertInvariants(sum);
@@ -301,7 +303,7 @@ public class QuaternionTest {
         return sum;
     }
 
-    private static void plus_0(double a, double b, double c, double d) {
+    private static void plus_0(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
 
         final Quaternion sum = plus(q, Quaternion.ZERO);
@@ -309,7 +311,7 @@ public class QuaternionTest {
         assertEquals(q, sum, "Unchanged");
     }
 
-    private static void plus_minus(double a, double b, double c, double d) {
+    private static void plus_minus(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
 
         final Quaternion result = Quaternion.ZERO.plus(q).minus(q);
@@ -317,7 +319,7 @@ public class QuaternionTest {
         assertEquals(Quaternion.ZERO, result, "plus and minus are inverse operations");
     }
 
-    private static void plus_negative(double a, double b, double c, double d) {
+    private static void plus_negative(final double a, final double b, final double c, final double d) {
         final Quaternion p = Quaternion.create(a, b, c, d);
         final Quaternion m = Quaternion.create(-a, -b, -c, -d);
 
@@ -326,7 +328,7 @@ public class QuaternionTest {
         assertEquals(Quaternion.ZERO, sum, "sum");
     }
 
-    private static Quaternion pow(Quaternion q, double p) {
+    private static Quaternion pow(final Quaternion q, final double p) {
         final Quaternion qp = q.pow(p);
 
         assertNotNull(qp, "Not null, result");// guard
@@ -337,7 +339,7 @@ public class QuaternionTest {
         return qp;
     }
 
-    private static void pow_finite(double a, double b, double c, double d, double p) {
+    private static void pow_finite(final double a, final double b, final double c, final double d, final double p) {
         final Quaternion q = Quaternion.create(a, b, c, d);
         final double precision = q.norm() * 4.0;
 
@@ -350,7 +352,7 @@ public class QuaternionTest {
         assertTrue(q.distance(qprp) <= precision, "(q^p)^(1/p) = q^(p/p) = q^1 = q <" + qprp + ">");
     }
 
-    private static void pow_finiteScalar(double a, double p) {
+    private static void pow_finiteScalar(final double a, final double p) {
         final Quaternion q = Quaternion.create(a, 0, 0, 0);
         final double precision = Math.max(Math.abs(a) * 4.0, Double.MIN_VALUE);
 
@@ -362,7 +364,7 @@ public class QuaternionTest {
         assertEquals(0.0, qp.getD(), precision, "pow d");
     }
 
-    private static Quaternion product(Quaternion q, Quaternion that) {
+    private static Quaternion product(final Quaternion q, final Quaternion that) {
         final Quaternion p = q.product(that);
 
         assertNotNull(p, "product");// guard
@@ -375,13 +377,13 @@ public class QuaternionTest {
         return p;
     }
 
-    private static void product_0(Quaternion q) {
+    private static void product_0(final Quaternion q) {
         final Quaternion p = product(q, Quaternion.ZERO);
 
         assertEquals(Quaternion.ZERO, p, "product a");
     }
 
-    private static void product_a(Quaternion q, double a) {
+    private static void product_a(final Quaternion q, final double a) {
         final Quaternion multiplier = Quaternion.create(a, 0, 0, 0);
 
         final Quaternion p = product(q, multiplier);
@@ -392,7 +394,7 @@ public class QuaternionTest {
         assertEquals(q.getD() * a, p.getD(), Double.MIN_NORMAL, "product d");
     }
 
-    private static void product_b(Quaternion q, double b) {
+    private static void product_b(final Quaternion q, final double b) {
         final Quaternion multiplier = Quaternion.create(0, b, 0, 0);
 
         final Quaternion p = product(q, multiplier);
@@ -403,7 +405,7 @@ public class QuaternionTest {
         assertEquals(q.getC() * -b, p.getD(), Double.MIN_NORMAL, "product d");
     }
 
-    private static void product_c(Quaternion q, double c) {
+    private static void product_c(final Quaternion q, final double c) {
         final Quaternion multiplier = Quaternion.create(0, 0, c, 0);
 
         final Quaternion p = product(q, multiplier);
@@ -414,7 +416,7 @@ public class QuaternionTest {
         assertEquals(q.getB() * c, p.getD(), Double.MIN_NORMAL, "product d");
     }
 
-    private static void product_d(Quaternion q, double d) {
+    private static void product_d(final Quaternion q, final double d) {
         final Quaternion multiplier = Quaternion.create(0, 0, 0, d);
 
         final Quaternion p = product(q, multiplier);
@@ -425,7 +427,7 @@ public class QuaternionTest {
         assertEquals(q.getA() * d, p.getD(), Double.MIN_NORMAL, "product d");
     }
 
-    private static Quaternion reciprocal(Quaternion q) {
+    private static Quaternion reciprocal(final Quaternion q) {
         final Quaternion r = q.reciprocal();
 
         assertNotNull(r, "Not null, reciprocal");// guard
@@ -436,7 +438,7 @@ public class QuaternionTest {
         return r;
     }
 
-    private static void reciprocal_finite(double a, double b, double c, double d) {
+    private static void reciprocal_finite(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
 
         final Quaternion r = reciprocal(q);
@@ -448,7 +450,7 @@ public class QuaternionTest {
                 "The reciprocal of a quaternion is its conjugate divided by the square of its norm");
     }
 
-    private static Quaternion scale(Quaternion x, double f) {
+    private static Quaternion scale(final Quaternion x, final double f) {
         final Quaternion scaled = x.scale(f);
 
         assertNotNull(scaled, "Not null, result");
@@ -458,7 +460,7 @@ public class QuaternionTest {
         return scaled;
     }
 
-    private static Quaternion vector(Quaternion q) {
+    private static Quaternion vector(final Quaternion q) {
         final Quaternion v = q.vector();
 
         assertNotNull(v, "Not null, vector part");// guard
@@ -474,7 +476,7 @@ public class QuaternionTest {
         return v;
     }
 
-    private static Quaternion versor(Quaternion q) {
+    private static Quaternion versor(final Quaternion q) {
         final Quaternion v = q.versor();
 
         assertNotNull(v, "Not null, versor");// guard
@@ -485,7 +487,7 @@ public class QuaternionTest {
         return v;
     }
 
-    private static void versor_finite(double a, double b, double c, double d) {
+    private static void versor_finite(final double a, final double b, final double c, final double d) {
         final Quaternion q = Quaternion.create(a, b, c, d);
         final double n = q.norm();
 

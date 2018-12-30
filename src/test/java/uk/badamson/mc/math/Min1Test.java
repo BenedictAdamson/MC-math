@@ -37,7 +37,7 @@ public class Min1Test {
 
     public static class BracketTest {
 
-        public static void assertInvariants(Min1.Bracket bracket) {
+        public static void assertInvariants(final Min1.Bracket bracket) {
             ObjectTest.assertInvariants(bracket);// inherited
 
             final Function1Value left = bracket.getLeft();
@@ -55,24 +55,24 @@ public class Min1Test {
 
             final double innerX = inner.getX();
             final double innerY = inner.getF();
-            assertTrue(
-                    left.getX() < innerX, "The inner point " + inner + " is to the right of the leftmost point " + left);
+            assertTrue(left.getX() < innerX,
+                    "The inner point " + inner + " is to the right of the leftmost point " + left);
             assertTrue(innerY < left.getF(), "The inner point " + inner + " is below the leftmost point " + left + ".");
             assertTrue(innerX < right.getX(), "The rightmost point is to the right of the inner point.");
             assertTrue(innerY < right.getF(), "The rightmost point is above the inner point.");
 
-            assertEquals(
-                    inner.getF(), bracket.getMin(), Double.MIN_NORMAL, 
+            assertEquals(inner.getF(), bracket.getMin(), Double.MIN_NORMAL,
                     "The smallest function value of the points constituting this bracket is the y value of the inner point of the bracket");
             assertTrue(0.0 < width, "The width of a bracket <" + width + "> is always positive.");
             assertEquals(right.getX() - left.getX(), width, Double.MIN_NORMAL, "width");
         }
 
-        public static void assertInvariants(Min1.Bracket bracket1, Min1.Bracket bracket2) {
+        public static void assertInvariants(final Min1.Bracket bracket1, final Min1.Bracket bracket2) {
             ObjectTest.assertInvariants(bracket1, bracket2);// inherited
         }
 
-        private static Min1.Bracket constructor(Function1Value left, Function1Value inner, Function1Value right) {
+        private static Min1.Bracket constructor(final Function1Value left, final Function1Value inner,
+                final Function1Value right) {
             final Min1.Bracket bracket = new Min1.Bracket(left, inner, right);
             assertInvariants(bracket);
             assertSame(left, bracket.getLeft(), "left");
@@ -101,7 +101,7 @@ public class Min1Test {
     private static final Function1 SQUARED = new Function1() {
 
         @Override
-        public double value(double x) {
+        public double value(final double x) {
             return x * x;
         }
     };
@@ -109,7 +109,7 @@ public class Min1Test {
     private static final Function1 POWER_4 = new Function1() {
 
         @Override
-        public double value(double x) {
+        public double value(final double x) {
             final double x2 = x * x;
             return x2 * x2;
         }
@@ -118,7 +118,7 @@ public class Min1Test {
     private static final Function1 ORDER_3 = new Function1() {
 
         @Override
-        public double value(double x) {
+        public double value(final double x) {
             final double x2 = x * x;
             return x + x2 - x * x2;
         }
@@ -127,7 +127,7 @@ public class Min1Test {
     private static final Function1 NOT_SMOOTH = new Function1() {
 
         @Override
-        public double value(double x) {
+        public double value(final double x) {
             double f = x * x;
             if (-1 < x) {
                 f += x + 1;
@@ -139,7 +139,7 @@ public class Min1Test {
     private static final Function1 COS = new Function1() {
 
         @Override
-        public double value(double x) {
+        public double value(final double x) {
             return Math.cos(x);
         }
     };
@@ -147,7 +147,7 @@ public class Min1Test {
     private static final Function1WithGradient SQUARED_WITH_GRADIENT = new Function1WithGradient() {
 
         @Override
-        public Function1WithGradientValue value(double x) {
+        public Function1WithGradientValue value(final double x) {
             return new Function1WithGradientValue(x, x * x, 2.0 * x);
         }
     };
@@ -155,7 +155,7 @@ public class Min1Test {
     private static final Function1WithGradient POWER_4_WITH_GRADIENT = new Function1WithGradient() {
 
         @Override
-        public Function1WithGradientValue value(double x) {
+        public Function1WithGradientValue value(final double x) {
             final double x2 = x * x;
             return new Function1WithGradientValue(x, x2 * x2, 4.0 * x2 * x);
         }
@@ -167,21 +167,21 @@ public class Min1Test {
         assertConsistent("Right point of bracket", bracket.getRight(), f);
     }
 
-    private static void assertConsistent(String message, final Function1Value p, final Function1 f) {
-        assertEquals(f.value(p.getX()), p.getF(),
-                Double.MIN_NORMAL, message + " <" + p + "> is consistent with function <" + f + ">");
+    private static void assertConsistent(final String message, final Function1Value p, final Function1 f) {
+        assertEquals(f.value(p.getX()), p.getF(), Double.MIN_NORMAL,
+                message + " <" + p + "> is consistent with function <" + f + ">");
     }
 
-    private static void assertConsistent(String message, final Function1WithGradientValue p,
+    private static void assertConsistent(final String message, final Function1WithGradientValue p,
             final Function1WithGradient f) {
         final Function1WithGradientValue fp = f.value(p.getX());
-        assertEquals(fp.getF(), p.getF(),
-                Double.MIN_NORMAL, message + " <" + p + "> is consistent with function <" + f + ">, codomain");
-        assertEquals(fp.getDfDx(),
-                p.getDfDx(), Double.MIN_NORMAL, message + " <" + p + "> is consistent with function <" + f + ">, gradient");
+        assertEquals(fp.getF(), p.getF(), Double.MIN_NORMAL,
+                message + " <" + p + "> is consistent with function <" + f + ">, codomain");
+        assertEquals(fp.getDfDx(), p.getDfDx(), Double.MIN_NORMAL,
+                message + " <" + p + "> is consistent with function <" + f + ">, gradient");
     }
 
-    private static Min1.Bracket findBracket(final Function1 f, double x1, double x2)
+    private static Min1.Bracket findBracket(final Function1 f, final double x1, final double x2)
             throws PoorlyConditionedFunctionException {
         final Min1.Bracket bracket = Min1.findBracket(f, x1, x2);
 
@@ -192,35 +192,34 @@ public class Min1Test {
         return bracket;
     }
 
-    private static Function1Value findBrent(final Function1 f, Min1.Bracket bracket, double tolerance) {
+    private static Function1Value findBrent(final Function1 f, final Min1.Bracket bracket, final double tolerance) {
         final Function1Value min = Min1.findBrent(f, bracket, tolerance);
 
         assertNotNull(min, "The method always returns a bracket");// guard
         BracketTest.assertInvariants(bracket);
         assertConsistent("Minimum", min, f);
 
-        assertTrue(
-                min.getF() <= bracket.getInner().getF(),                 "The minimum value of the returned bracket <" + min
+        assertTrue(min.getF() <= bracket.getInner().getF(), "The minimum value of the returned bracket <" + min
                 + "> is not larger than the minimum value of the given bracket <" + bracket + ">");
 
         return min;
     }
 
-    private static Function1WithGradientValue findBrent(final Function1WithGradient f, Bracket bracket,
-            double tolerance) {
+    private static Function1WithGradientValue findBrent(final Function1WithGradient f, final Bracket bracket,
+            final double tolerance) {
         final Function1WithGradientValue min = Min1.findBrent(f, bracket, tolerance);
 
         assertNotNull(min, "The method always returns a bracket");// guard
         BracketTest.assertInvariants(bracket);
         assertConsistent("Minimum", min, f);
 
-        assertTrue(
-                min.getF() <= bracket.getInner().getF(),                 "The minimum value of the returned bracket <" + min
+        assertTrue(min.getF() <= bracket.getInner().getF(), "The minimum value of the returned bracket <" + min
                 + "> is not larger than the minimum value of the given bracket <" + bracket + ">");
         return min;
     }
 
-    private static final void findBrent_power4(double x1, double x2, double x3, double tolerance) {
+    private static final void findBrent_power4(final double x1, final double x2, final double x3,
+            final double tolerance) {
         assert x1 < x2;
         assert x2 < x3;
         assert x1 < 0.0;
@@ -231,7 +230,8 @@ public class Min1Test {
         findBrent(SQUARED, bracket, tolerance);
     }
 
-    private static final void findBrent_squared(double x1, double x2, double x3, double tolerance) {
+    private static final void findBrent_squared(final double x1, final double x2, final double x3,
+            final double tolerance) {
         assert x1 < x2;
         assert x2 < x3;
         assert x1 < 0.0;
@@ -242,7 +242,8 @@ public class Min1Test {
         findBrent(SQUARED, bracket, tolerance);
     }
 
-    private static final void findBrent_withGradientPower4(double x1, double x2, double x3, double tolerance) {
+    private static final void findBrent_withGradientPower4(final double x1, final double x2, final double x3,
+            final double tolerance) {
         assert x1 < x2;
         assert x2 < x3;
         assert x1 < 0.0;
@@ -253,7 +254,8 @@ public class Min1Test {
         findBrent(POWER_4_WITH_GRADIENT, bracket, tolerance);
     }
 
-    private static final void findBrent_withGradientSquared(double x1, double x2, double x3, double tolerance) {
+    private static final void findBrent_withGradientSquared(final double x1, final double x2, final double x3,
+            final double tolerance) {
         assert x1 < x2;
         assert x2 < x3;
         assert x1 < 0.0;
@@ -288,7 +290,7 @@ public class Min1Test {
     public void findBracket_order3A() {
         try {
             findBracket(ORDER_3, -1.0, 0.0);
-        } catch (PoorlyConditionedFunctionException e) {
+        } catch (final PoorlyConditionedFunctionException e) {
             // Permitted
         }
     }
@@ -297,7 +299,7 @@ public class Min1Test {
     public void findBracket_order3B() {
         try {
             findBracket(ORDER_3, -1.6, 0.0);
-        } catch (PoorlyConditionedFunctionException e) {
+        } catch (final PoorlyConditionedFunctionException e) {
             // Permitted
         }
     }

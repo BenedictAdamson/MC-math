@@ -29,13 +29,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public final class ObjectTest {
 
-    public static void assertInvariants(Object object) {
+    public static void assertInvariants(final Object object) {
         assert object != null;
         assertEquals(object, object, "An object is always equivalent to itself");
         assertFalse(object.equals(null), "An object is never equivalent to null");
     }
 
-    public static void assertInvariants(Object object1, Object object2) {
+    public static void assertInvariants(final Object object1, final Object object2) {
         assert object1 != null;
         assert object2 != null;
         final boolean equals = object1.equals(object2);

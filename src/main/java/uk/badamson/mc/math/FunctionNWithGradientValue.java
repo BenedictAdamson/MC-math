@@ -41,14 +41,14 @@ public final class FunctionNWithGradientValue {
      * <p>
      * Construct an object with given attribute values.
      * </p>
-     * 
+     *
      * @param x
      *            The domain vector.
      * @param f
      *            The codomain value.
      * @param dfdx
      *            The gradient vector
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code x} is null.</li>
@@ -58,7 +58,7 @@ public final class FunctionNWithGradientValue {
      *             If {@code x} and {@code dfdx} have different
      *             {@linkplain ImmutableVectorN#getDimension() dimensions}.
      */
-    public FunctionNWithGradientValue(ImmutableVectorN x, double f, ImmutableVectorN dfdx) {
+    public FunctionNWithGradientValue(final ImmutableVectorN x, final double f, final ImmutableVectorN dfdx) {
         Objects.requireNonNull(x, "x");
         Objects.requireNonNull(dfdx, "dfdx");
         if (x.getDimension() != dfdx.getDimension()) {
@@ -83,14 +83,17 @@ public final class FunctionNWithGradientValue {
      * </p>
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        FunctionNWithGradientValue other = (FunctionNWithGradientValue) obj;
+        }
+        final FunctionNWithGradientValue other = (FunctionNWithGradientValue) obj;
         return Double.doubleToLongBits(f) == Double.doubleToLongBits(other.f) && x.equals(other.x)
                 && dfdx.equals(other.dfdx);
     }
@@ -123,7 +126,7 @@ public final class FunctionNWithGradientValue {
      * <p>
      * The domain vector
      * </p>
-     * 
+     *
      * <ul>
      * <li>Always have a (non null) domain vector.</li>
      * </ul>
@@ -137,7 +140,7 @@ public final class FunctionNWithGradientValue {
         final int prime = 31;
         int result = 1;
         final long fBits = Double.doubleToLongBits(f);
-        result = prime * result + (int) (fBits ^ (fBits >>> 32));
+        result = prime * result + (int) (fBits ^ fBits >>> 32);
         result = prime * result + x.hashCode();
         result = prime * result + dfdx.hashCode();
         return result;

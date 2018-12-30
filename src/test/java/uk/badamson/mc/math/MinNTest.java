@@ -40,7 +40,7 @@ public class MinNTest {
         }
 
         @Override
-        public double value(double[] x) {
+        public double value(final double[] x) {
             return 1.0;
         }
     };
@@ -53,7 +53,7 @@ public class MinNTest {
         }
 
         @Override
-        public double value(double[] x) {
+        public double value(final double[] x) {
             return x[0] + x[1];
         }
     };
@@ -66,7 +66,7 @@ public class MinNTest {
         }
 
         @Override
-        public double value(double[] x) {
+        public double value(final double[] x) {
             return x[0] * x[0] + x[1] * x[1];
         }
     };
@@ -79,14 +79,14 @@ public class MinNTest {
         }
 
         @Override
-        public FunctionNWithGradientValue value(ImmutableVectorN x) {
+        public FunctionNWithGradientValue value(final ImmutableVectorN x) {
             final double x0 = x.get(0);
             final double x1 = x.get(1);
             return new FunctionNWithGradientValue(x, x0 * x0 + x1 * x1, ImmutableVectorN.create(2.0 * x0, 2.0 * x1));
         }
     };
 
-    private static final double adjacentPrecision(double x) {
+    private static final double adjacentPrecision(final double x) {
         final double next = Math.nextAfter(x, Double.POSITIVE_INFINITY);
         final double precision = Math.max(next - x, Min1.TOLERANCE * Math.abs(x));
         assert 0.0 < precision;
@@ -101,8 +101,8 @@ public class MinNTest {
         return lineFunction;
     }
 
-    private static Function1WithGradient createLineFunction(final FunctionNWithGradient f, ImmutableVectorN x0,
-            ImmutableVectorN dx) {
+    private static Function1WithGradient createLineFunction(final FunctionNWithGradient f, final ImmutableVectorN x0,
+            final ImmutableVectorN dx) {
         final Function1WithGradient lineFunction = MinN.createLineFunction(f, x0, dx);
 
         assertNotNull(lineFunction, "Not null, result");
@@ -110,8 +110,9 @@ public class MinNTest {
         return lineFunction;
     }
 
-    private static void createLineFunction_paraboloidWithGradient(double x00, double x01, double dx0, double dx1,
-            double w, double expectedF, double expectedDfDw, double toleranceF, double toleranceDfDw) {
+    private static void createLineFunction_paraboloidWithGradient(final double x00, final double x01, final double dx0,
+            final double dx1, final double w, final double expectedF, final double expectedDfDw,
+            final double toleranceF, final double toleranceDfDw) {
         final ImmutableVectorN x = ImmutableVectorN.create(x00, x01);
         final ImmutableVectorN dx = ImmutableVectorN.create(dx0, dx1);
 
@@ -123,7 +124,7 @@ public class MinNTest {
     }
 
     private static FunctionNWithGradientValue findFletcherReevesPolakRibere(final FunctionNWithGradient f,
-            ImmutableVectorN x, double tolerance) throws PoorlyConditionedFunctionException {
+            final ImmutableVectorN x, final double tolerance) throws PoorlyConditionedFunctionException {
         final FunctionNWithGradientValue min = MinN.findFletcherReevesPolakRibere(f, x, tolerance);
 
         assertNotNull(min, "Not null, result");// guard
@@ -132,7 +133,8 @@ public class MinNTest {
         return min;
     }
 
-    private static void findFletcherReevesPolakRibere_paraboloid(double x0, double x1, double tolerance) {
+    private static void findFletcherReevesPolakRibere_paraboloid(final double x0, final double x1,
+            final double tolerance) {
         final ImmutableVectorN x = ImmutableVectorN.create(x0, x1);
         final double precision = Math.sqrt(tolerance);
 
@@ -143,7 +145,7 @@ public class MinNTest {
         assertEquals(0.0, min.getX().get(1), precision, "x[1]");
     }
 
-    private static double findPowell(final FunctionN f, final double[] x, double tolerance) {
+    private static double findPowell(final FunctionN f, final double[] x, final double tolerance) {
         final double min = MinN.findPowell(f, x, tolerance);
 
         assertEquals(f.value(x), min, adjacentPrecision(min), "Minimum value");
@@ -151,7 +153,7 @@ public class MinNTest {
         return min;
     }
 
-    private static void findPowell_paraboloid(double x0, double x1, double tolerance) {
+    private static void findPowell_paraboloid(final double x0, final double x1, final double tolerance) {
         final double[] x = { x0, x1 };
         final double precision = Math.sqrt(tolerance);
 
@@ -161,9 +163,9 @@ public class MinNTest {
         assertEquals(0.0, x[1], precision, "x[1]");
     }
 
-    private static double magnitude(double[] x) {
+    private static double magnitude(final double[] x) {
         double m2 = 0.0;
-        for (double xi : x) {
+        for (final double xi : x) {
             m2 += xi * xi;
         }
         return Math.sqrt(m2);
@@ -197,8 +199,8 @@ public class MinNTest {
         return min;
     }
 
-    private static void minimiseAlongLine_paraboloid(double x0, double x1, double dx0, double dx1, double expectedXMin0,
-            double expectedXMin1) {
+    private static void minimiseAlongLine_paraboloid(final double x0, final double x1, final double dx0,
+            final double dx1, final double expectedXMin0, final double expectedXMin1) {
         final double[] x = { x0, x1 };
         final double[] dx = { dx0, dx1 };
         final double precision = adjacentPrecision(magnitude(dx));
@@ -217,8 +219,8 @@ public class MinNTest {
         minimiseAlongLine_paraboloid(x0, x1, dx0, dx1, expectedXMin0, expectedXMin1);
     }
 
-    private static void minimiseAlongLine_paraboloidWithGradient(double x0, double x1, double dx0, double dx1,
-            double expectedXMin0, double expectedXMin1) {
+    private static void minimiseAlongLine_paraboloidWithGradient(final double x0, final double x1, final double dx0,
+            final double dx1, final double expectedXMin0, final double expectedXMin1) {
         final ImmutableVectorN x = ImmutableVectorN.create(x0, x1);
         final ImmutableVectorN dx = ImmutableVectorN.create(dx0, dx1);
         final double precision = adjacentPrecision(dx.magnitude());
@@ -238,7 +240,7 @@ public class MinNTest {
         minimiseAlongLine_paraboloidWithGradient(x0, x1, dx0, dx1, expectedXMin0, expectedXMin1);
     }
 
-    private static double[] normalized(double[] x) {
+    private static double[] normalized(final double[] x) {
         final int n = x.length;
         final double m = magnitude(x);
         final double f = 0 < m ? 1.0 / m : 1.0;

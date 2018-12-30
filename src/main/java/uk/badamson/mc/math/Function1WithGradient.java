@@ -40,7 +40,7 @@ public interface Function1WithGradient {
      * <li>The {@linkplain Function1WithGradientValue#getX() domain value} of the
      * returned object is the given domain value.</li>
      * </ul>
-     * 
+     *
      * @param x
      *            The domain value
      * @return The value of the function.

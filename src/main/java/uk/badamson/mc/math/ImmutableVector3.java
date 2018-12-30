@@ -74,17 +74,17 @@ public final class ImmutableVector3 implements Vector {
      * @param z
      *            The z component of this vector
      * @return the created vector
-     * 
+     *
      * @throws NullPointerException
      *             If {@code x} is null.
      * @throws IllegalArgumentException
      *             If {@code x} is empty (length 0)
      */
-    public static ImmutableVector3 create(double x, double y, double z) {
+    public static ImmutableVector3 create(final double x, final double y, final double z) {
         return new ImmutableVector3(x, y, z);
     }
 
-    private static void requireDimension3(Vector vector) {
+    private static void requireDimension3(final Vector vector) {
         if (vector.getDimension() != 3) {
             throw new IllegalArgumentException("Inconsistent dimension, " + vector.getDimension());
         }
@@ -98,11 +98,11 @@ public final class ImmutableVector3 implements Vector {
      * <li>Always returns a (non null) sum vector.</li>
      * <li>The dimension of the sum equals the dimension of the summed vectors.</li>
      * </ul>
-     * 
+     *
      * @param x
      *            The vectors to sum
      * @return The sum; not null
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code x} is null.</li>
@@ -113,7 +113,7 @@ public final class ImmutableVector3 implements Vector {
      *             {@linkplain #getDimension() dimension}.
      * @see #plus(ImmutableVector3)
      */
-    public static ImmutableVector3 sum(ImmutableVector3... x) {
+    public static ImmutableVector3 sum(final ImmutableVector3... x) {
         Objects.requireNonNull(x, "x");
         final int n = x.length;
         if (n == 0) {
@@ -139,14 +139,14 @@ public final class ImmutableVector3 implements Vector {
      * <p>
      * Calculate the weighted sum of several 3 dimensional vectors.
      * </p>
-     * 
+     *
      * @param weight
      *            The weights to apply; {@code weight[i]} is the weight for vector
      *            {@code x[i]}.
      * @param x
      *            The vectors to sum
      * @return The weighted sum; not null
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code weight} is null.</li>
@@ -158,7 +158,7 @@ public final class ImmutableVector3 implements Vector {
      *             <li>If {@code weight} and {@code x} have different lengths.</li>
      *             </ul>
      */
-    public static ImmutableVector3 weightedSum(double[] weight, ImmutableVector3[] x) {
+    public static ImmutableVector3 weightedSum(final double[] weight, final ImmutableVector3[] x) {
         Objects.requireNonNull(weight, "weight");
         Objects.requireNonNull(x, "x");
         final int n = weight.length;
@@ -191,7 +191,7 @@ public final class ImmutableVector3 implements Vector {
 
     private final double z;
 
-    private ImmutableVector3(double x, double y, double z) {
+    private ImmutableVector3(final double x, final double y, final double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -201,25 +201,25 @@ public final class ImmutableVector3 implements Vector {
      * <p>
      * Calculate the dot product of this vector and another 3 dimensional vector.
      * </p>
-     * 
+     *
      * @param that
      *            The other vector
      * @return the product
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      * @throws IllegalArgumentException
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
      */
-    public double dot(ImmutableVector3 that) {
+    public double dot(final ImmutableVector3 that) {
         Objects.requireNonNull(that, "that");
 
         return x * that.x + y * that.y + z * that.z;
     }
 
     @Override
-    public double dot(Vector that) {
+    public double dot(final Vector that) {
         if (that instanceof ImmutableVector3) {
             return dot((ImmutableVector3) that);
         } else {
@@ -231,14 +231,17 @@ public final class ImmutableVector3 implements Vector {
     }
 
     @Override
-    public final boolean equals(Object obj) {
-        if (this == obj)
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        ImmutableVector3 other = (ImmutableVector3) obj;
+        }
+        final ImmutableVector3 other = (ImmutableVector3) obj;
         return Double.doubleToLongBits(x) == Double.doubleToLongBits(other.x)
                 && Double.doubleToLongBits(y) == Double.doubleToLongBits(other.y)
                 && Double.doubleToLongBits(z) == Double.doubleToLongBits(other.z);
@@ -246,12 +249,12 @@ public final class ImmutableVector3 implements Vector {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws IndexOutOfBoundsException
      *             {@inheritDoc}
      */
     @Override
-    public final double get(int i) {
+    public final double get(final int i) {
         switch (i) {
         case 0:
             return x;
@@ -266,12 +269,12 @@ public final class ImmutableVector3 implements Vector {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws IndexOutOfBoundsException
      *             {@inheritDoc}
      */
     @Override
-    public final double get(int i, int j) {
+    public final double get(final int i, final int j) {
         if (j != 0) {
             throw new IndexOutOfBoundsException("j " + j);
         }
@@ -303,17 +306,17 @@ public final class ImmutableVector3 implements Vector {
         int result = 1;
         long temp;
         temp = Double.doubleToLongBits(x);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + (int) (temp ^ temp >>> 32);
         temp = Double.doubleToLongBits(y);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + (int) (temp ^ temp >>> 32);
         temp = Double.doubleToLongBits(z);
-        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + (int) (temp ^ temp >>> 32);
         return result;
     }
 
     @Override
     public final double magnitude() {
-        double scale = getScale();
+        final double scale = getScale();
         if (!Double.isFinite(scale) || scale < Double.MIN_NORMAL) {
             return scale;
         } else {
@@ -328,7 +331,7 @@ public final class ImmutableVector3 implements Vector {
     @Override
     public final double magnitude2() {
         /* Use a scaling value to avoid overflow. */
-        double scale = getScale();
+        final double scale = getScale();
         final double scale2 = scale * scale;
         if (!Double.isFinite(scale) || scale < Double.MIN_NORMAL) {
             return scale2;
@@ -350,24 +353,24 @@ public final class ImmutableVector3 implements Vector {
      * <li>The {@linkplain ImmutableVector3#getDimension() dimension} of the mean
      * vector is equal to the dimension of this vector.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The vector to take the mean with
      * @return the mean vector
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      * @throws IllegalArgumentException
      *             If the {@linkplain ImmutableVector3#getDimension() dimension} of
      *             }@code that} is not equal to ehe dimension of this vector.
      */
-    public final ImmutableVector3 mean(ImmutableVector3 that) {
+    public final ImmutableVector3 mean(final ImmutableVector3 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector3(0.5 * (x + that.x), 0.5 * (y + that.y), 0.5 * (z + that.z));
     }
 
     @Override
-    public final ImmutableVector3 mean(Vector that) {
+    public final ImmutableVector3 mean(final Vector that) {
         if (that instanceof ImmutableVector3) {
             return mean((ImmutableVector3) that);
         } else {
@@ -394,24 +397,24 @@ public final class ImmutableVector3 implements Vector {
      * <li>The {@linkplain #get(int) components} of the difference vector are the
      * difference of the corresponding component of this vector.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The other vector
      * @return the difference vector
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      * @throws IllegalArgumentException
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
      */
-    public final ImmutableVector3 minus(ImmutableVector3 that) {
+    public final ImmutableVector3 minus(final ImmutableVector3 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector3(x - that.x, y - that.y, z - that.z);
     }
 
     @Override
-    public final ImmutableVector3 minus(Vector that) {
+    public final ImmutableVector3 minus(final Vector that) {
         if (that instanceof ImmutableVector3) {
             return minus((ImmutableVector3) that);
         } else {
@@ -423,7 +426,7 @@ public final class ImmutableVector3 implements Vector {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws NullPointerException
      *             If {@code x} is null.
      * @throws IllegalArgumentException
@@ -431,7 +434,7 @@ public final class ImmutableVector3 implements Vector {
      *             be used to matrix-multiply a vector.
      */
     @Override
-    public final Vector multiply(Vector x) {
+    public final Vector multiply(final Vector x) {
         Objects.requireNonNull(x, "x");
         throw new IllegalArgumentException("Can not use a 3 dimensional vector to matrix-multipley a vector");
     }
@@ -448,11 +451,11 @@ public final class ImmutableVector3 implements Vector {
      * <li>The {@linkplain #get(int) components} of the sum vector are the sum with
      * the corresponding component of this vector.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The other vector
      * @return the sum vector
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      * @throws IllegalArgumentException
@@ -460,13 +463,13 @@ public final class ImmutableVector3 implements Vector {
      *             not equal to the dimension of this.
      * @see #sum(ImmutableVector3...)
      */
-    public final ImmutableVector3 plus(ImmutableVector3 that) {
+    public final ImmutableVector3 plus(final ImmutableVector3 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector3(x + that.x, y + that.y, z + that.z);
     }
 
     @Override
-    public final ImmutableVector3 plus(Vector that) {
+    public final ImmutableVector3 plus(final Vector that) {
         if (that instanceof ImmutableVector3) {
             return plus((ImmutableVector3) that);
         } else {
@@ -477,7 +480,7 @@ public final class ImmutableVector3 implements Vector {
     }
 
     @Override
-    public final ImmutableVector3 scale(double f) {
+    public final ImmutableVector3 scale(final double f) {
         return new ImmutableVector3(x * f, y * f, z * f);
     }
 

@@ -32,21 +32,21 @@ import uk.badamson.mc.ObjectTest;
  */
 public class Function1ValueTest {
 
-    public static void assertInvariants(Function1Value point) {
+    public static void assertInvariants(final Function1Value point) {
         ObjectTest.assertInvariants(point);// inherited
     }
 
-    public static void assertInvariants(Function1Value point1, Function1Value point2) {
+    public static void assertInvariants(final Function1Value point1, final Function1Value point2) {
         ObjectTest.assertInvariants(point1, point2);// inherited
 
         final boolean equals = point1.equals(point2);
-        assertFalse(
-                equals && Double.doubleToLongBits(point1.getX()) != Double.doubleToLongBits(point2.getX()), "Value semantics, x");
-        assertFalse(
-                equals && Double.doubleToLongBits(point1.getF()) != Double.doubleToLongBits(point2.getF()), "Value semantics, f");
+        assertFalse(equals && Double.doubleToLongBits(point1.getX()) != Double.doubleToLongBits(point2.getX()),
+                "Value semantics, x");
+        assertFalse(equals && Double.doubleToLongBits(point1.getF()) != Double.doubleToLongBits(point2.getF()),
+                "Value semantics, f");
     }
 
-    private static Function1Value constructor(double x, double f) {
+    private static Function1Value constructor(final double x, final double f) {
         final Function1Value point = new Function1Value(x, f);
 
         assertInvariants(point);

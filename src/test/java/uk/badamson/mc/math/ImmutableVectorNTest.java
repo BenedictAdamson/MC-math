@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
  */
 public class ImmutableVectorNTest {
 
-    public static void assertInvariants(ImmutableVectorN x) {
+    public static void assertInvariants(final ImmutableVectorN x) {
         ImmutableMatrixNTest.assertInvariants(x);// inherited
         VectorTest.assertInvariants(x);// inherited
 
@@ -41,7 +41,7 @@ public class ImmutableVectorNTest {
         assertTrue(0 < dimensions, "The number of dimensions <" + dimensions + "> is positive");
     }
 
-    public static void assertInvariants(ImmutableVectorN x1, ImmutableVectorN x2) {
+    public static void assertInvariants(final ImmutableVectorN x1, final ImmutableVectorN x2) {
         ImmutableMatrixNTest.assertInvariants(x1, x2);// inherited
         VectorTest.assertInvariants(x1, x2);// inherited
 
@@ -54,7 +54,7 @@ public class ImmutableVectorNTest {
         }
     }
 
-    private static void construct_equals(double x) {
+    private static void construct_equals(final double x) {
         final ImmutableVectorN v1 = ImmutableVectorN.create(x);
         final ImmutableVectorN v2 = ImmutableVectorN.create(x);
 
@@ -62,7 +62,7 @@ public class ImmutableVectorNTest {
         assertEquals(v1, v2, "Equivalent");
     }
 
-    private static ImmutableVectorN create(double... x) {
+    private static ImmutableVectorN create(final double... x) {
         final ImmutableVectorN v = ImmutableVectorN.create(x);
 
         assertInvariants(v);
@@ -74,7 +74,7 @@ public class ImmutableVectorNTest {
         return v;
     }
 
-    private static ImmutableVectorN create0(int dimension) {
+    private static ImmutableVectorN create0(final int dimension) {
         final ImmutableVectorN zero = ImmutableVectorN.create0(dimension);
 
         assertNotNull(zero, "Always returns a vector");// guard
@@ -87,7 +87,7 @@ public class ImmutableVectorNTest {
         return zero;
     }
 
-    private static ImmutableVectorN createOnLine(final ImmutableVectorN x0, ImmutableVectorN dx, double w) {
+    private static ImmutableVectorN createOnLine(final ImmutableVectorN x0, final ImmutableVectorN dx, final double w) {
         final ImmutableVectorN x = ImmutableVectorN.createOnLine(x0, dx, w);
 
         assertNotNull(x, "Always returns a (non null) vector");
@@ -96,7 +96,7 @@ public class ImmutableVectorNTest {
         return x;
     }
 
-    private static ImmutableVectorN mean(ImmutableVectorN x, ImmutableVectorN that) {
+    private static ImmutableVectorN mean(final ImmutableVectorN x, final ImmutableVectorN that) {
         final ImmutableVectorN mean = (ImmutableVectorN) VectorTest.mean(x, that);// inherited
 
         assertInvariants(mean);
@@ -106,7 +106,7 @@ public class ImmutableVectorNTest {
         return mean;
     }
 
-    public static ImmutableVectorN mean(ImmutableVectorN x, Vector that) {
+    public static ImmutableVectorN mean(final ImmutableVectorN x, final Vector that) {
         final ImmutableVectorN mean = (ImmutableVectorN) VectorTest.mean(x, that);// inherited
 
         assertInvariants(mean);
@@ -115,7 +115,7 @@ public class ImmutableVectorNTest {
         return mean;
     }
 
-    public static final ImmutableVectorN minus(ImmutableVectorN x) {
+    public static final ImmutableVectorN minus(final ImmutableVectorN x) {
         final ImmutableVectorN minus = (ImmutableVectorN) VectorTest.minus(x);// inherited
 
         assertInvariants(minus);
@@ -124,7 +124,7 @@ public class ImmutableVectorNTest {
         return minus;
     }
 
-    private static final ImmutableVectorN minus(ImmutableVectorN x, ImmutableVectorN that) {
+    private static final ImmutableVectorN minus(final ImmutableVectorN x, final ImmutableVectorN that) {
         final ImmutableVectorN diff = (ImmutableVectorN) VectorTest.minus(x, that);// inherited
 
         assertInvariants(diff);
@@ -133,7 +133,7 @@ public class ImmutableVectorNTest {
         return diff;
     }
 
-    public static final ImmutableVectorN minus(ImmutableVectorN x, Vector that) {
+    public static final ImmutableVectorN minus(final ImmutableVectorN x, final Vector that) {
         final ImmutableVectorN diff = (ImmutableVectorN) VectorTest.minus(x, that);// inherited
 
         assertInvariants(diff);
@@ -142,7 +142,7 @@ public class ImmutableVectorNTest {
         return diff;
     }
 
-    private static final ImmutableVectorN plus(ImmutableVectorN x, ImmutableVectorN that) {
+    private static final ImmutableVectorN plus(final ImmutableVectorN x, final ImmutableVectorN that) {
         final ImmutableVectorN diff = (ImmutableVectorN) VectorTest.plus(x, that);// inherited
 
         assertInvariants(diff);
@@ -152,7 +152,7 @@ public class ImmutableVectorNTest {
         return diff;
     }
 
-    public static final ImmutableVectorN plus(ImmutableVectorN x, Vector that) {
+    public static final ImmutableVectorN plus(final ImmutableVectorN x, final Vector that) {
         final ImmutableVectorN diff = (ImmutableVectorN) VectorTest.plus(x, that);// inherited
 
         assertInvariants(diff);
@@ -161,7 +161,7 @@ public class ImmutableVectorNTest {
         return diff;
     }
 
-    public static ImmutableVectorN scale(ImmutableVectorN x, double f) {
+    public static ImmutableVectorN scale(final ImmutableVectorN x, final double f) {
         final ImmutableVectorN scaled = (ImmutableVectorN) VectorTest.scale(x, f);// inherited
 
         assertInvariants(scaled);
@@ -170,50 +170,50 @@ public class ImmutableVectorNTest {
         return scaled;
     }
 
-    private static ImmutableVectorN sum(ImmutableVectorN... x) {
+    private static ImmutableVectorN sum(final ImmutableVectorN... x) {
         final ImmutableVectorN sum = ImmutableVectorN.sum(x);
 
         assertNotNull(sum, "Always returns a sum vector.");// guard
         assertInvariants(sum);
-        for (ImmutableVectorN xi : x) {
+        for (final ImmutableVectorN xi : x) {
             assertInvariants(sum, xi);
         }
 
-        assertEquals(x[0].getDimension(),
-                sum.getDimension(), "The dimension of the sum equals the dimension of the summed vectors.");
+        assertEquals(x[0].getDimension(), sum.getDimension(),
+                "The dimension of the sum equals the dimension of the summed vectors.");
 
         return sum;
     }
 
-    private static final void sum_multiple1(double x) {
+    private static final void sum_multiple1(final double x) {
         final ImmutableVectorN sum = sum(new ImmutableVectorN[] { ImmutableVectorN.create(x) });
 
         assertEquals(x, sum.get(0), Double.MIN_NORMAL, "sum[0]");
     }
 
-    private static final void sum_multiple2(double x1, double x2) {
+    private static final void sum_multiple2(final double x1, final double x2) {
         final ImmutableVectorN sum = sum(
                 new ImmutableVectorN[] { ImmutableVectorN.create(x1), ImmutableVectorN.create(x2) });
 
         assertEquals(x1 + x2, sum.get(0), Double.MIN_NORMAL, "sum[0]");
     }
 
-    private static ImmutableVectorN weightedSum(double[] weight, ImmutableVectorN[] x) {
+    private static ImmutableVectorN weightedSum(final double[] weight, final ImmutableVectorN[] x) {
         final ImmutableVectorN sum = ImmutableVectorN.weightedSum(weight, x);
 
         assertNotNull(sum, "Always returns a sum vector.");// guard
         assertInvariants(sum);
-        for (ImmutableVectorN xi : x) {
+        for (final ImmutableVectorN xi : x) {
             assertInvariants(sum, xi);
         }
 
-        assertEquals(x[0].getDimension(),
-                sum.getDimension(), "The dimension of the sum equals the dimension of the summed vectors.");
+        assertEquals(x[0].getDimension(), sum.getDimension(),
+                "The dimension of the sum equals the dimension of the summed vectors.");
 
         return sum;
     }
 
-    private static final void weightedSum_11(double weight, double x) {
+    private static final void weightedSum_11(final double weight, final double x) {
         final ImmutableVectorN sum = weightedSum(new double[] { weight },
                 new ImmutableVectorN[] { ImmutableVectorN.create(x) });
 
@@ -294,10 +294,10 @@ public class ImmutableVectorNTest {
 
         final double magnitude2 = x.magnitude2();
         final double magnitude = x.magnitude();
-        assertEquals(Double.doubleToLongBits(magnitude2),
-                Double.doubleToLongBits(Double.POSITIVE_INFINITY), "magnitude^2 <" + magnitude2 + "> (bits)");
-        assertEquals(Double.doubleToLongBits(magnitude),
-                Double.doubleToLongBits(Double.POSITIVE_INFINITY), "magnitude <" + magnitude + "> (bits)");
+        assertEquals(Double.doubleToLongBits(magnitude2), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
+                "magnitude^2 <" + magnitude2 + "> (bits)");
+        assertEquals(Double.doubleToLongBits(magnitude), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
+                "magnitude <" + magnitude + "> (bits)");
     }
 
     @Test

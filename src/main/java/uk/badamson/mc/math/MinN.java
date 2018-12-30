@@ -60,7 +60,7 @@ public final class MinN {
         return minimiseAlongLine(f, x, dx0);
     }
 
-    private static void copyTo(double[] x, double[] y) {
+    private static void copyTo(final double[] x, final double[] y) {
         for (int j = 0, n = x.length; j < n; ++j) {
             x[j] = y[j];
         }
@@ -77,7 +77,7 @@ public final class MinN {
      * The created functor retains references to the given objects. Those objects
      * should therefore not be changed while the created function is in use.
      * </p>
-     * 
+     *
      * @param f
      *            The multi-dimensional function
      * @param x0
@@ -89,7 +89,7 @@ public final class MinN {
      *            multidimensional function; (x + dx) corresponds to the value for
      *            1.0 of the created function.
      * @return the created functor; not null.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
@@ -122,7 +122,7 @@ public final class MinN {
         return new Function1() {
 
             @Override
-            public double value(double w) {
+            public double value(final double w) {
                 final double[] x = new double[n];
                 for (int i = 0; i < n; i++) {
                     x[i] = x0[i] + w * dx[i];
@@ -143,7 +143,7 @@ public final class MinN {
      * The created functor retains references to the given objects. Those objects
      * should therefore not be changed while the created function is in use.
      * </p>
-     * 
+     *
      * @param f
      *            The multi-dimensional function
      * @param x0
@@ -155,7 +155,7 @@ public final class MinN {
      *            multidimensional function; (x + dx) corresponds to the value for
      *            1.0 of the created function.
      * @return the created functor; not null.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
@@ -197,7 +197,7 @@ public final class MinN {
             }
 
             @Override
-            public Function1WithGradientValue value(double w) {
+            public Function1WithGradientValue value(final double w) {
                 final ImmutableVectorN x = ImmutableVectorN.createOnLine(x0, dx, w);
                 final FunctionNWithGradientValue v = f.value(x);
                 return new Function1WithGradientValue(w, v.getF(), v.getDfDx().dot(dx));
@@ -205,7 +205,7 @@ public final class MinN {
         };
     }
 
-    private static ImmutableVectorN downSlope(FunctionNWithGradientValue fx) {
+    private static ImmutableVectorN downSlope(final FunctionNWithGradientValue fx) {
         final ImmutableVectorN dfDx = fx.getDfDx();
         if (dfDx.magnitude2() < Double.MIN_NORMAL) {
             /* Avoid division by zero when close to a minimum */
@@ -223,7 +223,7 @@ public final class MinN {
      * vector that also has a computable gradient} using the Polak-Ribere's
      * modification of the Fletcher-Reeves conjugate gradient algorithm.
      * </p>
-     * 
+     *
      * @param f
      *            The function for which a minimum is to be found.
      * @param x0
@@ -233,7 +233,7 @@ public final class MinN {
      *            maximum error of the position of the minimum (the returned
      *            {@linkplain FunctionNWithGradientValue#getX() x} value).
      * @return a minimum of the function; not null.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
@@ -256,7 +256,7 @@ public final class MinN {
      *             </ul>
      */
     public static FunctionNWithGradientValue findFletcherReevesPolakRibere(final FunctionNWithGradient f,
-            ImmutableVectorN x0, double tolerance) throws PoorlyConditionedFunctionException {
+            final ImmutableVectorN x0, final double tolerance) throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x");
         requireToleranceInRange(tolerance);
@@ -276,7 +276,7 @@ public final class MinN {
             FunctionNWithGradientValue fXNew;
             try {
                 fXNew = minimiseAlongLine(f, x, dx);
-            } catch (PoorlyConditionedFunctionException e) {
+            } catch (final PoorlyConditionedFunctionException e) {
                 /*
                  * Can indicate that g has become a zero vector because we have reached the
                  * minimum.
@@ -294,7 +294,7 @@ public final class MinN {
             }
 
             final ImmutableVectorN gNew = downSlope(fXNew);
-            final double gamma = (gNew.minus(g)).dot(gNew) / g.magnitude2();
+            final double gamma = gNew.minus(g).dot(gNew) / g.magnitude2();
 
             if (Math.abs(gamma) <= tolerance) {
                 /*
@@ -325,7 +325,7 @@ public final class MinN {
      * This method is appropriate for a function that is approximately a quadratic
      * form.
      * </p>
-     * 
+     *
      * @param f
      *            The function for which a minimum is to be found.
      * @param x
@@ -336,7 +336,7 @@ public final class MinN {
      *            value of the minimum for which continuing to iterate is
      *            worthwhile.
      * @return a minimum of the function.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
@@ -357,7 +357,7 @@ public final class MinN {
      *             order term that causes the iterative procedure to diverge.</li>
      *             </ul>
      */
-    public static double findPowell(final FunctionN f, final double[] x, double tolerance)
+    public static double findPowell(final FunctionN f, final double[] x, final double tolerance)
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x, "x");
@@ -406,7 +406,7 @@ public final class MinN {
      * <p>
      * That is, find the minimum value of the function along a straight line.
      * </p>
-     * 
+     *
      * <section>
      * <h1>Post Conditions</h1>
      * <ul>
@@ -416,7 +416,7 @@ public final class MinN {
      * moved to move from the original position to the position of the minimum.</li>
      * </ul>
      * </section>
-     * 
+     *
      * @param f
      *            The multi-dimensional function
      * @param x
@@ -424,7 +424,7 @@ public final class MinN {
      * @param dx
      *            The direction vector of the line.
      * @return the minimum value along the line.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
@@ -472,7 +472,7 @@ public final class MinN {
      * <p>
      * That is, find the minimum value of the function along a straight line.
      * </p>
-     * 
+     *
      * @param f
      *            The function
      * @param x
@@ -480,7 +480,7 @@ public final class MinN {
      * @param dx
      *            The direction vector of the line.
      * @return the minimum value along the line; not null.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
@@ -507,7 +507,7 @@ public final class MinN {
      *             </ul>
      */
     static FunctionNWithGradientValue minimiseAlongLine(final FunctionNWithGradient f, final ImmutableVectorN x,
-            ImmutableVectorN dx) throws PoorlyConditionedFunctionException {
+            final ImmutableVectorN dx) throws PoorlyConditionedFunctionException {
         final Function1WithGradient fLine = createLineFunction(f, x, dx);
         final Function1 f1Line = new Function1() {
 
@@ -517,7 +517,7 @@ public final class MinN {
             }
 
             @Override
-            public double value(double x) {
+            public double value(final double x) {
                 return fLine.value(x).getF();
             }
 
@@ -528,7 +528,7 @@ public final class MinN {
         return f.value(xMin);
     }
 
-    private static void requireToleranceInRange(double tolerance) {
+    private static void requireToleranceInRange(final double tolerance) {
         if (!(0.0 < tolerance && tolerance < 1.0)) {
             throw new IllegalArgumentException("tolerance <" + tolerance + ">");
         }
@@ -538,7 +538,7 @@ public final class MinN {
         final int n = dx.length;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                dx[i][j] = (i == j ? 1 : 0);
+                dx[i][j] = i == j ? 1 : 0;
             }
         }
     }

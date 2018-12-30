@@ -32,7 +32,7 @@ import uk.badamson.mc.ObjectTest;
  */
 public class OrientationVectors3Test {
 
-    public static void assertInvariants(OrientationVectors3 orientation) {
+    public static void assertInvariants(final OrientationVectors3 orientation) {
         ObjectTest.assertInvariants(orientation);// inherited
 
         final ImmutableVectorN e1 = orientation.getE1();
@@ -55,12 +55,13 @@ public class OrientationVectors3Test {
         assertEquals(0.0, e2.dot(e3), Double.MIN_NORMAL, "The e2 vector is orthogonal to vector e3.");
     }
 
-    public static void assertInvariants(OrientationVectors3 orientation1, OrientationVectors3 orientation2) {
+    public static void assertInvariants(final OrientationVectors3 orientation1,
+            final OrientationVectors3 orientation2) {
         ObjectTest.assertInvariants(orientation1, orientation2);// inherited
     }
 
-    private static OrientationVectors3 createFromOrthogonalUnitBasisVectors(ImmutableVectorN e1, ImmutableVectorN e2,
-            ImmutableVectorN e3) {
+    private static OrientationVectors3 createFromOrthogonalUnitBasisVectors(final ImmutableVectorN e1,
+            final ImmutableVectorN e2, final ImmutableVectorN e3) {
         final OrientationVectors3 orientation = OrientationVectors3.createFromOrthogonalUnitBasisVectors(e1, e2, e3);
 
         assertNotNull(orientation, "Not null, result");// guard

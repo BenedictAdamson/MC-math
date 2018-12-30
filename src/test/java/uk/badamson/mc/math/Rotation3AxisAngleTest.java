@@ -42,7 +42,7 @@ public class Rotation3AxisAngleTest {
     private static final double SMALL_ANGLE = Rotation3Test.SMALL_ANGLE;
     private static final double HALF_PI = Rotation3Test.HALF_PI;
 
-    private static ImmutableVector3 apply(Rotation3AxisAngle r, ImmutableVector3 v) {
+    private static ImmutableVector3 apply(final Rotation3AxisAngle r, final ImmutableVector3 v) {
         final ImmutableVector3 rv = Rotation3Test.apply(r, v);// inherited
 
         assertInvariants(r);// check for side effects
@@ -50,7 +50,7 @@ public class Rotation3AxisAngleTest {
         return rv;
     }
 
-    private static void apply_0(ImmutableVector3 v) {
+    private static void apply_0(final ImmutableVector3 v) {
         final double magnitude0 = v.magnitude();
 
         final ImmutableVector3 rv = apply(Rotation3AxisAngle.ZERO, v);
@@ -59,20 +59,21 @@ public class Rotation3AxisAngleTest {
                 ImmutableVector3Test.closeTo(v, TOLERANCE * (magnitude0 + 1.0)));
     }
 
-    private static void apply_axis(ImmutableVector3 axis, double angle) {
+    private static void apply_axis(final ImmutableVector3 axis, final double angle) {
         final double magnitude0 = axis.magnitude();
         final Rotation3AxisAngle r = Rotation3AxisAngle.valueOfAxisAngle(axis, angle);
 
         final ImmutableVector3 rv = apply(r, axis);
 
-        assertTrue(
-                axis.minus(rv).magnitude() < TOLERANCE * (magnitude0 + 1.0),                 "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.");
+        assertTrue(axis.minus(rv).magnitude() < TOLERANCE * (magnitude0 + 1.0),
+                "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.");
         assertThat(
                 "Rotation of a vector that lies along the rotation axis produces a rotated vector equal to the given vector.",
                 rv, ImmutableVector3Test.closeTo(axis, TOLERANCE * (magnitude0 + 1.0)));
     }
 
-    private static void apply_basisHalfPi(ImmutableVector3 e, ImmutableVector3 eAxis, ImmutableVector3 expected) {
+    private static void apply_basisHalfPi(final ImmutableVector3 e, final ImmutableVector3 eAxis,
+            final ImmutableVector3 expected) {
         final Rotation3AxisAngle r = Rotation3AxisAngle.valueOfAxisAngle(eAxis, Math.PI * 0.5);
 
         final ImmutableVector3 actual = apply(r, e);
@@ -80,17 +81,17 @@ public class Rotation3AxisAngleTest {
         assertThat(actual, ImmutableVector3Test.closeTo(expected, TOLERANCE));
     }
 
-    public static void assertInvariants(Rotation3AxisAngle rotation) {
+    public static void assertInvariants(final Rotation3AxisAngle rotation) {
         ObjectTest.assertInvariants(rotation);// inherited
         Rotation3Test.assertInvariants(rotation);// inherited
     }
 
-    public static void assertInvariants(Rotation3AxisAngle r1, Rotation3AxisAngle r2) {
+    public static void assertInvariants(final Rotation3AxisAngle r1, final Rotation3AxisAngle r2) {
         ObjectTest.assertInvariants(r1, r2);// inherited
         Rotation3Test.assertInvariants(r1, r2);// inherited
     }
 
-    public static Rotation3AxisAngle minus(Rotation3AxisAngle r) {
+    public static Rotation3AxisAngle minus(final Rotation3AxisAngle r) {
         final double angle = r.getAngle();
         final ImmutableVector3 axis = r.getAxis();
 
@@ -106,7 +107,7 @@ public class Rotation3AxisAngleTest {
         return m;
     }
 
-    public static Rotation3 minus(Rotation3AxisAngle r, Rotation3 that) {
+    public static Rotation3 minus(final Rotation3AxisAngle r, final Rotation3 that) {
         final Rotation3 diff = Rotation3Test.minus(r, that);// inherited
 
         assertInvariants(r);// check for side effects
@@ -114,30 +115,30 @@ public class Rotation3AxisAngleTest {
         return diff;
     }
 
-    private static void minus_0(Rotation3AxisAngle r) {
+    private static void minus_0(final Rotation3AxisAngle r) {
         final Rotation3 diff = minus(r, Rotation3AxisAngle.ZERO);
 
         assertThat("The difference between a rotation and the zero rotation is itself", diff, closeToRotation3(r));
     }
 
-    private static void minus_axisAngle(double angle, ImmutableVector3 axis) {
+    private static void minus_axisAngle(final double angle, final ImmutableVector3 axis) {
         final Rotation3AxisAngle r = Rotation3AxisAngle.valueOfAxisAngle(axis, angle);
 
         minus(r);
     }
 
-    private static void minus_self(Rotation3AxisAngle r) {
+    private static void minus_self(final Rotation3AxisAngle r) {
         final Rotation3 diff = minus(r, r);
 
         assertThat("The difference between a rotation and itself is the zero rotation.", diff,
                 closeToRotation3(Rotation3AxisAngle.ZERO));
     }
 
-    private static double normalizedAngle(double a) {
+    private static double normalizedAngle(final double a) {
         return a % (2.0 * Math.PI);
     }
 
-    public static Rotation3 plus(Rotation3AxisAngle r, Rotation3 that) {
+    public static Rotation3 plus(final Rotation3AxisAngle r, final Rotation3 that) {
         final Rotation3 sum = Rotation3Test.plus(r, that);
 
         assertInvariants(r);// check for side effects
@@ -145,17 +146,17 @@ public class Rotation3AxisAngleTest {
         return sum;
     }
 
-    private static void plus_0r(Rotation3AxisAngle that) {
+    private static void plus_0r(final Rotation3AxisAngle that) {
         final Rotation3 sum = plus(Rotation3AxisAngle.ZERO, that);
         assertThat("sum", sum, closeToRotation3(that));
     }
 
-    private static void plus_r0(Rotation3AxisAngle r) {
+    private static void plus_r0(final Rotation3AxisAngle r) {
         final Rotation3 sum = plus(r, Rotation3AxisAngle.ZERO);
         assertThat("sum", sum, closeToRotation3(r));
     }
 
-    private static void plus_sameAxis(ImmutableVector3 axis, double angle1, double angle2) {
+    private static void plus_sameAxis(final ImmutableVector3 axis, final double angle1, final double angle2) {
         final Rotation3AxisAngle r1 = Rotation3AxisAngle.valueOfAxisAngle(axis, angle1);
         final Rotation3AxisAngle r2 = Rotation3AxisAngle.valueOfAxisAngle(axis, angle2);
 
@@ -166,7 +167,7 @@ public class Rotation3AxisAngleTest {
                 closeTo(normalizedAngle(angle1 + angle2), TOLERANCE));
     }
 
-    public static Rotation3AxisAngle scale(Rotation3AxisAngle r, double f) {
+    public static Rotation3AxisAngle scale(final Rotation3AxisAngle r, final double f) {
         final Rotation3AxisAngle fr = (Rotation3AxisAngle) Rotation3Test.scale(r, f);
 
         assertInvariants(r);// check for side effects
@@ -176,7 +177,7 @@ public class Rotation3AxisAngleTest {
         return fr;
     }
 
-    private static Rotation3AxisAngle valueOf(Quaternion quaternion) {
+    private static Rotation3AxisAngle valueOf(final Quaternion quaternion) {
         final Rotation3AxisAngle rotation = Rotation3AxisAngle.valueOf(quaternion);
 
         assertNotNull(rotation, "Always creates a rotation");// guard
@@ -185,7 +186,8 @@ public class Rotation3AxisAngleTest {
         return rotation;
     }
 
-    private static void valueOf_quaternionForAxisAngle(ImmutableVector3 axis, double angle, double magnitude) {
+    private static void valueOf_quaternionForAxisAngle(final ImmutableVector3 axis, final double angle,
+            final double magnitude) {
         final Rotation3AxisAngle rotation0 = Rotation3AxisAngle.valueOfAxisAngle(axis, angle);
         final Quaternion quaternion = rotation0.getVersor().scale(magnitude);
 
@@ -194,7 +196,7 @@ public class Rotation3AxisAngleTest {
         assertThat("rotation", rotation, closeToRotation3(rotation0, TOLERANCE * 2));
     }
 
-    private static Rotation3AxisAngle valueOfAxisAngle(ImmutableVector3 axis, double angle) {
+    private static Rotation3AxisAngle valueOfAxisAngle(final ImmutableVector3 axis, final double angle) {
         final double sinAngle = Math.sin(angle);
         final double axisMagnitude = Math.abs(sinAngle) < Double.MIN_NORMAL ? 0.0 : axis.magnitude();
 

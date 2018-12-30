@@ -76,7 +76,7 @@ public final class OrientationVectors3 {
      * @param e3
      *            The third orthogonal unit basis vector of this orientation; its
      *            local <i>z</i> direction.
-     * 
+     *
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code e1} is null.</li>
@@ -104,8 +104,8 @@ public final class OrientationVectors3 {
      *             product.</li>
      *             </ul>
      */
-    public static OrientationVectors3 createFromOrthogonalUnitBasisVectors(ImmutableVectorN e1, ImmutableVectorN e2,
-            ImmutableVectorN e3) {
+    public static OrientationVectors3 createFromOrthogonalUnitBasisVectors(final ImmutableVectorN e1,
+            final ImmutableVectorN e2, final ImmutableVectorN e3) {
         requireUnit3Vector(e1, "e1");
         requireUnit3Vector(e2, "e2");
         requireUnit3Vector(e3, "e3");
@@ -116,13 +116,14 @@ public final class OrientationVectors3 {
         return new OrientationVectors3(e1, e2, e3);
     }
 
-    private static void requireOrthogonal(ImmutableVectorN e1, String name1, ImmutableVectorN e2, String name2) {
+    private static void requireOrthogonal(final ImmutableVectorN e1, final String name1, final ImmutableVectorN e2,
+            final String name2) {
         if (0.0 < Math.abs(e1.dot(e2))) {
             throw new IllegalArgumentException("Not orthogonal " + name1 + " " + e1 + " " + name2 + " " + e1);
         }
     }
 
-    private static ImmutableVectorN requireUnit3Vector(ImmutableVectorN e, String message) {
+    private static ImmutableVectorN requireUnit3Vector(final ImmutableVectorN e, final String message) {
         Objects.requireNonNull(e, message);
         final double m = e.magnitude2();
         if (e.getDimension() != 3 || TOLERANCE < Math.abs(m - 1.0)) {
@@ -137,7 +138,7 @@ public final class OrientationVectors3 {
 
     private final ImmutableVectorN e3;
 
-    private OrientationVectors3(ImmutableVectorN e1, ImmutableVectorN e2, ImmutableVectorN e3) {
+    private OrientationVectors3(final ImmutableVectorN e1, final ImmutableVectorN e2, final ImmutableVectorN e3) {
         this.e1 = e1;
         this.e2 = e2;
         this.e3 = e3;

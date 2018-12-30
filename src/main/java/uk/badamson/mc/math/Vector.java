@@ -29,11 +29,11 @@ public interface Vector extends Matrix {
      * <p>
      * Calculate the dot product of this vector and another vector.
      * </p>
-     * 
+     *
      * @param that
      *            The other vector
      * @return the product
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      * @throws IllegalArgumentException
@@ -46,12 +46,12 @@ public interface Vector extends Matrix {
      * <p>
      * The value of an element of this vector.
      * </p>
-     * 
+     *
      * @param i
      *            the cardinal number of the row of the element (0 for the first
      *            row, 1 for the second row, and so on).
      * @return the value of the element
-     * 
+     *
      * @throws IndexOutOfBoundsException
      *             <ul>
      *             <li>If {@code i} is negative.</li>
@@ -80,7 +80,7 @@ public interface Vector extends Matrix {
      * <li>The number of dimensions equals the {@linkplain #getRows() number of
      * rows}.</li>
      * </ul>
-     * 
+     *
      * @return the number of dimensions
      */
     public int getDimension();
@@ -93,7 +93,7 @@ public interface Vector extends Matrix {
      * <li>The magnitude of this vector is the square root of the dot product of
      * this vector with itself.</li>
      * </ul>
-     * 
+     *
      * @return the magnitude
      */
     public double magnitude();
@@ -108,7 +108,7 @@ public interface Vector extends Matrix {
      * similar to the {@linkplain #dot(Vector) dot product} of the vector with
      * itself.
      * </p>
-     * 
+     *
      * @return the square of the magnitude.
      */
     public double magnitude2();
@@ -122,11 +122,11 @@ public interface Vector extends Matrix {
      * <li>The {@linkplain #getDimension() dimension} of the mean vector is equal to
      * the dimension of this vector.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The vector to take the mean with
      * @return the mean vector
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      * @throws IllegalArgumentException
@@ -146,7 +146,7 @@ public interface Vector extends Matrix {
      * <li>The {@linkplain #get(int) components} of the opposite vector are the
      * negative of the corresponding component of this vector.</li>
      * </ul>
-     * 
+     *
      * @return the opposite vector.
      */
     public Vector minus();
@@ -163,11 +163,11 @@ public interface Vector extends Matrix {
      * <li>The {@linkplain #get(int) components} of the difference vector are the
      * difference of the corresponding component of this vector.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The other vector
      * @return the difference vector
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      * @throws IllegalArgumentException
@@ -188,11 +188,11 @@ public interface Vector extends Matrix {
      * <li>The {@linkplain #get(int) components} of the sum vector are the sum with
      * the corresponding component of this vector.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The other vector
      * @return the sum vector
-     * 
+     *
      * @throws NullPointerException
      *             If {@code that} is null.
      * @throws IllegalArgumentException
@@ -212,7 +212,7 @@ public interface Vector extends Matrix {
      * <li>The {@linkplain ImmutableVector3#getDimension() dimension} of the scaled
      * vector is equal to the dimension of this vector.</li>
      * </ul>
-     * 
+     *
      * @param f
      *            the scalar
      * @return the scaled vector

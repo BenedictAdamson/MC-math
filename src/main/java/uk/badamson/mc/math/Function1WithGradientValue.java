@@ -39,7 +39,7 @@ public final class Function1WithGradientValue {
      * <p>
      * Construct an object with given attribute values.
      * </p>
-     * 
+     *
      * @param x
      *            The domain value.
      * @param f
@@ -47,7 +47,7 @@ public final class Function1WithGradientValue {
      * @param dfdx
      *            The gradient value
      */
-    public Function1WithGradientValue(double x, double f, double dfdx) {
+    public Function1WithGradientValue(final double x, final double f, final double dfdx) {
         this.x = x;
         this.f = f;
         this.dfdx = dfdx;
@@ -65,14 +65,17 @@ public final class Function1WithGradientValue {
      * </p>
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
-        Function1WithGradientValue other = (Function1WithGradientValue) obj;
+        }
+        final Function1WithGradientValue other = (Function1WithGradientValue) obj;
         return Double.doubleToLongBits(x) == Double.doubleToLongBits(other.x)
                 && Double.doubleToLongBits(f) == Double.doubleToLongBits(other.f)
                 && Double.doubleToLongBits(dfdx) == Double.doubleToLongBits(other.dfdx);
@@ -112,9 +115,9 @@ public final class Function1WithGradientValue {
         final long xBits = Double.doubleToLongBits(x);
         final long fBits = Double.doubleToLongBits(f);
         final long dfdxBits = Double.doubleToLongBits(dfdx);
-        result = prime * result + (int) (xBits ^ (xBits >>> 32));
-        result = prime * result + (int) (fBits ^ (fBits >>> 32));
-        result = prime * result + (int) (dfdxBits ^ (dfdxBits >>> 32));
+        result = prime * result + (int) (xBits ^ xBits >>> 32);
+        result = prime * result + (int) (fBits ^ fBits >>> 32);
+        result = prime * result + (int) (dfdxBits ^ dfdxBits >>> 32);
         return result;
     }
 

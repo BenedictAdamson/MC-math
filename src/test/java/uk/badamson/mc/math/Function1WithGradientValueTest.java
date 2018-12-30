@@ -32,23 +32,23 @@ import uk.badamson.mc.ObjectTest;
  */
 public class Function1WithGradientValueTest {
 
-    public static void assertInvariants(Function1WithGradientValue v) {
+    public static void assertInvariants(final Function1WithGradientValue v) {
         ObjectTest.assertInvariants(v);// inherited
     }
 
-    public static void assertInvariants(Function1WithGradientValue v1, Function1WithGradientValue v2) {
+    public static void assertInvariants(final Function1WithGradientValue v1, final Function1WithGradientValue v2) {
         ObjectTest.assertInvariants(v1, v2);// inherited
 
         final boolean equals = v1.equals(v2);
-        assertFalse(
-                equals && Double.doubleToLongBits(v1.getX()) != Double.doubleToLongBits(v2.getX()), "Value semantics, x");
-        assertFalse(
-                equals && Double.doubleToLongBits(v1.getF()) != Double.doubleToLongBits(v2.getF()), "Value semantics, f");
-        assertFalse(
-                equals && Double.doubleToLongBits(v1.getDfDx()) != Double.doubleToLongBits(v2.getDfDx()), "Value semantics, dfdx");
+        assertFalse(equals && Double.doubleToLongBits(v1.getX()) != Double.doubleToLongBits(v2.getX()),
+                "Value semantics, x");
+        assertFalse(equals && Double.doubleToLongBits(v1.getF()) != Double.doubleToLongBits(v2.getF()),
+                "Value semantics, f");
+        assertFalse(equals && Double.doubleToLongBits(v1.getDfDx()) != Double.doubleToLongBits(v2.getDfDx()),
+                "Value semantics, dfdx");
     }
 
-    private static Function1WithGradientValue constructor(double x, double f, double dfdx) {
+    private static Function1WithGradientValue constructor(final double x, final double f, final double dfdx) {
         final Function1WithGradientValue point = new Function1WithGradientValue(x, f, dfdx);
 
         assertInvariants(point);

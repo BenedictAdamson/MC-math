@@ -39,7 +39,7 @@ public class ImmutableMatrixN implements Matrix {
      * <li>Always creates a (non null) matrix.</li>
      * <li>The created matrix has the given attribute values.</li>
      * </ul>
-     * 
+     *
      * @param rows
      *            The number of rows of the matrix.
      * @param columns
@@ -49,7 +49,7 @@ public class ImmutableMatrixN implements Matrix {
      *            <i>row-major</i> order, so {@code element[i*columns + j]} is the
      *            value of cardinal row <var>i</var>, cardinal column <var>j</var>.
      * @return the created matrix
-     * 
+     *
      * @throws NullPointerException
      *             If {@code elements} is null.
      * @throws IllegalArgumentException
@@ -60,7 +60,7 @@ public class ImmutableMatrixN implements Matrix {
      *             {@code rows} multiplied by {@code columns}.</li>
      *             </ul>
      */
-    public static ImmutableMatrixN create(int rows, int columns, double[] elements) {
+    public static ImmutableMatrixN create(final int rows, final int columns, final double[] elements) {
         Objects.requireNonNull(elements, "elements");
         if (rows < 1) {
             throw new IllegalArgumentException("rows " + rows);
@@ -83,26 +83,29 @@ public class ImmutableMatrixN implements Matrix {
     private final int columns;
     protected final double[] elements;
 
-    ImmutableMatrixN(int rows, int columns, double[] elements) {
+    ImmutableMatrixN(final int rows, final int columns, final double[] elements) {
         this.rows = rows;
         this.columns = columns;
         this.elements = elements;
     }
 
     @Override
-    public final boolean equals(Object obj) {
-        if (this == obj)
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof ImmutableMatrixN))
+        }
+        if (!(obj instanceof ImmutableMatrixN)) {
             return false;
-        ImmutableMatrixN other = (ImmutableMatrixN) obj;
+        }
+        final ImmutableMatrixN other = (ImmutableMatrixN) obj;
         return rows == other.rows && Arrays.equals(elements, other.elements);
     }
 
     @Override
-    public final double get(int i, int j) {
+    public final double get(final int i, final int j) {
         if (i < 0 || rows <= i) {
             throw new IndexOutOfBoundsException("i " + i);
         }
@@ -132,7 +135,7 @@ public class ImmutableMatrixN implements Matrix {
     }
 
     @Override
-    public final ImmutableVectorN multiply(Vector x) {
+    public final ImmutableVectorN multiply(final Vector x) {
         Objects.requireNonNull(x, "x");
         final int columns = getColumns();
         if (columns != x.getRows()) {

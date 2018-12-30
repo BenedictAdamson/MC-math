@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class FunctionNWithGradientTest {
 
-    public static void assertInvariants(FunctionNWithGradient f) {
+    public static void assertInvariants(final FunctionNWithGradient f) {
         // Do nothing
     }
 
@@ -39,13 +39,13 @@ public class FunctionNWithGradientTest {
         Function1WithGradientTest.assertValueConsistentWithGradient(fLine, w1, w2, n);
     }
 
-    public static FunctionNWithGradientValue value(FunctionNWithGradient f, ImmutableVectorN x) {
+    public static FunctionNWithGradientValue value(final FunctionNWithGradient f, final ImmutableVectorN x) {
         final FunctionNWithGradientValue v = f.value(x);
 
         assertNotNull(v, "Not null, result");// guard
         FunctionNWithGradientValueTest.assertInvariants(v);
-        assertTrue(
-                x.minus(v.getX()).magnitude2() <= Double.MIN_NORMAL, "x <expected " + x + ", actual " + v.getX() + ">");
+        assertTrue(x.minus(v.getX()).magnitude2() <= Double.MIN_NORMAL,
+                "x <expected " + x + ", actual " + v.getX() + ">");
 
         return v;
     }

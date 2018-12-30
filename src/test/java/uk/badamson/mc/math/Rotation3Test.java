@@ -41,27 +41,29 @@ public class Rotation3Test {
         private final double tolerance;
         private final Rotation3 value;
 
-        private IsCloseTo(Rotation3 value, double tolerance) {
+        private IsCloseTo(final Rotation3 value, final double tolerance) {
             this.tolerance = tolerance;
             this.value = value;
         }
 
         @Override
-        public void describeMismatchSafely(Rotation3 item, Description mismatchDescription) {
-            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(Double.valueOf(distance(item)));
+        public void describeMismatchSafely(final Rotation3 item, final Description mismatchDescription) {
+            mismatchDescription.appendValue(item).appendText(" differed by ")
+                    .appendValue(Double.valueOf(distance(item)));
         }
 
         @Override
-        public void describeTo(Description description) {
-            description.appendText("a rotation within ").appendValue(Double.valueOf(tolerance)).appendText(" of ").appendValue(value);
+        public void describeTo(final Description description) {
+            description.appendText("a rotation within ").appendValue(Double.valueOf(tolerance)).appendText(" of ")
+                    .appendValue(value);
         }
 
-        private final double distance(Rotation3 item) {
+        private final double distance(final Rotation3 item) {
             return value.getVersor().distance(item.getVersor());
         }
 
         @Override
-        public boolean matchesSafely(Rotation3 item) {
+        public boolean matchesSafely(final Rotation3 item) {
             return distance(item) <= tolerance;
         }
     }// class
@@ -72,7 +74,7 @@ public class Rotation3Test {
 
     public static final double HALF_PI = Math.PI * 0.5;
 
-    public static ImmutableVector3 apply(Rotation3 r, ImmutableVector3 v) {
+    public static ImmutableVector3 apply(final Rotation3 r, final ImmutableVector3 v) {
         final double magnitude0 = v.magnitude();
 
         final ImmutableVector3 rv = r.apply(v);
@@ -88,7 +90,7 @@ public class Rotation3Test {
         return rv;
     }
 
-    public static void assertInvariants(Rotation3 rotation) {
+    public static void assertInvariants(final Rotation3 rotation) {
         final Quaternion versor = rotation.getVersor();
         final ImmutableVector3 axis = rotation.getAxis();
 
@@ -104,19 +106,19 @@ public class Rotation3Test {
                 anyOf(closeTo(0.0, TOLERANCE), closeTo(1.0, TOLERANCE)));
     }
 
-    public static void assertInvariants(Rotation3 r1, Rotation3 r2) {
+    public static void assertInvariants(final Rotation3 r1, final Rotation3 r2) {
         // Do nothing
     }
 
-    public static Matcher<Rotation3> closeToRotation3(Rotation3 operand) {
+    public static Matcher<Rotation3> closeToRotation3(final Rotation3 operand) {
         return new IsCloseTo(operand, TOLERANCE);
     }
 
-    public static Matcher<Rotation3> closeToRotation3(Rotation3 operand, double tolerance) {
+    public static Matcher<Rotation3> closeToRotation3(final Rotation3 operand, final double tolerance) {
         return new IsCloseTo(operand, tolerance);
     }
 
-    public static Rotation3 minus(Rotation3 r) {
+    public static Rotation3 minus(final Rotation3 r) {
         final double angle = r.getAngle();
         final ImmutableVector3 axis = r.getAxis();
 
@@ -134,7 +136,7 @@ public class Rotation3Test {
         assertThat(
                 "The opposite rotation either has the same axis but the negative of the angle of this rotation, "
                         + "or the same angle but an axis that points in the opposite direction (angle).",
-                        Double.valueOf(minusAngle), anyOf(closeTo(angle, TOLERANCE), closeTo(-angle, TOLERANCE)));
+                Double.valueOf(minusAngle), anyOf(closeTo(angle, TOLERANCE), closeTo(-angle, TOLERANCE)));
         assertThat(
                 "The opposite rotation either has the same axis but the negative of the angle of this rotation, "
                         + "or the same angle but an axis that points in the opposite direction (axis).",
@@ -143,7 +145,7 @@ public class Rotation3Test {
         return m;
     }
 
-    public static Rotation3 minus(Rotation3 r, Rotation3 that) {
+    public static Rotation3 minus(final Rotation3 r, final Rotation3 that) {
         final Rotation3 diff = r.minus(that);
 
         assertNotNull(diff, "Not null, result");
@@ -161,11 +163,11 @@ public class Rotation3Test {
         return diff;
     }
 
-    public static double normalizedAngle(double a) {
+    public static double normalizedAngle(final double a) {
         return a % (2.0 * Math.PI);
     }
 
-    public static Rotation3 plus(Rotation3 r, Rotation3 that) {
+    public static Rotation3 plus(final Rotation3 r, final Rotation3 that) {
         final Rotation3 sum = r.plus(that);
 
         assertNotNull(sum, "Not null, result");
@@ -179,7 +181,7 @@ public class Rotation3Test {
         return sum;
     }
 
-    public static Rotation3 scale(Rotation3 r, double f) {
+    public static Rotation3 scale(final Rotation3 r, final double f) {
         final Rotation3 fr = r.scale(f);
 
         assertNotNull(fr, "Not null, result");
@@ -187,8 +189,10 @@ public class Rotation3Test {
         assertInvariants(fr);
         assertInvariants(fr, r);
 
-        assertTrue(Math.abs(f) < Double.MIN_NORMAL
-                        || ImmutableVector3Test.closeTo(r.getAxis(), TOLERANCE).matches(fr.getAxis()), "The scaled rotation has same axis as this, unless the scaling factor is zero");
+        assertTrue(
+                Math.abs(f) < Double.MIN_NORMAL
+                        || ImmutableVector3Test.closeTo(r.getAxis(), TOLERANCE).matches(fr.getAxis()),
+                "The scaled rotation has same axis as this, unless the scaling factor is zero");
         assertThat("The scaled rotation has its angle nominally scaled by the scaling factor.",
                 Double.valueOf(normalizedAngle(fr.getAngle())), closeTo(normalizedAngle(r.getAngle() * f), TOLERANCE));
 

@@ -39,34 +39,34 @@ public class ImmutableVector3Test {
         private final double tolerance;
         private final ImmutableVector3 value;
 
-        private IsCloseTo(ImmutableVector3 value, double tolerance) {
+        private IsCloseTo(final ImmutableVector3 value, final double tolerance) {
             this.tolerance = tolerance;
             this.value = value;
         }
 
         @Override
-        public void describeMismatchSafely(ImmutableVector3 item, Description mismatchDescription) {
+        public void describeMismatchSafely(final ImmutableVector3 item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item).appendText(" differed by ")
                     .appendValue(Double.valueOf(distance(item)));
         }
 
         @Override
-        public void describeTo(Description description) {
+        public void describeTo(final Description description) {
             description.appendText("a vector within ").appendValue(Double.valueOf(tolerance)).appendText(" of ")
                     .appendValue(value);
         }
 
-        private final double distance(ImmutableVector3 item) {
+        private final double distance(final ImmutableVector3 item) {
             return item.minus(value).magnitude();
         }
 
         @Override
-        public boolean matchesSafely(ImmutableVector3 item) {
+        public boolean matchesSafely(final ImmutableVector3 item) {
             return item != null && distance(item) <= tolerance;
         }
     }// class
 
-    public static void assertInvariants(ImmutableVector3 x) {
+    public static void assertInvariants(final ImmutableVector3 x) {
         VectorTest.assertInvariants(x);// inherited
 
         assertEquals(1, x.getColumns(), "columns");
@@ -74,7 +74,7 @@ public class ImmutableVector3Test {
         assertTrue(0 < dimensions, "The number of dimensions <" + dimensions + "> is positive");
     }
 
-    public static void assertInvariants(ImmutableVector3 x1, ImmutableVector3 x2) {
+    public static void assertInvariants(final ImmutableVector3 x1, final ImmutableVector3 x2) {
         VectorTest.assertInvariants(x1, x2);// inherited
 
         if (x1.equals(x2)) {
@@ -86,15 +86,16 @@ public class ImmutableVector3Test {
         }
     }
 
-    public static Matcher<Vector> closeTo(ImmutableVector3 operand, double tolerance) {
+    public static Matcher<Vector> closeTo(final ImmutableVector3 operand, final double tolerance) {
         return VectorTest.closeToVector(operand, tolerance);
     }
 
-    public static Matcher<ImmutableVector3> closeToImmutableVector3(ImmutableVector3 operand, double tolerance) {
+    public static Matcher<ImmutableVector3> closeToImmutableVector3(final ImmutableVector3 operand,
+            final double tolerance) {
         return new IsCloseTo(operand, tolerance);
     }
 
-    private static ImmutableVector3 create(double x, double y, double z) {
+    private static ImmutableVector3 create(final double x, final double y, final double z) {
         final ImmutableVector3 v = ImmutableVector3.create(x, y, z);
 
         assertNotNull(v, "Not null, result");
@@ -107,7 +108,7 @@ public class ImmutableVector3Test {
         return v;
     }
 
-    private static void create_2equals(double x, double y, double z) {
+    private static void create_2equals(final double x, final double y, final double z) {
         final ImmutableVector3 v1 = ImmutableVector3.create(x, y, z);
         final ImmutableVector3 v2 = ImmutableVector3.create(x, y, z);
 
@@ -115,7 +116,7 @@ public class ImmutableVector3Test {
         assertEquals(v1, v2, "Equivalent");
     }
 
-    private static ImmutableVector3 mean(ImmutableVector3 x, ImmutableVector3 that) {
+    private static ImmutableVector3 mean(final ImmutableVector3 x, final ImmutableVector3 that) {
         final ImmutableVector3 mean = (ImmutableVector3) VectorTest.mean(x, that);// inherited
 
         assertInvariants(mean);
@@ -125,7 +126,7 @@ public class ImmutableVector3Test {
         return mean;
     }
 
-    public static ImmutableVector3 mean(ImmutableVector3 x, Vector that) {
+    public static ImmutableVector3 mean(final ImmutableVector3 x, final Vector that) {
         final ImmutableVector3 mean = (ImmutableVector3) VectorTest.mean(x, that);// inherited
 
         assertInvariants(mean);
@@ -134,7 +135,7 @@ public class ImmutableVector3Test {
         return mean;
     }
 
-    public static final ImmutableVector3 minus(ImmutableVector3 x) {
+    public static final ImmutableVector3 minus(final ImmutableVector3 x) {
         final ImmutableVector3 minus = (ImmutableVector3) VectorTest.minus(x);// inherited
 
         assertInvariants(minus);
@@ -143,7 +144,7 @@ public class ImmutableVector3Test {
         return minus;
     }
 
-    private static final ImmutableVector3 minus(ImmutableVector3 x, ImmutableVector3 that) {
+    private static final ImmutableVector3 minus(final ImmutableVector3 x, final ImmutableVector3 that) {
         final ImmutableVector3 diff = (ImmutableVector3) VectorTest.minus(x, that);// inherited
 
         assertInvariants(diff);
@@ -152,7 +153,7 @@ public class ImmutableVector3Test {
         return diff;
     }
 
-    public static final ImmutableVector3 minus(ImmutableVector3 x, Vector that) {
+    public static final ImmutableVector3 minus(final ImmutableVector3 x, final Vector that) {
         final ImmutableVector3 diff = (ImmutableVector3) VectorTest.minus(x, that);// inherited
 
         assertInvariants(diff);
@@ -161,7 +162,7 @@ public class ImmutableVector3Test {
         return diff;
     }
 
-    private static final ImmutableVector3 plus(ImmutableVector3 x, ImmutableVector3 that) {
+    private static final ImmutableVector3 plus(final ImmutableVector3 x, final ImmutableVector3 that) {
         final ImmutableVector3 sum = (ImmutableVector3) VectorTest.plus(x, that);// inherited
 
         assertInvariants(sum);
@@ -171,7 +172,7 @@ public class ImmutableVector3Test {
         return sum;
     }
 
-    public static final ImmutableVector3 plus(ImmutableVector3 x, Vector that) {
+    public static final ImmutableVector3 plus(final ImmutableVector3 x, final Vector that) {
         final ImmutableVector3 diff = (ImmutableVector3) VectorTest.plus(x, that);// inherited
 
         assertInvariants(diff);
@@ -180,7 +181,7 @@ public class ImmutableVector3Test {
         return diff;
     }
 
-    public static ImmutableVector3 scale(ImmutableVector3 x, double f) {
+    public static ImmutableVector3 scale(final ImmutableVector3 x, final double f) {
         final ImmutableVector3 scaled = (ImmutableVector3) VectorTest.scale(x, f);// inherited
 
         assertInvariants(scaled);
@@ -189,12 +190,12 @@ public class ImmutableVector3Test {
         return scaled;
     }
 
-    private static ImmutableVector3 sum(ImmutableVector3... x) {
+    private static ImmutableVector3 sum(final ImmutableVector3... x) {
         final ImmutableVector3 sum = ImmutableVector3.sum(x);
 
         assertNotNull(sum, "Always returns a sum vector.");// guard
         assertInvariants(sum);
-        for (ImmutableVector3 xi : x) {
+        for (final ImmutableVector3 xi : x) {
             assertInvariants(sum, xi);
         }
 
@@ -204,7 +205,7 @@ public class ImmutableVector3Test {
         return sum;
     }
 
-    private static final void sum_multiple1(double x, double y, double z) {
+    private static final void sum_multiple1(final double x, final double y, final double z) {
         final ImmutableVector3 sum = sum(new ImmutableVector3[] { ImmutableVector3.create(x, y, z) });
 
         assertEquals(x, sum.get(0), Double.MIN_NORMAL, "sum x");
@@ -212,40 +213,40 @@ public class ImmutableVector3Test {
         assertEquals(z, sum.get(2), Double.MIN_NORMAL, "sum z");
     }
 
-    private static final void sum_multipleX2(double x1, double x2) {
+    private static final void sum_multipleX2(final double x1, final double x2) {
         final ImmutableVector3 sum = sum(
                 new ImmutableVector3[] { ImmutableVector3.create(x1, 0, 0), ImmutableVector3.create(x2, 0, 0) });
 
         assertEquals(x1 + x2, sum.get(0), Double.MIN_NORMAL, "sum x");
     }
 
-    private static final void sum_multipleY2(double y1, double y2) {
+    private static final void sum_multipleY2(final double y1, final double y2) {
         final ImmutableVector3 sum = sum(
                 new ImmutableVector3[] { ImmutableVector3.create(0, y1, 0), ImmutableVector3.create(0, y2, 0) });
 
         assertEquals(y1 + y2, sum.get(1), Double.MIN_NORMAL, "sum y");
     }
 
-    private static final void sum_multipleZ2(double z1, double z2) {
+    private static final void sum_multipleZ2(final double z1, final double z2) {
         final ImmutableVector3 sum = sum(
                 new ImmutableVector3[] { ImmutableVector3.create(0, 0, z1), ImmutableVector3.create(0, 0, z2) });
 
         assertEquals(z1 + z2, sum.get(2), Double.MIN_NORMAL, "sum z");
     }
 
-    private static ImmutableVector3 weightedSum(double[] weight, ImmutableVector3[] x) {
+    private static ImmutableVector3 weightedSum(final double[] weight, final ImmutableVector3[] x) {
         final ImmutableVector3 sum = ImmutableVector3.weightedSum(weight, x);
 
         assertNotNull(sum, "Always returns a sum vector.");// guard
         assertInvariants(sum);
-        for (ImmutableVector3 xi : x) {
+        for (final ImmutableVector3 xi : x) {
             assertInvariants(sum, xi);
         }
 
         return sum;
     }
 
-    private static final void weightedSum_1(double weight, double x, double y, double z) {
+    private static final void weightedSum_1(final double weight, final double x, final double y, final double z) {
         final ImmutableVector3 sum = weightedSum(new double[] { weight },
                 new ImmutableVector3[] { ImmutableVector3.create(x, y, z) });
 

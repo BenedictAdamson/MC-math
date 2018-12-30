@@ -55,14 +55,14 @@ public final class Rotation3Quaternion implements Rotation3 {
      * <li>For the special case of a {@linkplain Quaternion#ZERO zero} (or near
      * zero) quaternion, the method gives the {@linkplain #ZERO zero} rotation.</li>
      * </ul>
-     * 
+     *
      * @param quaternion
      *            The quaternion of the rotation.
      * @return the rotation
      * @throws NullPointerException
      *             If {@code quaternion} is null.
      */
-    public static Rotation3Quaternion valueOf(Quaternion quaternion) {
+    public static Rotation3Quaternion valueOf(final Quaternion quaternion) {
         Objects.requireNonNull(quaternion, "quaternion");
         final double norm = quaternion.norm();
         if (norm == 1.0) {
@@ -85,7 +85,7 @@ public final class Rotation3Quaternion implements Rotation3 {
      * <li>The {@linkplain #getAxis()) rotation axis} of the created rotation points
      * in the same direction as the given axis.</li>
      * </ul>
-     * 
+     *
      * @param axis
      *            The angle of rotation of the rotation, in radians.
      * @param angle
@@ -99,13 +99,13 @@ public final class Rotation3Quaternion implements Rotation3 {
      *             If {@code axis} as zero {@linkplain ImmutableVector3#magnitude()
      *             magnitude} but the rotation amount is not zero.
      */
-    public static Rotation3Quaternion valueOfAxisAngle(ImmutableVector3 axis, double angle) {
+    public static Rotation3Quaternion valueOfAxisAngle(final ImmutableVector3 axis, final double angle) {
         Objects.requireNonNull(axis, "axis");
         final double halfAngle = angle * 0.5;
         final double c = Math.cos(halfAngle);
         final double s = Math.sin(halfAngle);
         final double magnitude = axis.magnitude();
-        final boolean smallAngle = Math.abs(s) < Double.MIN_NORMAL && (1.0 - c) < Double.MIN_NORMAL;
+        final boolean smallAngle = Math.abs(s) < Double.MIN_NORMAL && 1.0 - c < Double.MIN_NORMAL;
         if (!smallAngle) {
             if (magnitude < Double.MIN_NORMAL) {
                 throw new IllegalArgumentException("Zero axis " + axis);
@@ -120,12 +120,12 @@ public final class Rotation3Quaternion implements Rotation3 {
 
     private final Quaternion versor;
 
-    private Rotation3Quaternion(Quaternion versor) {
+    private Rotation3Quaternion(final Quaternion versor) {
         this.versor = versor;
     }
 
     @Override
-    public final ImmutableVector3 apply(ImmutableVector3 v) {
+    public final ImmutableVector3 apply(final ImmutableVector3 v) {
         Objects.requireNonNull(v, "v");
         final Quaternion conj = versor.conjugation(Quaternion.create(0, v.get(0), v.get(1), v.get(2)));
         return ImmutableVector3.create(conj.getB(), conj.getC(), conj.getD());
@@ -138,7 +138,7 @@ public final class Rotation3Quaternion implements Rotation3 {
      * <ul>
      * <li>The angle is in the range -2&pi; to 2&pi;</li>
      * </ul>
-     * 
+     *
      * @return the angle
      */
     @Override
@@ -170,19 +170,19 @@ public final class Rotation3Quaternion implements Rotation3 {
     }
 
     @Override
-    public final Rotation3 minus(Rotation3 that) {
+    public final Rotation3 minus(final Rotation3 that) {
         Objects.requireNonNull(that, "that");
         return new Rotation3Quaternion(that.getVersor().conjugate().product(versor));
     }
 
     @Override
-    public final Rotation3Quaternion plus(Rotation3 that) {
+    public final Rotation3Quaternion plus(final Rotation3 that) {
         Objects.requireNonNull(that, "that");
         return new Rotation3Quaternion(versor.product(that.getVersor()));
     }
 
     @Override
-    public final Rotation3Quaternion scale(double f) {
+    public final Rotation3Quaternion scale(final double f) {
         return new Rotation3Quaternion(versor.pow(f));
     }
 

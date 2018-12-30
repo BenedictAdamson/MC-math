@@ -54,14 +54,14 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * <li>For the special case of a {@linkplain Quaternion#ZERO zero} (or near
      * zero) quaternion, the method gives the {@linkplain #ZERO zero} rotation.</li>
      * </ul>
-     * 
+     *
      * @param quaternion
      *            The quaternion of the rotation.
      * @return the rotation
      * @throws NullPointerException
      *             If {@code quaternion} is null.
      */
-    public static Rotation3AxisAngle valueOf(Quaternion quaternion) {
+    public static Rotation3AxisAngle valueOf(final Quaternion quaternion) {
         Objects.requireNonNull(quaternion, "quaternion");
         final Quaternion versor = quaternion.versor();
         final double c = versor.getA();
@@ -84,7 +84,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * <li>The {@linkplain #getAxis()) rotation axis} of the created rotation points
      * in the same direction as the given axis.</li>
      * </ul>
-     * 
+     *
      * @param axis
      *            The angle of rotation of the rotation, in radians.
      * @param angle
@@ -98,7 +98,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
      *             If {@code axis} as zero {@linkplain ImmutableVector3#magnitude()
      *             magnitude} but the rotation amount is not zero.
      */
-    public static Rotation3AxisAngle valueOfAxisAngle(ImmutableVector3 axis, double angle) {
+    public static Rotation3AxisAngle valueOfAxisAngle(final ImmutableVector3 axis, final double angle) {
         Objects.requireNonNull(axis, "axis");
         final ImmutableVector3 normalizedAxis = Double.MIN_NORMAL < Math.abs(angle) ? axis.scale(1.0 / axis.magnitude())
                 : ImmutableVector3.ZERO;// FIXME handle 2pi multiples
@@ -109,13 +109,13 @@ public final class Rotation3AxisAngle implements Rotation3 {
 
     private final double angle;
 
-    private Rotation3AxisAngle(ImmutableVector3 axis, double angle) {
+    private Rotation3AxisAngle(final ImmutableVector3 axis, final double angle) {
         this.axis = axis;
         this.angle = angle;
     }
 
     @Override
-    public final ImmutableVector3 apply(ImmutableVector3 v) {
+    public final ImmutableVector3 apply(final ImmutableVector3 v) {
         return asRotation3Quaternion().apply(v);
     }
 
@@ -131,7 +131,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * <li>This representation can representation by multiple turns, so the angle is
      * not constrained to the range -2&pi; to 2&pi;</li>
      * </ul>
-     * 
+     *
      * @return the angle
      */
     @Override
@@ -159,7 +159,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * <li>The opposite rotation has the same {@linkplain #getAxis() axis} but the
      * negative of the {@linkplain #getAngle() angle} of this rotation.</li>
      * </ul>
-     * 
+     *
      * @param that
      *            The other rotation
      * @return the opposite rotation.
@@ -170,19 +170,19 @@ public final class Rotation3AxisAngle implements Rotation3 {
     }
 
     @Override
-    public final Rotation3 minus(Rotation3 that) {
+    public final Rotation3 minus(final Rotation3 that) {
         Objects.requireNonNull(that, "that");
         return asRotation3Quaternion().minus(that);
     }
 
     @Override
-    public final Rotation3 plus(Rotation3 that) {
+    public final Rotation3 plus(final Rotation3 that) {
         Objects.requireNonNull(that, "that");
         return asRotation3Quaternion().plus(that);
     }
 
     @Override
-    public Rotation3AxisAngle scale(double f) {
+    public Rotation3AxisAngle scale(final double f) {
         return new Rotation3AxisAngle(axis, angle * f);
     }
 

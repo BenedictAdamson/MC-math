@@ -29,12 +29,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class MatrixTest {
 
-    public static void assertInvariants(Matrix matrix) {
+    public static void assertInvariants(final Matrix matrix) {
         assertTrue(0 < matrix.getRows(), "rows is positive");
         assertTrue(0 < matrix.getColumns(), "columns is positive");
     }
 
-    public static void assertInvariants(Matrix matrix1, Matrix matrix2) {
+    public static void assertInvariants(final Matrix matrix1, final Matrix matrix2) {
         if (matrix1.equals(matrix2)) {
             final int rows1 = matrix1.getRows();
             final int columns1 = matrix1.getColumns();
@@ -42,14 +42,14 @@ public class MatrixTest {
             assertEquals(columns1, matrix2.getColumns(), "Equality requires equal columns");// guard
             for (int i = 0; i < rows1; i++) {
                 for (int j = 0; j < columns1; j++) {
-                    assertEquals(matrix1.get(i, j),
-                            matrix2.get(i, j), Double.MIN_NORMAL, "Equality requires equal components [" + i + "," + j + "]");
+                    assertEquals(matrix1.get(i, j), matrix2.get(i, j), Double.MIN_NORMAL,
+                            "Equality requires equal components [" + i + "," + j + "]");
                 }
             }
         }
     }
 
-    public static final Vector multiply(Matrix a, Vector x) {
+    public static final Vector multiply(final Matrix a, final Vector x) {
         final Vector ax = a.multiply(x);
 
         assertNotNull(ax, "Not null, result");// guard
@@ -57,8 +57,8 @@ public class MatrixTest {
         assertInvariants(a, ax);
         VectorTest.assertInvariants(x, ax);
 
-        assertEquals(a.getRows(),
-                ax.getRows(), "The number of rows of the product is equal to the number of rows of this matrix.");
+        assertEquals(a.getRows(), ax.getRows(),
+                "The number of rows of the product is equal to the number of rows of this matrix.");
 
         return ax;
     }
