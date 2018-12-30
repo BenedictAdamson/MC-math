@@ -18,6 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -64,5 +65,5 @@ public interface FunctionNWithGradient {
      *             {@code x} does not equal the {@linkplain #getDimension()
      *             dimension} of this functor.
      */
-    public FunctionNWithGradientValue value(ImmutableVectorN x);
+    public @NonNull FunctionNWithGradientValue value(@NonNull ImmutableVectorN x);
 }

@@ -21,6 +21,7 @@ package uk.badamson.mc.math;
 import java.util.Arrays;
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -60,7 +61,7 @@ public class ImmutableMatrixN implements Matrix {
      *             {@code rows} multiplied by {@code columns}.</li>
      *             </ul>
      */
-    public static ImmutableMatrixN create(final int rows, final int columns, final double[] elements) {
+    public static ImmutableMatrixN create(final int rows, final int columns, @NonNull final double[] elements) {
         Objects.requireNonNull(elements, "elements");
         if (rows < 1) {
             throw new IllegalArgumentException("rows " + rows);
@@ -83,7 +84,7 @@ public class ImmutableMatrixN implements Matrix {
     private final int columns;
     protected final double[] elements;
 
-    ImmutableMatrixN(final int rows, final int columns, final double[] elements) {
+    ImmutableMatrixN(final int rows, final int columns, @NonNull final double[] elements) {
         this.rows = rows;
         this.columns = columns;
         this.elements = elements;
@@ -135,7 +136,7 @@ public class ImmutableMatrixN implements Matrix {
     }
 
     @Override
-    public final ImmutableVectorN multiply(final Vector x) {
+    public final @NonNull ImmutableVectorN multiply(@NonNull final Vector x) {
         Objects.requireNonNull(x, "x");
         final int columns = getColumns();
         if (columns != x.getRows()) {

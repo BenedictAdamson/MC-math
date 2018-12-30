@@ -18,6 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * <p>
  * A column vector.
@@ -40,7 +42,7 @@ public interface Vector extends Matrix {
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
      */
-    public double dot(Vector that);
+    public double dot(@NonNull Vector that);
 
     /**
      * <p>
@@ -133,7 +135,7 @@ public interface Vector extends Matrix {
      *             If the {@linkplain ImmutableVector3#getDimension() dimension} of
      *             }@code that} is not equal to the dimension of this vector.
      */
-    public Vector mean(Vector that);
+    public @NonNull Vector mean(@NonNull Vector that);
 
     /**
      * <p>
@@ -149,7 +151,7 @@ public interface Vector extends Matrix {
      *
      * @return the opposite vector.
      */
-    public Vector minus();
+    public @NonNull Vector minus();
 
     /**
      * <p>
@@ -174,7 +176,7 @@ public interface Vector extends Matrix {
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
      */
-    public Vector minus(Vector that);
+    public @NonNull Vector minus(@NonNull Vector that);
 
     /**
      * <p>
@@ -200,7 +202,7 @@ public interface Vector extends Matrix {
      *             not equal to the dimension of this.
      * @see #sum(ImmutableVector3...)
      */
-    public Vector plus(Vector that);
+    public @NonNull Vector plus(@NonNull Vector that);
 
     /**
      * <p>
@@ -217,6 +219,6 @@ public interface Vector extends Matrix {
      *            the scalar
      * @return the scaled vector
      */
-    public Vector scale(double f);
+    public @NonNull Vector scale(double f);
 
 }

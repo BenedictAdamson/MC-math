@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -94,7 +95,7 @@ public final class ImmutableVector1 implements Vector {
      *             {@linkplain #getDimension() dimension}.
      * @see #plus(ImmutableVector1)
      */
-    public static ImmutableVector1 sum(final ImmutableVector1... x) {
+    public static @NonNull ImmutableVector1 sum(@NonNull final ImmutableVector1... x) {
         Objects.requireNonNull(x, "x");
         final int n = x.length;
         if (n == 0) {
@@ -135,7 +136,7 @@ public final class ImmutableVector1 implements Vector {
      *             <li>If {@code weight} and {@code x} have different lengths.</li>
      *             </ul>
      */
-    public static ImmutableVector1 weightedSum(final double[] weight, final ImmutableVector1[] x) {
+    public static ImmutableVector1 weightedSum(@NonNull final double[] weight, @NonNull final ImmutableVector1[] x) {
         Objects.requireNonNull(weight, "weight");
         Objects.requireNonNull(x, "x");
         final int n = weight.length;
@@ -179,14 +180,14 @@ public final class ImmutableVector1 implements Vector {
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
      */
-    public double dot(final ImmutableVector1 that) {
+    public double dot(@NonNull final ImmutableVector1 that) {
         Objects.requireNonNull(that, "that");
 
         return x * that.x;
     }
 
     @Override
-    public double dot(final Vector that) {
+    public double dot(@NonNull final Vector that) {
         if (that instanceof ImmutableVector1) {
             return dot((ImmutableVector1) that);
         } else {
@@ -293,13 +294,13 @@ public final class ImmutableVector1 implements Vector {
      *             If the {@linkplain ImmutableVector1#getDimension() dimension} of
      *             }@code that} is not equal to the dimension of this vector.
      */
-    public final ImmutableVector1 mean(final ImmutableVector1 that) {
+    public final @NonNull ImmutableVector1 mean(@NonNull final ImmutableVector1 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector1(0.5 * (x + that.x));
     }
 
     @Override
-    public final ImmutableVector1 mean(final Vector that) {
+    public final @NonNull ImmutableVector1 mean(@NonNull final Vector that) {
         if (that instanceof ImmutableVector1) {
             return mean((ImmutableVector1) that);
         } else {
@@ -310,7 +311,7 @@ public final class ImmutableVector1 implements Vector {
     }
 
     @Override
-    public final ImmutableVector1 minus() {
+    public final @NonNull ImmutableVector1 minus() {
         return new ImmutableVector1(-x);
     }
 
@@ -337,13 +338,13 @@ public final class ImmutableVector1 implements Vector {
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
      */
-    public final ImmutableVector1 minus(final ImmutableVector1 that) {
+    public final @NonNull ImmutableVector1 minus(@NonNull final ImmutableVector1 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector1(x - that.x);
     }
 
     @Override
-    public final ImmutableVector1 minus(final Vector that) {
+    public final @NonNull ImmutableVector1 minus(@NonNull final Vector that) {
         if (that instanceof ImmutableVector1) {
             return minus((ImmutableVector1) that);
         } else {
@@ -363,9 +364,9 @@ public final class ImmutableVector1 implements Vector {
      *             be used to matrix-multiply a vector.
      */
     @Override
-    public final Vector multiply(final Vector x) {
+    public final Vector multiply(@NonNull final Vector x) {
         Objects.requireNonNull(x, "x");
-        throw new IllegalArgumentException("Can not use a 1 dimensional vector to matrix-multipley a vector");
+        throw new IllegalArgumentException("Can not use a 1 dimensional vector to matrix-multiply a vector");
     }
 
     /**
@@ -392,13 +393,13 @@ public final class ImmutableVector1 implements Vector {
      *             not equal to the dimension of this.
      * @see #sum(ImmutableVector1...)
      */
-    public final ImmutableVector1 plus(final ImmutableVector1 that) {
+    public final @NonNull ImmutableVector1 plus(@NonNull final ImmutableVector1 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector1(x + that.x);
     }
 
     @Override
-    public final ImmutableVector1 plus(final Vector that) {
+    public final @NonNull ImmutableVector1 plus(@NonNull final Vector that) {
         if (that instanceof ImmutableVector1) {
             return plus((ImmutableVector1) that);
         } else {

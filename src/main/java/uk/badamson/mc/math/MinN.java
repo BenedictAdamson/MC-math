@@ -20,6 +20,8 @@ package uk.badamson.mc.math;
 
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * <p>
  * Functions and auxiliary classes for minimization of a {@linkplain FunctionN
@@ -106,7 +108,8 @@ public final class MinN {
      *             {@code f}.</li></li>
      *             </ul>
      */
-    static Function1 createLineFunction(final FunctionN f, final double[] x0, final double[] dx) {
+    static @NonNull Function1 createLineFunction(@NonNull final FunctionN f, @NonNull final double[] x0,
+            @NonNull final double[] dx) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x0");
         Objects.requireNonNull(dx, "dx");
@@ -172,8 +175,8 @@ public final class MinN {
      *             {@code f}.</li></li>
      *             </ul>
      */
-    public static Function1WithGradient createLineFunction(final FunctionNWithGradient f, final ImmutableVectorN x0,
-            final ImmutableVectorN dx) {
+    public static @NonNull Function1WithGradient createLineFunction(@NonNull final FunctionNWithGradient f,
+            @NonNull final ImmutableVectorN x0, @NonNull final ImmutableVectorN dx) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x0");
         Objects.requireNonNull(dx, "dx");
@@ -237,12 +240,12 @@ public final class MinN {
      * @throws NullPointerException
      *             <ul>
      *             <li>If {@code f} is null.</li>
-     *             <li>If {@code x} is null.</li>
+     *             <li>If {@code x0} is null.</li>
      *             </ul>
      * @throws IllegalArgumentException
      *             <ul>
      *             <li>If the {@linkplain ImmutableVectorN#getDimension() dimension}
-     *             of {code x} is different from the
+     *             of {code x0} is different from the
      *             {@linkplain FunctionN#getDimension() dimension} of
      *             {@code f}.</li></li>
      *             <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
@@ -251,14 +254,15 @@ public final class MinN {
      *             <ul>
      *             <li>If {@code f} does not have a minimum</li>
      *             <li>If {@code f} has a minimum, but it is impossible to find
-     *             using {@code x} because the function has an odd-powered high
+     *             using {@code x0} because the function has an odd-powered high
      *             order term that causes the iterative procedure to diverge.</li>
      *             </ul>
      */
-    public static FunctionNWithGradientValue findFletcherReevesPolakRibere(final FunctionNWithGradient f,
-            final ImmutableVectorN x0, final double tolerance) throws PoorlyConditionedFunctionException {
+    public static @NonNull FunctionNWithGradientValue findFletcherReevesPolakRibere(
+            @NonNull final FunctionNWithGradient f, @NonNull final ImmutableVectorN x0, final double tolerance)
+            throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
-        Objects.requireNonNull(x0, "x");
+        Objects.requireNonNull(x0, "x0");
         requireToleranceInRange(tolerance);
         final int n = f.getDimension();
         if (x0.getDimension() != n) {
@@ -357,7 +361,7 @@ public final class MinN {
      *             order term that causes the iterative procedure to diverge.</li>
      *             </ul>
      */
-    public static double findPowell(final FunctionN f, final double[] x, final double tolerance)
+    public static double findPowell(@NonNull final FunctionN f, @NonNull final double[] x, final double tolerance)
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x, "x");
@@ -450,7 +454,7 @@ public final class MinN {
      *             <li>The magnitude of {@code dx} is zero (or very small).</li>
      *             </ul>
      */
-    static double minimiseAlongLine(final FunctionN f, final double[] x, final double[] dx)
+    static double minimiseAlongLine(@NonNull final FunctionN f, @NonNull final double[] x, @NonNull final double[] dx)
             throws PoorlyConditionedFunctionException {
         final Function1 fLine = createLineFunction(f, x, dx);
         final Min1.Bracket bracket = Min1.findBracket(fLine, 0.0, 1.0);
@@ -506,8 +510,9 @@ public final class MinN {
      *             <li>The magnitude of {@code dx} is zero (or very small).</li>
      *             </ul>
      */
-    static FunctionNWithGradientValue minimiseAlongLine(final FunctionNWithGradient f, final ImmutableVectorN x,
-            final ImmutableVectorN dx) throws PoorlyConditionedFunctionException {
+    static @NonNull FunctionNWithGradientValue minimiseAlongLine(@NonNull final FunctionNWithGradient f,
+            @NonNull final ImmutableVectorN x, @NonNull final ImmutableVectorN dx)
+            throws PoorlyConditionedFunctionException {
         final Function1WithGradient fLine = createLineFunction(f, x, dx);
         final Function1 f1Line = new Function1() {
 

@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -104,8 +105,8 @@ public final class OrientationVectors3 {
      *             product.</li>
      *             </ul>
      */
-    public static OrientationVectors3 createFromOrthogonalUnitBasisVectors(final ImmutableVectorN e1,
-            final ImmutableVectorN e2, final ImmutableVectorN e3) {
+    public static OrientationVectors3 createFromOrthogonalUnitBasisVectors(@NonNull final ImmutableVectorN e1,
+            @NonNull final ImmutableVectorN e2, @NonNull final ImmutableVectorN e3) {
         requireUnit3Vector(e1, "e1");
         requireUnit3Vector(e2, "e2");
         requireUnit3Vector(e3, "e3");
@@ -162,7 +163,7 @@ public final class OrientationVectors3 {
      *
      * @return the e1 vector
      */
-    public final ImmutableVectorN getE1() {
+    public final @NonNull ImmutableVectorN getE1() {
         return e1;
     }
 
@@ -184,7 +185,7 @@ public final class OrientationVectors3 {
      *
      * @return the e2 vector
      */
-    public final ImmutableVectorN getE2() {
+    public final @NonNull ImmutableVectorN getE2() {
         return e2;
     }
 
@@ -203,7 +204,7 @@ public final class OrientationVectors3 {
      *
      * @return the e3 vector
      */
-    public final ImmutableVectorN getE3() {
+    public final @NonNull ImmutableVectorN getE3() {
         return e3;
     }
 

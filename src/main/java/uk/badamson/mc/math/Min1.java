@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -55,8 +56,11 @@ public final class Min1 {
      */
     @Immutable
     public static final class Bracket {
+        @NonNull
         private final Function1Value left;
+        @NonNull
         private final Function1Value inner;
+        @NonNull
         private final Function1Value right;
 
         /**
@@ -92,7 +96,8 @@ public final class Min1 {
          *             <li>If {@code right} point is not above {@code inner}.</li>
          *             </ul>
          */
-        public Bracket(final Function1Value left, final Function1Value inner, final Function1Value right) {
+        public Bracket(@NonNull final Function1Value left, @NonNull final Function1Value inner,
+                @NonNull final Function1Value right) {
             Objects.requireNonNull(left, "left");
             Objects.requireNonNull(inner, "inner");
             Objects.requireNonNull(right, "right");
@@ -155,7 +160,7 @@ public final class Min1 {
          *
          * @return the inner point.
          */
-        public final Function1Value getInner() {
+        public final @NonNull Function1Value getInner() {
             return inner;
         }
 
@@ -166,7 +171,7 @@ public final class Min1 {
          *
          * @return the leftmost point; not null.
          */
-        public final Function1Value getLeft() {
+        public final @NonNull Function1Value getLeft() {
             return left;
         }
 
@@ -200,7 +205,7 @@ public final class Min1 {
          *
          * @return the rightmost point
          */
-        public final Function1Value getRight() {
+        public final @NonNull Function1Value getRight() {
             return right;
         }
 
@@ -338,7 +343,7 @@ public final class Min1 {
      *             </ul>
      *
      */
-    public static Bracket findBracket(final Function1 f, final double x1, final double x2)
+    public static @NonNull Bracket findBracket(@NonNull final Function1 f, final double x1, final double x2)
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         if (x1 == x2) {
@@ -508,7 +513,8 @@ public final class Min1 {
      *             {@code f}.</li>
      *             </ul>
      */
-    public static Function1Value findBrent(final Function1 f, final Bracket bracket, final double tolerance) {
+    public static @NonNull Function1Value findBrent(@NonNull final Function1 f, @NonNull final Bracket bracket,
+            final double tolerance) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(bracket, "bracket");
         if (!(0.0 < tolerance && tolerance < 1.0)) {
@@ -638,8 +644,8 @@ public final class Min1 {
      *             {@code f}.</li>
      *             </ul>
      */
-    public static Function1WithGradientValue findBrent(final Function1WithGradient f, final Bracket bracket,
-            final double tolerance) {
+    public static @NonNull Function1WithGradientValue findBrent(@NonNull final Function1WithGradient f,
+            @NonNull final Bracket bracket, final double tolerance) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(bracket, "bracket");
         if (!(0.0 < tolerance && tolerance < 1.0)) {

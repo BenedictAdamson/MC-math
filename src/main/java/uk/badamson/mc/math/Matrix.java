@@ -18,6 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * <p>
  * A rectangular (2D) array of real numbers.
@@ -102,6 +104,6 @@ public interface Matrix {
      *             {@code x} is not equal to the {@linkplain #getColumns() number of
      *             columns} of this.
      */
-    public Vector multiply(Vector x);
+    public @NonNull Vector multiply(@NonNull Vector x);
 
 }

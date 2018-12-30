@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -62,7 +63,7 @@ public final class Rotation3Quaternion implements Rotation3 {
      * @throws NullPointerException
      *             If {@code quaternion} is null.
      */
-    public static Rotation3Quaternion valueOf(final Quaternion quaternion) {
+    public static @NonNull Rotation3Quaternion valueOf(@NonNull final Quaternion quaternion) {
         Objects.requireNonNull(quaternion, "quaternion");
         final double norm = quaternion.norm();
         if (norm == 1.0) {
@@ -99,7 +100,8 @@ public final class Rotation3Quaternion implements Rotation3 {
      *             If {@code axis} as zero {@linkplain ImmutableVector3#magnitude()
      *             magnitude} but the rotation amount is not zero.
      */
-    public static Rotation3Quaternion valueOfAxisAngle(final ImmutableVector3 axis, final double angle) {
+    public static @NonNull Rotation3Quaternion valueOfAxisAngle(@NonNull final ImmutableVector3 axis,
+            final double angle) {
         Objects.requireNonNull(axis, "axis");
         final double halfAngle = angle * 0.5;
         final double c = Math.cos(halfAngle);
@@ -125,7 +127,7 @@ public final class Rotation3Quaternion implements Rotation3 {
     }
 
     @Override
-    public final ImmutableVector3 apply(final ImmutableVector3 v) {
+    public final @NonNull ImmutableVector3 apply(@NonNull final ImmutableVector3 v) {
         Objects.requireNonNull(v, "v");
         final Quaternion conj = versor.conjugation(Quaternion.create(0, v.get(0), v.get(1), v.get(2)));
         return ImmutableVector3.create(conj.getB(), conj.getC(), conj.getD());
@@ -149,7 +151,7 @@ public final class Rotation3Quaternion implements Rotation3 {
     }
 
     @Override
-    public final ImmutableVector3 getAxis() {
+    public final @NonNull ImmutableVector3 getAxis() {
         final ImmutableVector3 su = ImmutableVector3.create(versor.getB(), versor.getC(), versor.getD());
         final double magnitude = su.magnitude();
         if (Double.MIN_NORMAL < magnitude) {
@@ -160,29 +162,29 @@ public final class Rotation3Quaternion implements Rotation3 {
     }
 
     @Override
-    public final Quaternion getVersor() {
+    public final @NonNull Quaternion getVersor() {
         return versor;
     }
 
     @Override
-    public final Rotation3Quaternion minus() {
+    public final @NonNull Rotation3Quaternion minus() {
         return new Rotation3Quaternion(versor.conjugate());
     }
 
     @Override
-    public final Rotation3 minus(final Rotation3 that) {
+    public final @NonNull Rotation3 minus(@NonNull final Rotation3 that) {
         Objects.requireNonNull(that, "that");
         return new Rotation3Quaternion(that.getVersor().conjugate().product(versor));
     }
 
     @Override
-    public final Rotation3Quaternion plus(final Rotation3 that) {
+    public final @NonNull Rotation3Quaternion plus(@NonNull final Rotation3 that) {
         Objects.requireNonNull(that, "that");
         return new Rotation3Quaternion(versor.product(that.getVersor()));
     }
 
     @Override
-    public final Rotation3Quaternion scale(final double f) {
+    public final @NonNull Rotation3Quaternion scale(final double f) {
         return new Rotation3Quaternion(versor.pow(f));
     }
 

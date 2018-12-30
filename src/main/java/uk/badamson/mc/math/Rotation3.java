@@ -18,6 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * <p>
  * A rotation in 3D space.
@@ -46,7 +48,7 @@ public interface Rotation3 {
      * @throws NullPointerException
      *             If {@code v} is null
      */
-    public ImmutableVector3 apply(ImmutableVector3 v);
+    public @NonNull ImmutableVector3 apply(@NonNull ImmutableVector3 v);
 
     /**
      * <p>
@@ -74,7 +76,7 @@ public interface Rotation3 {
      *
      * @return the axis
      */
-    public ImmutableVector3 getAxis();
+    public @NonNull ImmutableVector3 getAxis();
 
     /**
      * <p>
@@ -92,7 +94,7 @@ public interface Rotation3 {
      *
      * @return the versor.
      */
-    public Quaternion getVersor();
+    public @NonNull Quaternion getVersor();
 
     /**
      * <p>
@@ -111,7 +113,7 @@ public interface Rotation3 {
      *            The other rotation
      * @return the opposite rotation.
      */
-    public Rotation3 minus();
+    public @NonNull Rotation3 minus();
 
     /**
      * <p>
@@ -134,7 +136,7 @@ public interface Rotation3 {
      * @throws NullPointerException
      *             If {@code that} is null.
      */
-    public Rotation3 minus(Rotation3 that);
+    public @NonNull Rotation3 minus(@NonNull Rotation3 that);
 
     /**
      * <p>
@@ -159,7 +161,7 @@ public interface Rotation3 {
      * @throws NullPointerException
      *             If {@code that} is null.
      */
-    public Rotation3 plus(Rotation3 that);
+    public @NonNull Rotation3 plus(@NonNull Rotation3 that);
 
     /**
      * <p>
@@ -182,5 +184,5 @@ public interface Rotation3 {
      *            the scaling factor
      * @return the scaled rotation
      */
-    public Rotation3 scale(double f);
+    public @NonNull Rotation3 scale(double f);
 }

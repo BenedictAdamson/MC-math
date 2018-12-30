@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -58,7 +59,8 @@ public final class FunctionNWithGradientValue {
      *             If {@code x} and {@code dfdx} have different
      *             {@linkplain ImmutableVectorN#getDimension() dimensions}.
      */
-    public FunctionNWithGradientValue(final ImmutableVectorN x, final double f, final ImmutableVectorN dfdx) {
+    public FunctionNWithGradientValue(@NonNull final ImmutableVectorN x, final double f,
+            @NonNull final ImmutableVectorN dfdx) {
         Objects.requireNonNull(x, "x");
         Objects.requireNonNull(dfdx, "dfdx");
         if (x.getDimension() != dfdx.getDimension()) {
@@ -109,7 +111,7 @@ public final class FunctionNWithGradientValue {
      * vector}.</li>
      * </ul>
      */
-    public final ImmutableVectorN getDfDx() {
+    public final @NonNull ImmutableVectorN getDfDx() {
         return dfdx;
     }
 
@@ -131,7 +133,7 @@ public final class FunctionNWithGradientValue {
      * <li>Always have a (non null) domain vector.</li>
      * </ul>
      */
-    public final ImmutableVectorN getX() {
+    public final @NonNull ImmutableVectorN getX() {
         return x;
     }
 

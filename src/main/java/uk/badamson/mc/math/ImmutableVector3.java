@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import java.util.Objects;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -113,7 +114,7 @@ public final class ImmutableVector3 implements Vector {
      *             {@linkplain #getDimension() dimension}.
      * @see #plus(ImmutableVector3)
      */
-    public static ImmutableVector3 sum(final ImmutableVector3... x) {
+    public static @NonNull ImmutableVector3 sum(@NonNull final ImmutableVector3... x) {
         Objects.requireNonNull(x, "x");
         final int n = x.length;
         if (n == 0) {
@@ -158,7 +159,8 @@ public final class ImmutableVector3 implements Vector {
      *             <li>If {@code weight} and {@code x} have different lengths.</li>
      *             </ul>
      */
-    public static ImmutableVector3 weightedSum(final double[] weight, final ImmutableVector3[] x) {
+    public static @NonNull ImmutableVector3 weightedSum(@NonNull final double[] weight,
+            @NonNull final ImmutableVector3[] x) {
         Objects.requireNonNull(weight, "weight");
         Objects.requireNonNull(x, "x");
         final int n = weight.length;
@@ -212,14 +214,14 @@ public final class ImmutableVector3 implements Vector {
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
      */
-    public double dot(final ImmutableVector3 that) {
+    public double dot(@NonNull final ImmutableVector3 that) {
         Objects.requireNonNull(that, "that");
 
         return x * that.x + y * that.y + z * that.z;
     }
 
     @Override
-    public double dot(final Vector that) {
+    public double dot(@NonNull final Vector that) {
         if (that instanceof ImmutableVector3) {
             return dot((ImmutableVector3) that);
         } else {
@@ -364,13 +366,13 @@ public final class ImmutableVector3 implements Vector {
      *             If the {@linkplain ImmutableVector3#getDimension() dimension} of
      *             }@code that} is not equal to ehe dimension of this vector.
      */
-    public final ImmutableVector3 mean(final ImmutableVector3 that) {
+    public final @NonNull ImmutableVector3 mean(@NonNull final ImmutableVector3 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector3(0.5 * (x + that.x), 0.5 * (y + that.y), 0.5 * (z + that.z));
     }
 
     @Override
-    public final ImmutableVector3 mean(final Vector that) {
+    public final @NonNull ImmutableVector3 mean(@NonNull final Vector that) {
         if (that instanceof ImmutableVector3) {
             return mean((ImmutableVector3) that);
         } else {
@@ -381,7 +383,7 @@ public final class ImmutableVector3 implements Vector {
     }
 
     @Override
-    public final ImmutableVector3 minus() {
+    public final @NonNull ImmutableVector3 minus() {
         return new ImmutableVector3(-x, -y, -z);
     }
 
@@ -408,13 +410,13 @@ public final class ImmutableVector3 implements Vector {
      *             If the {@linkplain #getDimension() dimension} of {@code that} is
      *             not equal to the dimension of this.
      */
-    public final ImmutableVector3 minus(final ImmutableVector3 that) {
+    public final @NonNull ImmutableVector3 minus(@NonNull final ImmutableVector3 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector3(x - that.x, y - that.y, z - that.z);
     }
 
     @Override
-    public final ImmutableVector3 minus(final Vector that) {
+    public final @NonNull ImmutableVector3 minus(@NonNull final Vector that) {
         if (that instanceof ImmutableVector3) {
             return minus((ImmutableVector3) that);
         } else {
@@ -434,7 +436,7 @@ public final class ImmutableVector3 implements Vector {
      *             be used to matrix-multiply a vector.
      */
     @Override
-    public final Vector multiply(final Vector x) {
+    public final @NonNull Vector multiply(@NonNull final Vector x) {
         Objects.requireNonNull(x, "x");
         throw new IllegalArgumentException("Can not use a 3 dimensional vector to matrix-multipley a vector");
     }
@@ -463,13 +465,13 @@ public final class ImmutableVector3 implements Vector {
      *             not equal to the dimension of this.
      * @see #sum(ImmutableVector3...)
      */
-    public final ImmutableVector3 plus(final ImmutableVector3 that) {
+    public final @NonNull ImmutableVector3 plus(@NonNull final ImmutableVector3 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector3(x + that.x, y + that.y, z + that.z);
     }
 
     @Override
-    public final ImmutableVector3 plus(final Vector that) {
+    public final @NonNull ImmutableVector3 plus(@NonNull final Vector that) {
         if (that instanceof ImmutableVector3) {
             return plus((ImmutableVector3) that);
         } else {
@@ -480,7 +482,7 @@ public final class ImmutableVector3 implements Vector {
     }
 
     @Override
-    public final ImmutableVector3 scale(final double f) {
+    public final @NonNull ImmutableVector3 scale(final double f) {
         return new ImmutableVector3(x * f, y * f, z * f);
     }
 
