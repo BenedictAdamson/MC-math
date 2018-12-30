@@ -46,12 +46,14 @@ public class ImmutableVector3Test {
 
         @Override
         public void describeMismatchSafely(ImmutableVector3 item, Description mismatchDescription) {
-            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(distance(item));
+            mismatchDescription.appendValue(item).appendText(" differed by ")
+                    .appendValue(Double.valueOf(distance(item)));
         }
 
         @Override
         public void describeTo(Description description) {
-            description.appendText("a vector within ").appendValue(tolerance).appendText(" of ").appendValue(value);
+            description.appendText("a vector within ").appendValue(Double.valueOf(tolerance)).appendText(" of ")
+                    .appendValue(value);
         }
 
         private final double distance(ImmutableVector3 item) {
@@ -100,7 +102,7 @@ public class ImmutableVector3Test {
 
         assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(v.get(0)), "x");
         assertEquals(Double.doubleToLongBits(y), Double.doubleToLongBits(v.get(1)), "y");
-        assertEquals(Double.doubleToLongBits(z), Double.doubleToLongBits(v.get(2)),"z");
+        assertEquals(Double.doubleToLongBits(z), Double.doubleToLongBits(v.get(2)), "z");
 
         return v;
     }
@@ -196,8 +198,8 @@ public class ImmutableVector3Test {
             assertInvariants(sum, xi);
         }
 
-        assertEquals(x[0].getDimension(),
-                sum.getDimension(), "The dimension of the sum equals the dimension of the summed vectors.");
+        assertEquals(x[0].getDimension(), sum.getDimension(),
+                "The dimension of the sum equals the dimension of the summed vectors.");
 
         return sum;
     }
@@ -274,10 +276,10 @@ public class ImmutableVector3Test {
 
         final double magnitude2 = x.magnitude2();
         final double magnitude = x.magnitude();
-        assertEquals(Double.doubleToLongBits(magnitude2),
-                Double.doubleToLongBits(Double.POSITIVE_INFINITY), "magnitude^2 <" + magnitude2 + "> (bits)");
-        assertEquals(Double.doubleToLongBits(magnitude),
-                Double.doubleToLongBits(Double.POSITIVE_INFINITY), "magnitude <" + magnitude + "> (bits)");
+        assertEquals(Double.doubleToLongBits(magnitude2), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
+                "magnitude^2 <" + magnitude2 + "> (bits)");
+        assertEquals(Double.doubleToLongBits(magnitude), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
+                "magnitude <" + magnitude + "> (bits)");
     }
 
     @Test

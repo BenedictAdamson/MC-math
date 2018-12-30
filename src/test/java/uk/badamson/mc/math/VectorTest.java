@@ -44,12 +44,12 @@ public class VectorTest {
 
         @Override
         public void describeMismatchSafely(Vector item, Description mismatchDescription) {
-            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(distance(item));
+            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(Double.valueOf(distance(item)));
         }
 
         @Override
         public void describeTo(Description description) {
-            description.appendText("a vector within ").appendValue(tolerance).appendText(" of ").appendValue(value);
+            description.appendText("a vector within ").appendValue(Double.valueOf(tolerance)).appendText(" of ").appendValue(value);
         }
 
         private final double distance(Vector item) {

@@ -162,7 +162,7 @@ public class Rotation3AxisAngleTest {
         final Rotation3 sum = plus(r1, r2);
 
         assertThat("axis", sum.getAxis(), closeToImmutableVector3(axis, TOLERANCE));
-        assertThat("normalized angle", normalizedAngle(sum.getAngle()),
+        assertThat("normalized angle", Double.valueOf(normalizedAngle(sum.getAngle())),
                 closeTo(normalizedAngle(angle1 + angle2), TOLERANCE));
     }
 
@@ -204,7 +204,7 @@ public class Rotation3AxisAngleTest {
         assertInvariants(rotation);
         assertEquals(angle, rotation.getAngle(), TOLERANCE, "angle.");
         assertThat("The rotation axis of the created rotation points in the same direction as the given axis.",
-                axisMagnitude, closeTo(axis.dot(rotation.getAxis()), axisMagnitude * TOLERANCE));
+                Double.valueOf(axisMagnitude), closeTo(axis.dot(rotation.getAxis()), axisMagnitude * TOLERANCE));
 
         return rotation;
     }

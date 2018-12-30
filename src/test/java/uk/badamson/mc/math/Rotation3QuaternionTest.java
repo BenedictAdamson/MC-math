@@ -88,8 +88,8 @@ public class Rotation3QuaternionTest {
         Rotation3Test.assertInvariants(rotation);// inherited
 
         final double angle = rotation.getAngle();
-        assertThat("The angle is in the range -2pi to 2pi", angle,
-                allOf(greaterThanOrEqualTo(-2.0 * Math.PI), lessThanOrEqualTo(2.0 * Math.PI)));
+        assertThat("The angle is in the range -2pi to 2pi", Double.valueOf(angle),
+                allOf(greaterThanOrEqualTo(Double.valueOf(-2.0 * Math.PI)), lessThanOrEqualTo(Double.valueOf(2.0 * Math.PI))));
     }
 
     public static void assertInvariants(Rotation3Quaternion r1, Rotation3Quaternion r2) {
@@ -167,7 +167,7 @@ public class Rotation3QuaternionTest {
         final Rotation3 sum = plus(r1, r2);
 
         assertThat("axis", sum.getAxis(), closeToImmutableVector3(axis, TOLERANCE));
-        assertThat("normalized angle", Rotation3Test.normalizedAngle(sum.getAngle()),
+        assertThat("normalized angle", Double.valueOf(Rotation3Test.normalizedAngle(sum.getAngle())),
                 closeTo(Rotation3Test.normalizedAngle(angle1 + angle2), TOLERANCE));
     }
 
@@ -207,10 +207,10 @@ public class Rotation3QuaternionTest {
 
         assertNotNull(rotation, "Always creates a rotation");// guard
         assertInvariants(rotation);
-        assertThat("rotation cosine.", Math.cos(angle), closeTo(Math.cos(rotation.getAngle()), TOLERANCE));
-        assertThat("rotation sine.", sinAngle, closeTo(Math.sin(rotation.getAngle()), TOLERANCE));
+        assertThat("rotation cosine.", Double.valueOf(Math.cos(angle)), closeTo(Math.cos(rotation.getAngle()), TOLERANCE));
+        assertThat("rotation sine.", Double.valueOf(sinAngle), closeTo(Math.sin(rotation.getAngle()), TOLERANCE));
         assertThat("The rotation axis of the created rotation points in the same direction as the given axis.",
-                axisMagnitude, closeTo(axis.dot(rotation.getAxis()), axisMagnitude * TOLERANCE));
+                Double.valueOf(axisMagnitude), closeTo(axis.dot(rotation.getAxis()), axisMagnitude * TOLERANCE));
 
         return rotation;
     }

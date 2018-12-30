@@ -48,12 +48,12 @@ public class Rotation3Test {
 
         @Override
         public void describeMismatchSafely(Rotation3 item, Description mismatchDescription) {
-            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(distance(item));
+            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(Double.valueOf(distance(item)));
         }
 
         @Override
         public void describeTo(Description description) {
-            description.appendText("a rotation within ").appendValue(tolerance).appendText(" of ").appendValue(value);
+            description.appendText("a rotation within ").appendValue(Double.valueOf(tolerance)).appendText(" of ").appendValue(value);
         }
 
         private final double distance(Rotation3 item) {
@@ -82,7 +82,7 @@ public class Rotation3Test {
         ImmutableVector3Test.assertInvariants(v);// check for side effects
         ImmutableVector3Test.assertInvariants(rv);
         ImmutableVector3Test.assertInvariants(rv, v);
-        assertThat("The rotated vector has the same magnitude as the given vector.", rv.magnitude(),
+        assertThat("The rotated vector has the same magnitude as the given vector.", Double.valueOf(rv.magnitude()),
                 closeTo(magnitude0, TOLERANCE * (magnitude0 + 1.0)));
 
         return rv;
@@ -99,8 +99,8 @@ public class Rotation3Test {
 
         final double axisMagnitude = axis.magnitude();
 
-        assertThat("The versor has unit norm.", versor.norm(), closeTo(1.0, TOLERANCE));
-        assertThat("The axis has a magnitude of 1 or 0.", axisMagnitude,
+        assertThat("The versor has unit norm.", Double.valueOf(versor.norm()), closeTo(1.0, TOLERANCE));
+        assertThat("The axis has a magnitude of 1 or 0.", Double.valueOf(axisMagnitude),
                 anyOf(closeTo(0.0, TOLERANCE), closeTo(1.0, TOLERANCE)));
     }
 
@@ -134,7 +134,7 @@ public class Rotation3Test {
         assertThat(
                 "The opposite rotation either has the same axis but the negative of the angle of this rotation, "
                         + "or the same angle but an axis that points in the opposite direction (angle).",
-                minusAngle, anyOf(closeTo(angle, TOLERANCE), closeTo(-angle, TOLERANCE)));
+                        Double.valueOf(minusAngle), anyOf(closeTo(angle, TOLERANCE), closeTo(-angle, TOLERANCE)));
         assertThat(
                 "The opposite rotation either has the same axis but the negative of the angle of this rotation, "
                         + "or the same angle but an axis that points in the opposite direction (axis).",
@@ -190,7 +190,7 @@ public class Rotation3Test {
         assertTrue(Math.abs(f) < Double.MIN_NORMAL
                         || ImmutableVector3Test.closeTo(r.getAxis(), TOLERANCE).matches(fr.getAxis()), "The scaled rotation has same axis as this, unless the scaling factor is zero");
         assertThat("The scaled rotation has its angle nominally scaled by the scaling factor.",
-                normalizedAngle(fr.getAngle()), closeTo(normalizedAngle(r.getAngle() * f), TOLERANCE));
+                Double.valueOf(normalizedAngle(fr.getAngle())), closeTo(normalizedAngle(r.getAngle() * f), TOLERANCE));
 
         return fr;
     }

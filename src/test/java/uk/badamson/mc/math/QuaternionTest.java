@@ -51,12 +51,12 @@ public class QuaternionTest {
 
         @Override
         public void describeMismatchSafely(Quaternion item, Description mismatchDescription) {
-            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(distance(item));
+            mismatchDescription.appendValue(item).appendText(" differed by ").appendValue(Double.valueOf(distance(item)));
         }
 
         @Override
         public void describeTo(Description description) {
-            description.appendText("a quaternion within ").appendValue(tolerance).appendText(" of ").appendValue(value);
+            description.appendText("a quaternion within ").appendValue(Double.valueOf(tolerance)).appendText(" of ").appendValue(value);
         }
 
         private final double distance(Quaternion item) {
@@ -733,35 +733,35 @@ public class QuaternionTest {
     public void dot_a() {
         final double p = dot(Quaternion.ONE, Quaternion.create(5, 4, 3, 2));
 
-        assertThat("result", p, closeTo(5, Double.MIN_NORMAL));
+        assertThat("result", Double.valueOf(p), closeTo(5, Double.MIN_NORMAL));
     }
 
     @Test
     public void dot_b() {
         final double p = dot(Quaternion.I, Quaternion.create(4, 5, 3, 2));
 
-        assertThat("result", p, closeTo(5, Double.MIN_NORMAL));
+        assertThat("result", Double.valueOf(p), closeTo(5, Double.MIN_NORMAL));
     }
 
     @Test
     public void dot_c() {
         final double p = dot(Quaternion.J, Quaternion.create(3, 4, 5, 2));
 
-        assertThat("result", p, closeTo(5, Double.MIN_NORMAL));
+        assertThat("result", Double.valueOf(p), closeTo(5, Double.MIN_NORMAL));
     }
 
     @Test
     public void dot_d() {
         final double p = dot(Quaternion.K, Quaternion.create(2, 4, 3, 5));
 
-        assertThat("result", p, closeTo(5, Double.MIN_NORMAL));
+        assertThat("result", Double.valueOf(p), closeTo(5, Double.MIN_NORMAL));
     }
 
     @Test
     public void dot_mixed() {
         final double p = dot(Quaternion.create(1, 2, 3, 4), Quaternion.create(5, 4, 3, 2));
 
-        assertThat("result", p, closeTo(30, Double.MIN_NORMAL));
+        assertThat("result", Double.valueOf(p), closeTo(30, Double.MIN_NORMAL));
     }
 
     @Test
