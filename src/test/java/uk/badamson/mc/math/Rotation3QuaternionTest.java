@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 import static uk.badamson.mc.math.ImmutableVector3Test.closeToImmutableVector3;
 import static uk.badamson.mc.math.Rotation3Test.closeToRotation3;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import uk.badamson.mc.ObjectTest;
 

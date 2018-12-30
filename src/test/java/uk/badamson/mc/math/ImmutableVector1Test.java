@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * <p>
