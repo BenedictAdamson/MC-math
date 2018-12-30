@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with MC-des.  If not, see <https://www.gnu.org/licenses/>.
+ * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
  
  /*
@@ -82,7 +82,7 @@ pipeline {
             junit 'target/surefire-reports/**/*.xml' 
         }
         success {
-            archiveArtifacts artifacts: 'target/MC-des-*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'target/MC-math-*.jar', fingerprint: true
         }
     }
 }
