@@ -27,5 +27,5 @@ module uk.badamson.mc.math {
     requires com.github.spotbugs.annotations;
 
     // Automatic modules:
-    requires jcip.annotations;
+    requires static jcip.annotations;
 }

@@ -48,7 +48,7 @@ public final class ImmutableVector3 implements Vector {
 
     /**
      * <p>
-     * The unit direction vector point along the y
+     * The unit direction vector point along the y axis.
      */
     public static final ImmutableVector3 J = new ImmutableVector3(0.0, 1.0, 0.0);
 
@@ -75,13 +75,8 @@ public final class ImmutableVector3 implements Vector {
      * @param z
      *            The z component of this vector
      * @return the created vector
-     *
-     * @throws NullPointerException
-     *             If {@code x} is null.
-     * @throws IllegalArgumentException
-     *             If {@code x} is empty (length 0)
      */
-    public static ImmutableVector3 create(final double x, final double y, final double z) {
+    public static @NonNull ImmutableVector3 create(final double x, final double y, final double z) {
         return new ImmutableVector3(x, y, z);
     }
 
