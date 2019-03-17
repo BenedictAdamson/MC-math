@@ -103,7 +103,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
             final double angle) {
         Objects.requireNonNull(axis, "axis");
         final ImmutableVector3 normalizedAxis = Double.MIN_NORMAL < Math.abs(angle) ? axis.scale(1.0 / axis.magnitude())
-                : ImmutableVector3.ZERO;// FIXME handle 2pi multiples
+                : ImmutableVector3.ZERO;// TODO handle 2pi multiples
         return new Rotation3AxisAngle(normalizedAxis, angle);
     }
 
