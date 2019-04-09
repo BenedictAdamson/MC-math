@@ -8,7 +8,7 @@
 		<version>1.4.3</version>
 	</parent>
 	<artifactId>MC-math</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<scm>
 		<connection>scm:git:git@github.com:BenedictAdamson/MC-math.git</connection>
 		<developerConnection>scm:git:git@github.com:BenedictAdamson/MC-math.git</developerConnection>
