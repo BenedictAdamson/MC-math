@@ -1,5 +1,5 @@
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018-19.
  *
  * This file is part of MC-math.
  *
@@ -25,7 +25,5 @@ module uk.badamson.mc.math {
     exports uk.badamson.mc.math;
 
     requires com.github.spotbugs.annotations;
-
-    // Automatic modules:
-    requires static jcip.annotations;
+    requires static org.icroco.jcip.annotations;
 }
