@@ -1,7 +1,7 @@
 # Dockerfile for the use in the Jenkinsfile for the MC-math project,
 # to set up the build environment for Jenkins to use.
 
-# © Copyright Benedict Adamson 2018.
+# © Copyright Benedict Adamson 2018-19.
 # 
 # This file is part of MC-math.
 #
@@ -20,6 +20,7 @@
 #
 
 FROM ubuntu:18.04
+RUN add-apt-repository ppa:openjdk-r/ppa
 RUN apt-get -y update && apt-get -y install \
    maven \
    openjdk-11-jdk-headless
