@@ -18,8 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
@@ -67,7 +66,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * @return the rotation
      * @throws NullPointerException If {@code quaternion} is null.
      */
-    public static @NonNull Rotation3AxisAngle valueOf(@NonNull final Quaternion quaternion) {
+    public static @Nonnull Rotation3AxisAngle valueOf(@Nonnull final Quaternion quaternion) {
         Objects.requireNonNull(quaternion, "quaternion");
         final Quaternion versor = quaternion.versor();
         final double c = versor.getA();
@@ -100,7 +99,7 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * @throws IllegalArgumentException If {@code axis} as zero {@linkplain ImmutableVector3#magnitude()
      *                                  magnitude} but the rotation amount is not zero.
      */
-    public static @NonNull Rotation3AxisAngle valueOfAxisAngle(@NonNull final ImmutableVector3 axis,
+    public static @Nonnull Rotation3AxisAngle valueOfAxisAngle(@Nonnull final ImmutableVector3 axis,
                                                                final double angle) {
         Objects.requireNonNull(axis, "axis");
         final ImmutableVector3 normalizedAxis = Double.MIN_NORMAL < Math.abs(angle) ? axis.scale(1.0 / axis.magnitude())
@@ -109,11 +108,11 @@ public final class Rotation3AxisAngle implements Rotation3 {
     }
 
     @Override
-    public @NonNull ImmutableVector3 apply(@NonNull final ImmutableVector3 v) {
+    public @Nonnull ImmutableVector3 apply(@Nonnull final ImmutableVector3 v) {
         return asRotation3Quaternion().apply(v);
     }
 
-    private @NonNull Rotation3Quaternion asRotation3Quaternion() {
+    private @Nonnull Rotation3Quaternion asRotation3Quaternion() {
         return Rotation3Quaternion.valueOfAxisAngle(axis, angle);
     }
 
@@ -134,12 +133,12 @@ public final class Rotation3AxisAngle implements Rotation3 {
     }
 
     @Override
-    public @NonNull ImmutableVector3 getAxis() {
+    public @Nonnull ImmutableVector3 getAxis() {
         return axis;
     }
 
     @Override
-    public @NonNull Quaternion getVersor() {
+    public @Nonnull Quaternion getVersor() {
         return asRotation3Quaternion().getVersor();
     }
 
@@ -157,24 +156,24 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * @return the opposite rotation.
      */
     @Override
-    public @NonNull Rotation3AxisAngle minus() {
+    public @Nonnull Rotation3AxisAngle minus() {
         return new Rotation3AxisAngle(axis, -angle);
     }
 
     @Override
-    public @NonNull Rotation3 minus(@NonNull final Rotation3 that) {
+    public @Nonnull Rotation3 minus(@Nonnull final Rotation3 that) {
         Objects.requireNonNull(that, "that");
         return asRotation3Quaternion().minus(that);
     }
 
     @Override
-    public @NonNull Rotation3 plus(@NonNull final Rotation3 that) {
+    public @Nonnull Rotation3 plus(@Nonnull final Rotation3 that) {
         Objects.requireNonNull(that, "that");
         return asRotation3Quaternion().plus(that);
     }
 
     @Override
-    public @NonNull Rotation3AxisAngle scale(final double f) {
+    public @Nonnull Rotation3AxisAngle scale(final double f) {
         return new Rotation3AxisAngle(axis, angle * f);
     }
 

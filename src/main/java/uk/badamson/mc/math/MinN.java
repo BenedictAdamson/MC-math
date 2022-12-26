@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,8 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
+import javax.annotation.Nonnull;
 import java.util.Objects;
 
 /**
@@ -107,8 +106,9 @@ public final class MinN {
      *                                              {@code f}.</li></li>
      *                                              </ul>
      */
-    static @NonNull Function1 createLineFunction(@NonNull final FunctionN f, @NonNull final double[] x0,
-                                                 @NonNull final double[] dx) {
+    static @Nonnull Function1 createLineFunction(@Nonnull final FunctionN f,
+                                                 @Nonnull final double[] x0,
+                                                 @Nonnull final double[] dx) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x0");
         Objects.requireNonNull(dx, "dx");
@@ -164,8 +164,9 @@ public final class MinN {
      *                                              {@code f}.</li>
      *                                              </ul>
      */
-    public static @NonNull Function1WithGradient createLineFunction(@NonNull final FunctionNWithGradient f,
-                                                                    @NonNull final ImmutableVectorN x0, @NonNull final ImmutableVectorN dx) {
+    public static @Nonnull Function1WithGradient createLineFunction(@Nonnull final FunctionNWithGradient f,
+                                                                    @Nonnull final ImmutableVectorN x0,
+                                                                    @Nonnull final ImmutableVectorN dx) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x0");
         Objects.requireNonNull(dx, "dx");
@@ -238,8 +239,10 @@ public final class MinN {
      *                                                        order term that causes the iterative procedure to diverge.</li>
      *                                                        </ul>
      */
-    public static @NonNull FunctionNWithGradientValue findFletcherReevesPolakRibere(
-            @NonNull final FunctionNWithGradient f, @NonNull final ImmutableVectorN x0, final double tolerance)
+    public static @Nonnull FunctionNWithGradientValue findFletcherReevesPolakRibere(
+            @Nonnull final FunctionNWithGradient f,
+            @Nonnull final ImmutableVectorN x0,
+            final double tolerance)
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x0");
@@ -333,7 +336,9 @@ public final class MinN {
      *                                                        order term that causes the iterative procedure to diverge.</li>
      *                                                        </ul>
      */
-    public static double findPowell(@NonNull final FunctionN f, @NonNull final double[] x, final double tolerance)
+    public static double findPowell(@Nonnull final FunctionN f,
+                                    @Nonnull final double[] x,
+                                    final double tolerance)
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x, "x");
@@ -419,7 +424,9 @@ public final class MinN {
      *                                                        <li>The magnitude of {@code dx} is zero (or very small).</li>
      *                                                        </ul>
      */
-    static double minimiseAlongLine(@NonNull final FunctionN f, @NonNull final double[] x, @NonNull final double[] dx)
+    static double minimiseAlongLine(@Nonnull final FunctionN f,
+                                    @Nonnull final double[] x,
+                                    @Nonnull final double[] dx)
             throws PoorlyConditionedFunctionException {
         final Function1 fLine = createLineFunction(f, x, dx);
         final Min1.Bracket bracket = Min1.findBracket(fLine, 0.0, 1.0);
@@ -468,8 +475,9 @@ public final class MinN {
      *                                                        <li>The magnitude of {@code dx} is zero (or very small).</li>
      *                                                        </ul>
      */
-    static @NonNull FunctionNWithGradientValue minimiseAlongLine(@NonNull final FunctionNWithGradient f,
-                                                                 @NonNull final ImmutableVectorN x, @NonNull final ImmutableVectorN dx)
+    static @Nonnull FunctionNWithGradientValue minimiseAlongLine(@Nonnull final FunctionNWithGradient f,
+                                                                 @Nonnull final ImmutableVectorN x,
+                                                                 @Nonnull final ImmutableVectorN dx)
             throws PoorlyConditionedFunctionException {
         final Function1WithGradient fLine = createLineFunction(f, x, dx);
         final Function1 f1Line = new Function1() {

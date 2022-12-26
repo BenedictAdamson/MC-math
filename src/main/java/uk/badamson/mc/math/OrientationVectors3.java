@@ -18,8 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
@@ -108,8 +107,9 @@ public final class OrientationVectors3 {
      *                                              product.</li>
      *                                              </ul>
      */
-    public static OrientationVectors3 createFromOrthogonalUnitBasisVectors(@NonNull final ImmutableVectorN e1,
-                                                                           @NonNull final ImmutableVectorN e2, @NonNull final ImmutableVectorN e3) {
+    public static OrientationVectors3 createFromOrthogonalUnitBasisVectors(@Nonnull final ImmutableVectorN e1,
+                                                                           @Nonnull final ImmutableVectorN e2,
+                                                                           @Nonnull final ImmutableVectorN e3) {
         requireUnit3Vector(e1, "e1");
         requireUnit3Vector(e2, "e2");
         requireUnit3Vector(e3, "e3");
@@ -153,7 +153,7 @@ public final class OrientationVectors3 {
      *
      * @return the e1 vector
      */
-    public @NonNull ImmutableVectorN getE1() {
+    public @Nonnull ImmutableVectorN getE1() {
         return e1;
     }
 
@@ -175,7 +175,7 @@ public final class OrientationVectors3 {
      *
      * @return the e2 vector
      */
-    public @NonNull ImmutableVectorN getE2() {
+    public @Nonnull ImmutableVectorN getE2() {
         return e2;
     }
 
@@ -194,7 +194,7 @@ public final class OrientationVectors3 {
      *
      * @return the e3 vector
      */
-    public @NonNull ImmutableVectorN getE3() {
+    public @Nonnull ImmutableVectorN getE3() {
         return e3;
     }
 

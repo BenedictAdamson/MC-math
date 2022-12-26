@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,7 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * <p>
@@ -46,7 +47,8 @@ public interface Rotation3 {
      * @return The rotated vector.
      * @throws NullPointerException If {@code v} is null
      */
-    @NonNull ImmutableVector3 apply(@NonNull ImmutableVector3 v);
+    @Nonnull
+    ImmutableVector3 apply(@Nonnull ImmutableVector3 v);
 
     /**
      * <p>
@@ -74,7 +76,8 @@ public interface Rotation3 {
      *
      * @return the axis
      */
-    @NonNull ImmutableVector3 getAxis();
+    @Nonnull
+    ImmutableVector3 getAxis();
 
     /**
      * <p>
@@ -92,7 +95,8 @@ public interface Rotation3 {
      *
      * @return the versor.
      */
-    @NonNull Quaternion getVersor();
+    @Nonnull
+    Quaternion getVersor();
 
     /**
      * <p>
@@ -109,7 +113,8 @@ public interface Rotation3 {
      *
      * @return the opposite rotation.
      */
-    @NonNull Rotation3 minus();
+    @Nonnull
+    Rotation3 minus();
 
     /**
      * <p>
@@ -129,7 +134,8 @@ public interface Rotation3 {
      * @return the rotation difference.
      * @throws NullPointerException If {@code that} is null.
      */
-    @NonNull Rotation3 minus(@NonNull Rotation3 that);
+    @Nonnull
+    Rotation3 minus(@Nonnull Rotation3 that);
 
     /**
      * <p>
@@ -151,7 +157,8 @@ public interface Rotation3 {
      * @return the sum rotation
      * @throws NullPointerException If {@code that} is null.
      */
-    @NonNull Rotation3 plus(@NonNull Rotation3 that);
+    @Nonnull
+    Rotation3 plus(@Nonnull Rotation3 that);
 
     /**
      * <p>
@@ -173,5 +180,6 @@ public interface Rotation3 {
      * @param f the scaling factor
      * @return the scaled rotation
      */
-    @NonNull Rotation3 scale(double f);
+    @Nonnull
+    Rotation3 scale(double f);
 }

@@ -18,8 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -65,5 +64,5 @@ public interface FunctionN {
      *                                   the length of {@code x} exceeds the number of dimensions of this
      *                                   function.
      */
-    double value(@NonNull double[] x);
+    double value(@Nonnull double[] x);
 }

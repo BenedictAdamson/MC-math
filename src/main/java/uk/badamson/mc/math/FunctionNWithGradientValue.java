@@ -18,8 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
@@ -53,8 +52,9 @@ public final class FunctionNWithGradientValue {
      * @throws IllegalArgumentException If {@code x} and {@code dfdx} have different
      *                                  {@linkplain ImmutableVectorN#getDimension() dimensions}.
      */
-    public FunctionNWithGradientValue(@NonNull final ImmutableVectorN x, final double f,
-                                      @NonNull final ImmutableVectorN dfdx) {
+    public FunctionNWithGradientValue(@Nonnull final ImmutableVectorN x,
+                                      final double f,
+                                      @Nonnull final ImmutableVectorN dfdx) {
         Objects.requireNonNull(x, "x");
         Objects.requireNonNull(dfdx, "dfdx");
         if (x.getDimension() != dfdx.getDimension()) {
@@ -105,7 +105,7 @@ public final class FunctionNWithGradientValue {
      * vector}.</li>
      * </ul>
      */
-    public @NonNull ImmutableVectorN getDfDx() {
+    public @Nonnull ImmutableVectorN getDfDx() {
         return dfdx;
     }
 
@@ -127,7 +127,7 @@ public final class FunctionNWithGradientValue {
      * <li>Always have a (non null) domain vector.</li>
      * </ul>
      */
-    public @NonNull ImmutableVectorN getX() {
+    public @Nonnull ImmutableVectorN getX() {
         return x;
     }
 

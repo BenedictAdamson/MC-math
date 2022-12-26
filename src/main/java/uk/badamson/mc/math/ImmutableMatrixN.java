@@ -18,8 +18,6 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
@@ -36,7 +34,7 @@ public class ImmutableMatrixN implements Matrix {
     protected final double[] elements;
     private final int rows;
     private final int columns;
-    ImmutableMatrixN(final int rows, final int columns, @NonNull final double[] elements) {
+    ImmutableMatrixN(final int rows, final int columns, @Nonnull final double[] elements) {
         this.rows = rows;
         this.columns = columns;
         this.elements = elements;
@@ -65,7 +63,7 @@ public class ImmutableMatrixN implements Matrix {
      *                                              {@code rows} multiplied by {@code columns}.</li>
      *                                              </ul>
      */
-    public static ImmutableMatrixN create(final int rows, final int columns, @NonNull final double[] elements) {
+    public static ImmutableMatrixN create(final int rows, final int columns, @Nonnull final double[] elements) {
         Objects.requireNonNull(elements, "elements");
         if (rows < 1) {
             throw new IllegalArgumentException("rows " + rows);
@@ -130,7 +128,7 @@ public class ImmutableMatrixN implements Matrix {
 
     @Nonnull
     @Override
-    public final @NonNull ImmutableVectorN multiply(@NonNull final Vector x) {
+    public final ImmutableVectorN multiply(@Nonnull final Vector x) {
         Objects.requireNonNull(x, "x");
         final int columns = getColumns();
         if (columns != x.getRows()) {

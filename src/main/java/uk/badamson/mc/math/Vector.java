@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,8 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
+import javax.annotation.Nonnull;
 import java.util.Objects;
 
 /**
@@ -40,7 +39,7 @@ public interface Vector extends Matrix {
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
      */
-    double dot(@NonNull Vector that);
+    double dot(@Nonnull Vector that);
 
     /**
      * <p>
@@ -126,7 +125,7 @@ public interface Vector extends Matrix {
      * @throws IllegalArgumentException If the {@linkplain ImmutableVector3#getDimension() dimension} of
      *                                  }@code that} is not equal to the dimension of this vector.
      */
-    @NonNull Vector mean(@NonNull Vector that);
+    @Nonnull Vector mean(@Nonnull Vector that);
 
     /**
      * <p>
@@ -142,7 +141,7 @@ public interface Vector extends Matrix {
      *
      * @return the opposite vector.
      */
-    @NonNull Vector minus();
+    @Nonnull Vector minus();
 
     /**
      * <p>
@@ -163,7 +162,8 @@ public interface Vector extends Matrix {
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
      */
-    @NonNull Vector minus(@NonNull Vector that);
+    @Nonnull
+    Vector minus(@Nonnull Vector that);
 
     /**
      * <p>
@@ -184,7 +184,8 @@ public interface Vector extends Matrix {
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
      */
-    @NonNull Vector plus(@NonNull Vector that);
+    @Nonnull
+    Vector plus(@Nonnull Vector that);
 
     /**
      * <p>
@@ -200,7 +201,8 @@ public interface Vector extends Matrix {
      * @param f the scalar
      * @return the scaled vector
      */
-    @NonNull Vector scale(double f);
+    @Nonnull
+    Vector scale(double f);
 
     static void requireValidWeights(double[] weight, Vector[] x) {
         Objects.requireNonNull(weight, "weight");

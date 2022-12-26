@@ -18,8 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
@@ -130,7 +129,7 @@ public final class Min1 {
      *                                                        iterative procedure to diverge.</li>
      *                                                        </ul>
      */
-    public static @NonNull Bracket findBracket(@NonNull final Function1 f, final double x1, final double x2)
+    public static @Nonnull Bracket findBracket(@Nonnull final Function1 f, final double x1, final double x2)
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         if (x1 == x2) {
@@ -294,7 +293,8 @@ public final class Min1 {
      *                                              {@code f}.</li>
      *                                              </ul>
      */
-    public static @NonNull Function1Value findBrent(@NonNull final Function1 f, @NonNull final Bracket bracket,
+    public static @Nonnull Function1Value findBrent(@Nonnull final Function1 f,
+                                                    @Nonnull final Bracket bracket,
                                                     final double tolerance) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(bracket, "bracket");
@@ -376,7 +376,7 @@ public final class Min1 {
                     right = pNew;
                 }
                 /*
-                 * And might be a new value for the second smallest value.
+                 * And might be a new value for the second-smallest value.
                  */
                 if (pNew.getF() < secondLeast.getF()) {
                     previousSecondLeast = secondLeast;
@@ -419,8 +419,9 @@ public final class Min1 {
      *                                              {@code f}.</li>
      *                                              </ul>
      */
-    public static @NonNull Function1WithGradientValue findBrent(@NonNull final Function1WithGradient f,
-                                                                @NonNull final Bracket bracket, final double tolerance) {
+    public static @Nonnull Function1WithGradientValue findBrent(@Nonnull final Function1WithGradient f,
+                                                                @Nonnull final Bracket bracket,
+                                                                 final double tolerance) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(bracket, "bracket");
         if (!(0.0 < tolerance && tolerance < 1.0)) {
@@ -683,11 +684,11 @@ public final class Min1 {
      */
     @Immutable
     public static final class Bracket {
-        @NonNull
+        @Nonnull
         private final Function1Value left;
-        @NonNull
+        @Nonnull
         private final Function1Value inner;
-        @NonNull
+        @Nonnull
         private final Function1Value right;
 
         /**
@@ -717,8 +718,9 @@ public final class Min1 {
          *                                              <li>If {@code right} point is not above {@code inner}.</li>
          *                                              </ul>
          */
-        public Bracket(@NonNull final Function1Value left, @NonNull final Function1Value inner,
-                       @NonNull final Function1Value right) {
+        public Bracket(@Nonnull final Function1Value left,
+                       @Nonnull final Function1Value inner,
+                       @Nonnull final Function1Value right) {
             Objects.requireNonNull(left, "left");
             Objects.requireNonNull(inner, "inner");
             Objects.requireNonNull(right, "right");
@@ -781,7 +783,7 @@ public final class Min1 {
          *
          * @return the inner point.
          */
-        public @NonNull Function1Value getInner() {
+        public @Nonnull Function1Value getInner() {
             return inner;
         }
 
@@ -792,7 +794,7 @@ public final class Min1 {
          *
          * @return the leftmost point; not null.
          */
-        public @NonNull Function1Value getLeft() {
+        public @Nonnull Function1Value getLeft() {
             return left;
         }
 
@@ -825,7 +827,7 @@ public final class Min1 {
          *
          * @return the rightmost point
          */
-        public @NonNull Function1Value getRight() {
+        public @Nonnull Function1Value getRight() {
             return right;
         }
 

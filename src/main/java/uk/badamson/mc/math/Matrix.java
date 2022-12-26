@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,7 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import javax.annotation.Nonnull;
 
 /**
  * <p>
@@ -96,6 +96,7 @@ public interface Matrix {
      *                                  {@code x} is not equal to the {@linkplain #getColumns() number of
      *                                  columns} of this.
      */
-    @NonNull Vector multiply(@NonNull Vector x);
+    @Nonnull
+    Vector multiply(@Nonnull Vector x);
 
 }
