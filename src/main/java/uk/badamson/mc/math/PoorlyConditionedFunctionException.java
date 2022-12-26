@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,12 +18,13 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import javax.annotation.Nonnull;
 import java.io.Serial;
+import java.util.Objects;
 
 /**
  * <p>
- * An exception class for indicating that minimization of a
- * {@linkplain Function1 one dimensional function} is not possible because the
+ * An exception class for indicating that minimization of a function is not possible because the
  * function is poorly conditioned.
  * </p>
  * <ul>
@@ -36,13 +37,14 @@ import java.io.Serial;
  * diverge.</li>
  * </ul>
  */
-public final class PoorlyConditionedFunctionException extends IllegalArgumentException {
+public class PoorlyConditionedFunctionException extends IllegalArgumentException {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    PoorlyConditionedFunctionException(final Function1 f) {
+    PoorlyConditionedFunctionException(@Nonnull final Function1 f) {
         super("Poorly conditioned function " + f);
+        Objects.requireNonNull(f);
     }
 
 }// class

@@ -50,7 +50,7 @@ public class Function1WithGradientTest {
 
         assertNotNull(v, "Not null, result");// guard
         Function1WithGradientValueTest.assertInvariants(v);
-        assertEquals(x, v.getX(), Double.MIN_NORMAL, "x");
+        assertEquals(x, v.x(), Double.MIN_NORMAL, "x");
 
         return v;
     }

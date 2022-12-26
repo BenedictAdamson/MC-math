@@ -43,9 +43,9 @@ public class Function1ValueTest {
         ObjectVerifier.assertInvariants(point1, point2);// inherited
 
         final boolean equals = point1.equals(point2);
-        assertFalse(equals && Double.doubleToLongBits(point1.getX()) != Double.doubleToLongBits(point2.getX()),
+        assertFalse(equals && Double.doubleToLongBits(point1.x()) != Double.doubleToLongBits(point2.x()),
                 "Value semantics, x");
-        assertFalse(equals && Double.doubleToLongBits(point1.getF()) != Double.doubleToLongBits(point2.getF()),
+        assertFalse(equals && Double.doubleToLongBits(point1.f()) != Double.doubleToLongBits(point2.f()),
                 "Value semantics, f");
     }
 
@@ -54,8 +54,8 @@ public class Function1ValueTest {
         final Function1Value point = new Function1Value(x, f);
 
         assertInvariants(point);
-        assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(point.getX()), "x bits");
-        assertEquals(Double.doubleToLongBits(f), Double.doubleToLongBits(point.getF()), "f bits");
+        assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(point.x()), "x bits");
+        assertEquals(Double.doubleToLongBits(f), Double.doubleToLongBits(point.f()), "f bits");
         return point;
     }
 

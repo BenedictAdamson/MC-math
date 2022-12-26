@@ -41,11 +41,11 @@ public class Function1WithGradientValueTest {
         ObjectVerifier.assertInvariants(v1, v2);// inherited
 
         final boolean equals = v1.equals(v2);
-        assertFalse(equals && Double.doubleToLongBits(v1.getX()) != Double.doubleToLongBits(v2.getX()),
+        assertFalse(equals && Double.doubleToLongBits(v1.x()) != Double.doubleToLongBits(v2.x()),
                 "Value semantics, x");
-        assertFalse(equals && Double.doubleToLongBits(v1.getF()) != Double.doubleToLongBits(v2.getF()),
+        assertFalse(equals && Double.doubleToLongBits(v1.f()) != Double.doubleToLongBits(v2.f()),
                 "Value semantics, f");
-        assertFalse(equals && Double.doubleToLongBits(v1.getDfDx()) != Double.doubleToLongBits(v2.getDfDx()),
+        assertFalse(equals && Double.doubleToLongBits(v1.dfdx()) != Double.doubleToLongBits(v2.dfdx()),
                 "Value semantics, dfdx");
     }
 
@@ -53,9 +53,9 @@ public class Function1WithGradientValueTest {
         final Function1WithGradientValue point = new Function1WithGradientValue(x, f, dfdx);
 
         assertInvariants(point);
-        assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(point.getX()), "x bits");
-        assertEquals(Double.doubleToLongBits(f), Double.doubleToLongBits(point.getF()), "f bits");
-        assertEquals(Double.doubleToLongBits(dfdx), Double.doubleToLongBits(point.getDfDx()), "dfdx bits");
+        assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(point.x()), "x bits");
+        assertEquals(Double.doubleToLongBits(f), Double.doubleToLongBits(point.f()), "f bits");
+        assertEquals(Double.doubleToLongBits(dfdx), Double.doubleToLongBits(point.dfdx()), "dfdx bits");
         return point;
     }
 

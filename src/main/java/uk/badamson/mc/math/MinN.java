@@ -18,6 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
@@ -34,8 +35,13 @@ public final class MinN {
     }
 
     @SuppressWarnings("SuspiciousNameCombination")
-    private static double basicPowell(final FunctionN f, final double[] x0, final double[] dx0, final double[] x,
-                                      final double[][] dx) throws PoorlyConditionedFunctionException {
+    private static double basicPowell(
+            @Nonnull final FunctionN f,
+            @Nonnull final double[] x0,
+            @Nonnull final double[] dx0,
+            @Nonnull final double[] x,
+            @Nonnull final double[][] dx
+    ) throws PoorlyConditionedFunctionException {
         final int n = f.getDimension();
         assert n == x0.length;
         assert n == dx0.length;
@@ -66,7 +72,7 @@ public final class MinN {
         return minimiseAlongLine(f, x, dx0);
     }
 
-    private static void copyTo(final double[] x, final double[] y) {
+    private static void copyTo(@Nonnull final double[] x, @Nonnull final double[] y) {
         for (int j = 0, n = x.length; j < n; ++j) {
             x[j] = y[j];
         }
@@ -91,24 +97,21 @@ public final class MinN {
      * @param dx The direction vector of the line in the space of the
      *           multidimensional function; (x + dx) corresponds to the value for
      *           1.0 of the created function.
-     * @return the created functor; not null.
-     * @throws NullPointerException     <ul>
-     *                                              <li>If {@code f} is null.</li>
-     *                                              <li>If {@code x0} is null.</li>
-     *                                              <li>If {@code dx} is null.</li>
-     *                                              </ul>
-     * @throws IllegalArgumentException <ul>
-     *                                              <li>If the length of {code x0} is 0.</li>
-     *                                              <li>If the length of {code x0} is different from the length of
-     *                                              {@code dx}.</li></li>
-     *                                              <li>If the length of {code x0} is different from the
-     *                                              {@linkplain FunctionN#getDimension() number of dimensions} of
-     *                                              {@code f}.</li></li>
-     *                                              </ul>
+     * @throws NullPointerException     If {@code f} is null.
+     *                                  If {@code x0} is null.
+     *                                  If {@code dx} is null.
+     * @throws IllegalArgumentException If the length of {code x0} is 0.
+     *                                  If the length of {code x0} is different from the length of
+     *                                  {@code dx}.
+     *                                  If the length of {code x0} is different from the
+     *                                  {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                  {@code f}.
      */
-    static @Nonnull Function1 createLineFunction(@Nonnull final FunctionN f,
-                                                 @Nonnull final double[] x0,
-                                                 @Nonnull final double[] dx) {
+    static @Nonnull Function1 createLineFunction(
+            @Nonnull final FunctionN f,
+            @Nonnull final double[] x0,
+            @Nonnull final double[] dx
+    ) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x0");
         Objects.requireNonNull(dx, "dx");
@@ -149,24 +152,22 @@ public final class MinN {
      * @param dx The direction vector of the line in the space of the
      *           multidimensional function; (x + dx) corresponds to the value for
      *           1.0 of the created function.
-     * @return the created functor; not null.
-     * @throws NullPointerException     <ul>
-     *                                              <li>If {@code f} is null.</li>
-     *                                              <li>If {@code x0} is null.</li>
-     *                                              <li>If {@code dx} is null.</li>
-     *                                              </ul>
-     * @throws IllegalArgumentException <ul>
-     *                                              <li>If the {@linkplain ImmutableVectorN#getDimension() dimension}
-     *                                              of {code x0} is different from the dimension of
-     *                                              {@code dx}.</li>
-     *                                              <li>If the dimension of {code x0} is different from the
-     *                                              {@linkplain FunctionN#getDimension() number of dimensions} of
-     *                                              {@code f}.</li>
-     *                                              </ul>
+     * @throws NullPointerException     If {@code f} is null.
+     *                                  If {@code x0} is null.
+     *                                  If {@code dx} is null.
+     * @throws IllegalArgumentException If the {@linkplain ImmutableVectorN#getDimension() dimension}
+     *                                  of {code x0} is different from the dimension of
+     *                                  {@code dx}.
+     *                                  If the dimension of {code x0} is different from the
+     *                                  {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                  {@code f}.
      */
-    public static @Nonnull Function1WithGradient createLineFunction(@Nonnull final FunctionNWithGradient f,
-                                                                    @Nonnull final ImmutableVectorN x0,
-                                                                    @Nonnull final ImmutableVectorN dx) {
+    @Nonnull
+    public static Function1WithGradient createLineFunction(
+            @Nonnull final FunctionNWithGradient f,
+            @Nonnull final ImmutableVectorN x0,
+            @Nonnull final ImmutableVectorN dx
+    ) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x0");
         Objects.requireNonNull(dx, "dx");
@@ -188,6 +189,7 @@ public final class MinN {
             }
 
             @Override
+            @Nonnull
             public Function1WithGradientValue value(final double w) {
                 final ImmutableVectorN x = ImmutableVectorN.createOnLine(x0, dx, w);
                 final FunctionNWithGradientValue v = f.value(x);
@@ -196,7 +198,8 @@ public final class MinN {
         };
     }
 
-    private static ImmutableVectorN downSlope(final FunctionNWithGradientValue fx) {
+    @Nonnull
+    private static ImmutableVectorN downSlope(@Nonnull final FunctionNWithGradientValue fx) {
         final ImmutableVectorN dfDx = fx.getDfDx();
         if (dfDx.magnitude2() < Double.MIN_NORMAL) {
             /* Avoid division by zero when close to a minimum */
@@ -220,29 +223,24 @@ public final class MinN {
      * @param tolerance The convergence tolerance; the dimensionless measure of the
      *                  maximum error of the position of the minimum (the returned
      *                  {@linkplain FunctionNWithGradientValue#getX() x} value).
-     * @return a minimum of the function; not null.
-     * @throws NullPointerException               <ul>
-     *                                                        <li>If {@code f} is null.</li>
-     *                                                        <li>If {@code x0} is null.</li>
-     *                                                        </ul>
-     * @throws IllegalArgumentException           <ul>
-     *                                                        <li>If the {@linkplain ImmutableVectorN#getDimension() dimension}
-     *                                                        of {code x0} is different from the
-     *                                                        {@linkplain FunctionN#getDimension() dimension} of
-     *                                                        {@code f}.</li>
-     *                                                        <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
-     *                                                        </ul>
-     * @throws PoorlyConditionedFunctionException <ul>
-     *                                                        <li>If {@code f} does not have a minimum</li>
-     *                                                        <li>If {@code f} has a minimum, but it is impossible to find
-     *                                                        using {@code x0} because the function has an odd-powered high
-     *                                                        order term that causes the iterative procedure to diverge.</li>
-     *                                                        </ul>
+     * @throws NullPointerException               If {@code f} is null.
+     *                                            If {@code x0} is null.
+     * @throws IllegalArgumentException           If the {@linkplain ImmutableVectorN#getDimension() dimension}
+     *                                            of {code x0} is different from the
+     *                                            {@linkplain FunctionN#getDimension() dimension} of
+     *                                            {@code f}.
+     *                                            If {@code tolerance} is not in the range (0.0, 1.0).
+     * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum
+     *                                            If {@code f} has a minimum, but it is impossible to find
+     *                                            using {@code x0} because the function has an odd-powered high
+     *                                            order term that causes the iterative procedure to diverge.
      */
-    public static @Nonnull FunctionNWithGradientValue findFletcherReevesPolakRibere(
+    @Nonnull
+    public static FunctionNWithGradientValue findFletcherReevesPolakRibere(
             @Nonnull final FunctionNWithGradient f,
             @Nonnull final ImmutableVectorN x0,
-            final double tolerance)
+            @Nonnegative final double tolerance
+    )
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x0, "x0");
@@ -318,27 +316,22 @@ public final class MinN {
      * @param tolerance The convergence tolerance; the minimum fractional change in the
      *                  value of the minimum for which continuing to iterate is
      *                  worthwhile.
-     * @return a minimum of the function.
-     * @throws NullPointerException               <ul>
-     *                                                        <li>If {@code f} is null.</li>
-     *                                                        <li>If {@code x} is null.</li>
-     *                                                        </ul>
-     * @throws IllegalArgumentException           <ul>
-     *                                                        <li>If the length of {code x} is different from the
-     *                                                        {@linkplain FunctionN#getDimension() number of dimensions} of
-     *                                                        {@code f}.</li>
-     *                                                        <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
-     *                                                        </ul>
-     * @throws PoorlyConditionedFunctionException <ul>
-     *                                                        <li>If {@code f} does not have a minimum</li>
-     *                                                        <li>If {@code f} has a minimum, but it is impossible to find
-     *                                                        using {@code x} because the function has an odd-powered high
-     *                                                        order term that causes the iterative procedure to diverge.</li>
-     *                                                        </ul>
+     * @throws NullPointerException               If {@code f} is null.
+     *                                            If {@code x} is null.
+     * @throws IllegalArgumentException           If the length of {code x} is different from the
+     *                                            {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                            {@code f}.
+     *                                            If {@code tolerance} is not in the range (0.0, 1.0).
+     * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum.
+     *                                            If {@code f} has a minimum, but it is impossible to find
+     *                                            using {@code x} because the function has an odd-powered high
+     *                                            order term that causes the iterative procedure to diverge.
      */
-    public static double findPowell(@Nonnull final FunctionN f,
-                                    @Nonnull final double[] x,
-                                    final double tolerance)
+    public static double findPowell(
+            @Nonnull final FunctionN f,
+            @Nonnull final double[] x,
+            @Nonnegative final double tolerance
+    )
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(x, "x");
@@ -387,57 +380,48 @@ public final class MinN {
      * <p>
      * That is, find the minimum value of the function along a straight line.
      * </p>
-     *
-     * <section>
-     * <h1>Post Conditions</h1>
      * <ul>
-     * <li>The point on the line ({@code x}) has been moved to the position of the
+     * <li>Moves the point on the line ({@code x}) to the position of the
      * minimum found.</li>
-     * <li>The direction vector has been set to the amount the point of the line was
-     * moved to move from the original position to the position of the minimum.</li>
+     * <li>Sets the direction vector to the amount the point of the line was
+     * moved from the original position to the position of the minimum.</li>
      * </ul>
-     * </section>
      *
      * @param f  The multi-dimensional function
      * @param x  A point on the line.
      * @param dx The direction vector of the line.
-     * @return the minimum value along the line.
-     * @throws NullPointerException               <ul>
-     *                                                        <li>If {@code f} is null.</li>
-     *                                                        <li>If {@code x} is null.</li>
-     *                                                        <li>If {@code dx} is null.</li>
-     *                                                        </ul>
-     * @throws IllegalArgumentException           <ul>
-     *                                                        <li>If the length of {code x} is 0.</li>
-     *                                                        <li>If the length of {code x} is different from the length of
-     *                                                        {@code dx}.</li></li>
-     *                                                        <li>If the length of {code x} is different from the
-     *                                                        {@linkplain FunctionN#getDimension() number of dimensions} of
-     *                                                        {@code f}.</li></li>
-     *                                                        </ul>
-     * @throws PoorlyConditionedFunctionException <ul>
-     *                                                        <li>If {@code f} does not have a minimum</li>
-     *                                                        <li>If {@code f} has a minimum, but it is impossible to find a
-     *                                                        bracket for {@code f} using {@code x} and {@code dx} because the
-     *                                                        function has an odd-powered high order term that causes the
-     *                                                        iterative procedure to diverge.</li>
-     *                                                        <li>The magnitude of {@code dx} is zero (or very small).</li>
-     *                                                        </ul>
+     * @throws NullPointerException               If {@code f} is null.
+     *                                            If {@code x} is null.
+     *                                            If {@code dx} is null.
+     * @throws IllegalArgumentException           If the length of {code x} is 0.
+     *                                            If the length of {code x} is different from the length of
+     *                                            {@code dx}.
+     *                                            If the length of {code x} is different from the
+     *                                            {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                            {@code f}.
+     * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum.
+     *                                            If {@code f} has a minimum, but it is impossible to find a
+     *                                            bracket for {@code f} using {@code x} and {@code dx} because the
+     *                                            function has an odd-powered high order term that causes the
+     *                                            iterative procedure to diverge.
+     *                                            The magnitude of {@code dx} is zero (or very small).
      */
-    static double minimiseAlongLine(@Nonnull final FunctionN f,
-                                    @Nonnull final double[] x,
-                                    @Nonnull final double[] dx)
+    static double minimiseAlongLine(
+            @Nonnull final FunctionN f,
+            @Nonnull final double[] x,
+            @Nonnull final double[] dx
+    )
             throws PoorlyConditionedFunctionException {
         final Function1 fLine = createLineFunction(f, x, dx);
         final Min1.Bracket bracket = Min1.findBracket(fLine, 0.0, 1.0);
         final Function1Value p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
-        final double w = p.getX();
+        final double w = p.x();
         for (int i = 0, n = x.length; i < n; i++) {
             final double dxi = dx[i] * w;
             dx[i] = dxi;
             x[i] += dxi;
         }
-        return p.getF();
+        return p.f();
     }
 
     /**
@@ -452,32 +436,28 @@ public final class MinN {
      * @param f  The function
      * @param x  A point on the line.
      * @param dx The direction vector of the line.
-     * @return the minimum value along the line; not null.
-     * @throws NullPointerException               <ul>
-     *                                                        <li>If {@code f} is null.</li>
-     *                                                        <li>If {@code x} is null.</li>
-     *                                                        <li>If {@code dx} is null.</li>
-     *                                                        </ul>
-     * @throws IllegalArgumentException           <ul>
-     *                                                        <li>If the length of {code x} is 0.</li>
-     *                                                        <li>If the length of {code x} is different from the length of
-     *                                                        {@code dx}.</li></li>
-     *                                                        <li>If the length of {code x} is different from the
-     *                                                        {@linkplain FunctionN#getDimension() number of dimensions} of
-     *                                                        {@code f}.</li></li>
-     *                                                        </ul>
-     * @throws PoorlyConditionedFunctionException <ul>
-     *                                                        <li>If {@code f} does not have a minimum</li>
-     *                                                        <li>If {@code f} has a minimum, but it is impossible to find a
-     *                                                        bracket for {@code f} using {@code x} and {@code dx} because the
-     *                                                        function has an odd-powered high order term that causes the
-     *                                                        iterative procedure to diverge.</li>
-     *                                                        <li>The magnitude of {@code dx} is zero (or very small).</li>
-     *                                                        </ul>
+     * @throws NullPointerException               If {@code f} is null.
+     *                                            If {@code x} is null.
+     *                                            If {@code dx} is null.
+     * @throws IllegalArgumentException           If the length of {code x} is 0.
+     *                                            If the length of {code x} is different from the length of
+     *                                            {@code dx}.
+     *                                            If the length of {code x} is different from the
+     *                                            {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                            {@code f}.
+     * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum.
+     *                                            If {@code f} has a minimum, but it is impossible to find a
+     *                                            bracket for {@code f} using {@code x} and {@code dx} because the
+     *                                            function has an odd-powered high order term that causes the
+     *                                            iterative procedure to diverge.
+     *                                            The magnitude of {@code dx} is zero (or very small).
      */
-    static @Nonnull FunctionNWithGradientValue minimiseAlongLine(@Nonnull final FunctionNWithGradient f,
-                                                                 @Nonnull final ImmutableVectorN x,
-                                                                 @Nonnull final ImmutableVectorN dx)
+    @Nonnull
+    static FunctionNWithGradientValue minimiseAlongLine(
+            @Nonnull final FunctionNWithGradient f,
+            @Nonnull final ImmutableVectorN x,
+            @Nonnull final ImmutableVectorN dx
+    )
             throws PoorlyConditionedFunctionException {
         final Function1WithGradient fLine = createLineFunction(f, x, dx);
         final Function1 f1Line = new Function1() {
@@ -489,13 +469,13 @@ public final class MinN {
 
             @Override
             public double value(final double x) {
-                return fLine.value(x).getF();
+                return fLine.value(x).f();
             }
 
         };
         final Min1.Bracket bracket = Min1.findBracket(f1Line, 0.0, 1.0);
         final Function1WithGradientValue p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
-        final ImmutableVectorN xMin = ImmutableVectorN.createOnLine(x, dx, p.getX());
+        final ImmutableVectorN xMin = ImmutableVectorN.createOnLine(x, dx, p.x());
         return f.value(xMin);
     }
 
@@ -505,7 +485,7 @@ public final class MinN {
         }
     }
 
-    private static void resetSearchDirections(final double[][] dx) {
+    private static void resetSearchDirections(@Nonnull final double[][] dx) {
         final int n = dx.length;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {

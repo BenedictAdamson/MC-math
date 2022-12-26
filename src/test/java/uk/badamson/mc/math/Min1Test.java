@@ -55,18 +55,18 @@ public class Min1Test {
             Function1ValueTest.assertInvariants(inner);
             Function1ValueTest.assertInvariants(right);
 
-            final double innerX = inner.getX();
-            final double innerY = inner.getF();
-            assertTrue(left.getX() < innerX,
+            final double innerX = inner.x();
+            final double innerY = inner.f();
+            assertTrue(left.x() < innerX,
                     "The inner point " + inner + " is to the right of the leftmost point " + left);
-            assertTrue(innerY < left.getF(), "The inner point " + inner + " is below the leftmost point " + left + ".");
-            assertTrue(innerX < right.getX(), "The rightmost point is to the right of the inner point.");
-            assertTrue(innerY < right.getF(), "The rightmost point is above the inner point.");
+            assertTrue(innerY < left.f(), "The inner point " + inner + " is below the leftmost point " + left + ".");
+            assertTrue(innerX < right.x(), "The rightmost point is to the right of the inner point.");
+            assertTrue(innerY < right.f(), "The rightmost point is above the inner point.");
 
-            assertEquals(inner.getF(), bracket.getMin(), Double.MIN_NORMAL,
+            assertEquals(inner.f(), bracket.getMin(), Double.MIN_NORMAL,
                     "The smallest function value of the points constituting this bracket is the y value of the inner point of the bracket");
             assertTrue(0.0 < width, "The width of a bracket <" + width + "> is always positive.");
-            assertEquals(right.getX() - left.getX(), width, Double.MIN_NORMAL, "width");
+            assertEquals(right.x() - left.x(), width, Double.MIN_NORMAL, "width");
         }
 
         public static void assertInvariants(final Min1.Bracket bracket1, final Min1.Bracket bracket2) {
@@ -136,16 +136,16 @@ public class Min1Test {
     }
 
     private static void assertConsistent(final String message, final Function1Value p, final Function1 f) {
-        assertEquals(f.value(p.getX()), p.getF(), Double.MIN_NORMAL,
+        assertEquals(f.value(p.x()), p.f(), Double.MIN_NORMAL,
                 message + " <" + p + "> is consistent with function <" + f + ">");
     }
 
     private static void assertConsistent(final String message, final Function1WithGradientValue p,
             final Function1WithGradient f) {
-        final Function1WithGradientValue fp = f.value(p.getX());
-        assertEquals(fp.getF(), p.getF(), Double.MIN_NORMAL,
+        final Function1WithGradientValue fp = f.value(p.x());
+        assertEquals(fp.f(), p.f(), Double.MIN_NORMAL,
                 message + " <" + p + "> is consistent with function <" + f + ">, codomain");
-        assertEquals(fp.getDfDx(), p.getDfDx(), Double.MIN_NORMAL,
+        assertEquals(fp.dfdx(), p.dfdx(), Double.MIN_NORMAL,
                 message + " <" + p + "> is consistent with function <" + f + ">, gradient");
     }
 
@@ -167,7 +167,7 @@ public class Min1Test {
         BracketTest.assertInvariants(bracket);
         assertConsistent("Minimum", min, f);
 
-        assertTrue(min.getF() <= bracket.getInner().getF(), "The minimum value of the returned bracket <" + min
+        assertTrue(min.f() <= bracket.getInner().f(), "The minimum value of the returned bracket <" + min
                 + "> is not larger than the minimum value of the given bracket <" + bracket + ">");
 
         return min;
@@ -181,7 +181,7 @@ public class Min1Test {
         BracketTest.assertInvariants(bracket);
         assertConsistent("Minimum", min, f);
 
-        assertTrue(min.getF() <= bracket.getInner().getF(), "The minimum value of the returned bracket <" + min
+        assertTrue(min.f() <= bracket.getInner().f(), "The minimum value of the returned bracket <" + min
                 + "> is not larger than the minimum value of the given bracket <" + bracket + ">");
         return min;
     }

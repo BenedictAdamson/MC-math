@@ -34,7 +34,6 @@ public interface Rotation3 {
      * given direction vector.
      * </p>
      * <ul>
-     * <li>Always produces a (non null) rotated vector.</li>
      * <li>The rotated vector has the same {@linkplain ImmutableVector3#magnitude()
      * magnitude} as the given vector.</li>
      * <li>Rotation by the zero rotation produces a rotated vector
@@ -58,8 +57,6 @@ public interface Rotation3 {
      * <li>Rotation by a complete circle has no effect. The angle might therefore be
      * forced to be in the range -2&pi; to 2&pi;.</li>
      * </ul>
-     *
-     * @return the angle
      */
     double getAngle();
 
@@ -68,7 +65,6 @@ public interface Rotation3 {
      * The direction vector about which this rotation takes place.
      * </p>
      * <ul>
-     * <li>Always have a (non-null) axis.</li>
      * <li>The axis has a {@linkplain ImmutableVector3#magnitude() magnitude} of 1
      * or 0.</li>
      * <li>The axis has a 0 magnitude for a zero rotation.</li>
@@ -84,7 +80,6 @@ public interface Rotation3 {
      * The quaternion that represents this rotation.
      * </p>
      * <ul>
-     * <li>Always have a (non null) versor.</li>
      * <li>The versor has unit {@linkplain Quaternion#norm() norm} (magnitude).</li>
      * <li>The {@linkplain Quaternion#getA() real component} of the versor is the
      * cosine of half the {@linkplain #getAngle() rotation angle}.</li>
@@ -102,16 +97,10 @@ public interface Rotation3 {
      * <p>
      * Create the rotation that is the opposite of this rotation.
      * </p>
-     * <ul>
-     * <li>Always produces a (non null) rotation.
-     * <li>
-     * <li>The opposite rotation <em>either</em> has the same {@linkplain #getAxis()
+     * <p>The opposite rotation <em>either</em> has the same {@linkplain #getAxis()
      * axis} but the negative of the {@linkplain #getAngle() angle} of this
      * rotation, <em>or</em> the same angle but an axis that points in the
-     * {@linkplain Vector#minus() opposite} direction.</li>
-     * </ul>
-     *
-     * @return the opposite rotation.
+     * {@linkplain Vector#minus() opposite} direction.</p>
      */
     @Nonnull
     Rotation3 minus();
@@ -121,8 +110,6 @@ public interface Rotation3 {
      * Create the rotation that is the difference between this rotation and another.
      * </p>
      * <ul>
-     * <li>Always produces a (non null) rotation.
-     * <li>
      * <li>The difference between this rotation and the given rotation is the
      * rotation that, if {@linkplain #plus(Rotation3) added} to the given rotation
      * would produce this rotation.</li>
@@ -131,7 +118,6 @@ public interface Rotation3 {
      * </ul>
      *
      * @param that The other rotation
-     * @return the rotation difference.
      * @throws NullPointerException If {@code that} is null.
      */
     @Nonnull
@@ -143,7 +129,6 @@ public interface Rotation3 {
      * rotation; the sum of this rotation and another.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) rotation.</li>
      * <li>Rotation addition is not commutative.</li>
      * <li>The sum of two rotations that have the same {@linkplain #getAxis() axis}
      * has the same axis, with the {@linkplain #getAngle() angle} of the sum
@@ -154,7 +139,6 @@ public interface Rotation3 {
      * </ul>
      *
      * @param that The other rotation
-     * @return the sum rotation
      * @throws NullPointerException If {@code that} is null.
      */
     @Nonnull
@@ -167,7 +151,6 @@ public interface Rotation3 {
      * a given amount.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) rotation.</li>
      * <li>The scaled rotation has same axis as this, unless the scaling factor is
      * zero.</li>
      * <li>The scaled rotation has its angle nominally scaled by the scaling factor.

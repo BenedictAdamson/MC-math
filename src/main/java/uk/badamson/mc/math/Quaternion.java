@@ -46,7 +46,7 @@ public final class Quaternion {
 
     /**
      * <p>
-     * The quaternion having using {@linkplain #getB() i component} with all other
+     * The quaternion having a unit {@linkplain #getB() i component} with all other
      * components zero.
      * </p>
      */
@@ -54,7 +54,7 @@ public final class Quaternion {
 
     /**
      * <p>
-     * The quaternion having using {@linkplain #getC() j component} with all other
+     * The quaternion having unit {@linkplain #getC() j component} with all other
      * components zero.
      * </p>
      */
@@ -62,7 +62,7 @@ public final class Quaternion {
 
     /**
      * <p>
-     * The quaternion having using {@linkplain #getD() k component} with all other
+     * The quaternion having unit {@linkplain #getD() k component} with all other
      * components zero.
      * </p>
      */
@@ -91,6 +91,7 @@ public final class Quaternion {
      * @param c The <b>j</b> component of this quaternion.
      * @param d The <b>k</b> component of this quaternion.
      */
+    @Nonnull
     public static Quaternion create(final double a, final double b, final double c, final double d) {
         return new Quaternion(a, b, c, d);
     }
@@ -99,10 +100,9 @@ public final class Quaternion {
      * <p>
      * Create a quaternion that is the conjugate of this quaternion.
      * </p>
-     *
-     * @return the conjugate; not null
      */
-    public @Nonnull Quaternion conjugate() {
+    @Nonnull
+    public Quaternion conjugate() {
         return new Quaternion(a, -b, -c, -d);
     }
 
@@ -114,13 +114,14 @@ public final class Quaternion {
      * <p>
      * That is, if this is <var>q</var> and the other quaternion is <var>p</var>,
      * the method computes <var>q</var><var>p</var><var>q</var><sup>-1</sup>.
+     * </p>
      *
      * @param p The quaternion to be conjugated.
-     * @return the conjugation; not null
      * @throws NullPointerException If {@code p} is null
      */
-    public @Nonnull Quaternion conjugation(@Nonnull final Quaternion p) {
-        Objects.requireNonNull(p, "p");
+    @Nonnull
+    public Quaternion conjugation(@Nonnull final Quaternion p) {
+        Objects.requireNonNull(p);
         return product(p).product(conjugate()).scale(1.0 / norm2());
     }
 
@@ -134,7 +135,6 @@ public final class Quaternion {
      * </ul>
      *
      * @param that The other quaternion
-     * @return the difference quaternion
      * @throws NullPointerException If {@code that} is null.
      */
     public double distance(@Nonnull final Quaternion that) {
@@ -148,11 +148,10 @@ public final class Quaternion {
      * </p>
      *
      * @param that The other quaternion with which to calculate the dot product.
-     * @return the dot product; not null.
      * @throws NullPointerException If {@code that} is null.
      */
     public double dot(@Nonnull final Quaternion that) {
-        Objects.requireNonNull(that, "that");
+        Objects.requireNonNull(that);
         return a * that.a + b * that.b + c * that.c + d * that.d;
     }
 
@@ -189,10 +188,11 @@ public final class Quaternion {
      * Create a quaternion that is the exponential of this quaternion.
      * </p>
      *
-     * @return the exponential; not null
+     * @return the exponential
      * @see Math#exp(double)
      */
-    public @Nonnull Quaternion exp() {
+    @Nonnull
+    public Quaternion exp() {
         final double ea = Math.exp(a);
         final Quaternion v = vector();
         final double vn = v.norm();
@@ -263,15 +263,10 @@ public final class Quaternion {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        long temp;
-        temp = Double.doubleToLongBits(a);
-        result = prime * result + (int) (temp ^ temp >>> 32);
-        temp = Double.doubleToLongBits(b);
-        result = prime * result + (int) (temp ^ temp >>> 32);
-        temp = Double.doubleToLongBits(c);
-        result = prime * result + (int) (temp ^ temp >>> 32);
-        temp = Double.doubleToLongBits(d);
-        result = prime * result + (int) (temp ^ temp >>> 32);
+        result = prime * result + Double.hashCode(a);
+        result = prime * result + Double.hashCode(b);
+        result = prime * result + Double.hashCode(c);
+        result = prime * result + Double.hashCode(d);
         return result;
     }
 
@@ -286,10 +281,10 @@ public final class Quaternion {
      * {@linkplain #vector() vector} part.
      * </p>
      *
-     * @return the natural logarithm; not null
      * @see Math#log(double)
      */
-    public @Nonnull Quaternion log() {
+    @Nonnull
+    public Quaternion log() {
         final Quaternion v = vector();
         final double n = norm();
         final Quaternion sTerm = new Quaternion(Math.log(n), 0, 0, 0);
@@ -304,11 +299,11 @@ public final class Quaternion {
      * </p>
      *
      * @param that The quaternion to take the mean with
-     * @return the mean quaternion; not null.
      * @throws NullPointerException If {@code that} is null.
      */
-    public @Nonnull Quaternion mean(@Nonnull final Quaternion that) {
-        Objects.requireNonNull(that, "that");
+    @Nonnull
+    public Quaternion mean(@Nonnull final Quaternion that) {
+        Objects.requireNonNull(that);
         return new Quaternion((a + that.a) * 0.5, (b + that.b) * 0.5, (c + that.c) * 0.5, (d + that.d) * 0.5);
     }
 
@@ -319,11 +314,11 @@ public final class Quaternion {
      * </p>
      *
      * @param that The other quaternion
-     * @return the difference quaternion
      * @throws NullPointerException If {@code that} is null.
      */
-    public @Nonnull Quaternion minus(@Nonnull final Quaternion that) {
-        Objects.requireNonNull(that, "that");
+    @Nonnull
+    public Quaternion minus(@Nonnull final Quaternion that) {
+        Objects.requireNonNull(that);
         return new Quaternion(a - that.a, b - that.b, c - that.c, d - that.d);
     }
 
@@ -335,8 +330,6 @@ public final class Quaternion {
      * The method takes care to properly handle quaternions with components that are
      * large, not numbers, or which differ greatly in magnitude.
      * </p>
-     *
-     * @return the norm
      */
     public double norm() {
         final double s = getScale();
@@ -351,8 +344,6 @@ public final class Quaternion {
      * The method takes care to properly handle quaternions with components that are
      * large, not numbers, or which differ greatly in magnitude.
      * </p>
-     *
-     * @return the square of the norm.
      */
     public double norm2() {
         final double s = getScale();
@@ -375,11 +366,11 @@ public final class Quaternion {
      * </p>
      *
      * @param that The other quaternion
-     * @return the sum quaternion
      * @throws NullPointerException If {@code that} is null.
      */
-    public @Nonnull Quaternion plus(@Nonnull final Quaternion that) {
-        Objects.requireNonNull(that, "that");
+    @Nonnull
+    public Quaternion plus(@Nonnull final Quaternion that) {
+        Objects.requireNonNull(that);
         return new Quaternion(a + that.a, b + that.b, c + that.c, d + that.d);
     }
 
@@ -395,9 +386,9 @@ public final class Quaternion {
      * </p>
      *
      * @param p The power to raise this quaternion to
-     * @return the power; not null
      * @see Math#pow(double, double)
      */
+    @Nonnull
     public Quaternion pow(final double p) {
         final double n = norm();
         final Quaternion v = vector();
@@ -412,15 +403,12 @@ public final class Quaternion {
      * Create a quaternion that is the Hamilton product of this quaternion and a
      * given quaternion.
      * </p>
-     * <ul>
-     * <li>Always returns a (non null) quaternion.</li>
-     * </ul>
      *
      * @param that the other quaternion
-     * @return the product
      * @throws NullPointerException If {@code that} is null.
      */
-    public @Nonnull Quaternion product(@Nonnull final Quaternion that) {
+    @Nonnull
+    public Quaternion product(@Nonnull final Quaternion that) {
         Objects.requireNonNull(that, "that");
         return new Quaternion(a * that.a - b * that.b - c * that.c - d * that.d,
                 a * that.b + b * that.a + c * that.d - d * that.c, a * that.c - b * that.d + c * that.a + d * that.b,
@@ -431,10 +419,9 @@ public final class Quaternion {
      * <p>
      * Create a quaternion that is the reciprocal of this quaternion.
      * </p>
-     *
-     * @return the conjugate; not null
      */
-    public @Nonnull Quaternion reciprocal() {
+    @Nonnull
+    public Quaternion reciprocal() {
         return conjugate().scale(1.0 / norm2());
     }
 
@@ -442,19 +429,16 @@ public final class Quaternion {
      * <p>
      * Create a quaternion that is this quaternion scaled by a given scalar.
      * </p>
-     * <ul>
-     * <li>Always returns a (non null) quaternion.
-     * <li>
-     * </ul>
      *
      * @param f the scalar
-     * @return the scaled quaternion
      */
-    public @Nonnull Quaternion scale(final double f) {
+    @Nonnull
+    public Quaternion scale(final double f) {
         return new Quaternion(a * f, b * f, c * f, d * f);
     }
 
     @Override
+    @Nonnull
     public String toString() {
         return a + "+" + b + "i+" + c + "j+" + d + "k";
     }
@@ -463,10 +447,9 @@ public final class Quaternion {
      * <p>
      * Create a quaternion that is the vector part of this quaternion.
      * </p>
-     *
-     * @return the vector part; not null
      */
-    public @Nonnull Quaternion vector() {
+    @Nonnull
+    public Quaternion vector() {
         return new Quaternion(0, b, c, d);
     }
 
@@ -482,10 +465,9 @@ public final class Quaternion {
      * close to zero, the method returns zero as the versor (rather than a versor
      * with {@linkplain Double#isFinite(double) non finite} components).
      * </p>
-     *
-     * @return the versor; not null
      */
-    public @Nonnull Quaternion versor() {
+    @Nonnull
+    public Quaternion versor() {
         final double s = getScale();
         final double f1 = 1.0 / s;
         final double hypot = Math.sqrt(sn2(s));

@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+import java.util.function.Function;
 
 /**
  * <p>
@@ -28,7 +29,7 @@ import javax.annotation.concurrent.Immutable;
  * </p>
  */
 @Immutable
-public interface FunctionNWithGradient {
+public interface FunctionNWithGradient extends Function<ImmutableVectorN, FunctionNWithGradientValue> {
 
     /**
      * <p>
@@ -50,7 +51,7 @@ public interface FunctionNWithGradient {
      * </p>
      * <ul>
      * <li>Always returns a (non null) value.</li>
-     * <li>The {@linkplain Function1WithGradientValue#getX() domain value} of the
+     * <li>The {@linkplain Function1WithGradientValue#x() domain value} of the
      * returned object is the given domain value.</li>
      * </ul>
      *
@@ -63,4 +64,10 @@ public interface FunctionNWithGradient {
      */
     @Nonnull
     FunctionNWithGradientValue value(@Nonnull ImmutableVectorN x);
+
+    @Override
+    @Nonnull
+    default FunctionNWithGradientValue apply(@Nonnull ImmutableVectorN x) {
+        return value(x);
+    }
 }

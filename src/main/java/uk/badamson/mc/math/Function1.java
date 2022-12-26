@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 
 import javax.annotation.concurrent.Immutable;
+import java.util.function.DoubleUnaryOperator;
 
 /**
  * <p>
@@ -28,7 +29,7 @@ import javax.annotation.concurrent.Immutable;
  */
 @FunctionalInterface
 @Immutable
-public interface Function1 {
+public interface Function1 extends DoubleUnaryOperator {
 
     /**
      * <p>
@@ -39,4 +40,8 @@ public interface Function1 {
      * @return The value of the function.
      */
     double value(double x);
+
+    default double  applyAsDouble(double x) {
+        return value(x);
+    }
 }

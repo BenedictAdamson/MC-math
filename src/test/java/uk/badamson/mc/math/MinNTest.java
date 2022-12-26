@@ -123,8 +123,8 @@ public class MinNTest {
         final Function1WithGradient f = createLineFunction(PARABOLOID_WITH_GRADIENT, x, dx);
 
         final Function1WithGradientValue fw = Function1WithGradientTest.value(f, w);
-        assertEquals(expectedF, fw.getF(), toleranceF, "f(" + w + ")");
-        assertEquals(expectedDfDw, fw.getDfDx(), toleranceDfDw, "dfdw(" + w + ")");
+        assertEquals(expectedF, fw.f(), toleranceF, "f(" + w + ")");
+        assertEquals(expectedDfDw, fw.dfdx(), toleranceDfDw, "dfdw(" + w + ")");
     }
 
     private static FunctionNWithGradientValue findFletcherReevesPolakRibere(final FunctionNWithGradient f,

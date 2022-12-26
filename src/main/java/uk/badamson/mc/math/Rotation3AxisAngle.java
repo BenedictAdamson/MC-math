@@ -24,7 +24,7 @@ import java.util.Objects;
 
 /**
  * <p>
- * A rotation in 3D space represented by a a rotation angle and a rotation axis.
+ * A rotation in 3D space represented by a rotation angle and a rotation axis.
  * </p>
  */
 @Immutable
@@ -35,16 +35,18 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * A rotation with zero rotation angle.
      * </p>
      * <ul>
-     * <li>Has a (non null) zero rotation.</li>
      * <li>The {@linkplain #getAngle() rotation angle} of the zero rotation is
      * 0.</li>
      * </ul>
      */
+    @Nonnull
     public static final Rotation3AxisAngle ZERO = new Rotation3AxisAngle(ImmutableVector3.ZERO, 0);
+
+    @Nonnull
     private final ImmutableVector3 axis;
     private final double angle;
 
-    private Rotation3AxisAngle(final ImmutableVector3 axis, final double angle) {
+    private Rotation3AxisAngle(@Nonnull final ImmutableVector3 axis, final double angle) {
         this.axis = axis;
         this.angle = angle;
     }
@@ -63,10 +65,10 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * </ul>
      *
      * @param quaternion The quaternion of the rotation.
-     * @return the rotation
      * @throws NullPointerException If {@code quaternion} is null.
      */
-    public static @Nonnull Rotation3AxisAngle valueOf(@Nonnull final Quaternion quaternion) {
+    @Nonnull
+    public static Rotation3AxisAngle valueOf(@Nonnull final Quaternion quaternion) {
         Objects.requireNonNull(quaternion, "quaternion");
         final Quaternion versor = quaternion.versor();
         final double c = versor.getA();
@@ -83,7 +85,6 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * Create a rotation quaternion that has a given axis-angle representation.
      * </p>
      * <ul>
-     * <li>Always creates a (non null) rotation.</li>
      * <li>The {@linkplain #getAngle() rotation angle} of the created rotation is
      * equal to the given angle.</li>
      * <li>The {@linkplain #getAxis() rotation axis} of the created rotation points
@@ -99,8 +100,11 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * @throws IllegalArgumentException If {@code axis} as zero {@linkplain ImmutableVector3#magnitude()
      *                                  magnitude} but the rotation amount is not zero.
      */
-    public static @Nonnull Rotation3AxisAngle valueOfAxisAngle(@Nonnull final ImmutableVector3 axis,
-                                                               final double angle) {
+    @Nonnull
+    public static Rotation3AxisAngle valueOfAxisAngle(
+            @Nonnull final ImmutableVector3 axis,
+            final double angle
+    ) {
         Objects.requireNonNull(axis, "axis");
         final ImmutableVector3 normalizedAxis = Double.MIN_NORMAL < Math.abs(angle) ? axis.scale(1.0 / axis.magnitude())
                 : ImmutableVector3.ZERO;// TODO handle 2pi multiples
@@ -124,8 +128,6 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * <li>This representation can representation by multiple turns, so the angle is
      * not constrained to the range -2&pi; to 2&pi;</li>
      * </ul>
-     *
-     * @return the angle
      */
     @Override
     public double getAngle() {
@@ -133,12 +135,14 @@ public final class Rotation3AxisAngle implements Rotation3 {
     }
 
     @Override
-    public @Nonnull ImmutableVector3 getAxis() {
+    @Nonnull
+    public ImmutableVector3 getAxis() {
         return axis;
     }
 
     @Override
-    public @Nonnull Quaternion getVersor() {
+    @Nonnull
+    public Quaternion getVersor() {
         return asRotation3Quaternion().getVersor();
     }
 
@@ -146,38 +150,37 @@ public final class Rotation3AxisAngle implements Rotation3 {
      * <p>
      * Create the rotation that is the opposite of this rotation.
      * </p>
-     * <ul>
-     * <li>Always produces a (non null) rotation.
-     * <li>
-     * <li>The opposite rotation has the same {@linkplain #getAxis() axis} but the
-     * negative of the {@linkplain #getAngle() angle} of this rotation.</li>
-     * </ul>
-     *
-     * @return the opposite rotation.
+     * <p>The opposite rotation has the same {@linkplain #getAxis() axis} but the
+     * negative of the {@linkplain #getAngle() angle} of this rotation.</p>
      */
     @Override
-    public @Nonnull Rotation3AxisAngle minus() {
+    @Nonnull
+    public Rotation3AxisAngle minus() {
         return new Rotation3AxisAngle(axis, -angle);
     }
 
     @Override
-    public @Nonnull Rotation3 minus(@Nonnull final Rotation3 that) {
-        Objects.requireNonNull(that, "that");
+    @Nonnull
+    public Rotation3 minus(@Nonnull final Rotation3 that) {
+        Objects.requireNonNull(that);
         return asRotation3Quaternion().minus(that);
     }
 
     @Override
-    public @Nonnull Rotation3 plus(@Nonnull final Rotation3 that) {
-        Objects.requireNonNull(that, "that");
+    @Nonnull
+    public Rotation3 plus(@Nonnull final Rotation3 that) {
+        Objects.requireNonNull(that);
         return asRotation3Quaternion().plus(that);
     }
 
     @Override
-    public @Nonnull Rotation3AxisAngle scale(final double f) {
+    @Nonnull
+    public Rotation3AxisAngle scale(final double f) {
         return new Rotation3AxisAngle(axis, angle * f);
     }
 
     @Override
+    @Nonnull
     public String toString() {
         return "Rotation3AxisAngle[" + getAngle() + " radians about " + getAxis() + "]";
     }

@@ -18,6 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
@@ -25,7 +26,7 @@ import java.util.Objects;
 
 /**
  * <p>
- * A constant (immutable) 2D array of real numbers of any size.
+ * A constant (immutable) 2D array of real numbers of any constant size.
  * </p>
  */
 @Immutable
@@ -34,6 +35,7 @@ public class ImmutableMatrixN implements Matrix {
     protected final double[] elements;
     private final int rows;
     private final int columns;
+
     ImmutableMatrixN(final int rows, final int columns, @Nonnull final double[] elements) {
         this.rows = rows;
         this.columns = columns;
@@ -44,17 +46,12 @@ public class ImmutableMatrixN implements Matrix {
      * <p>
      * Create a matrix with given element values.
      * </p>
-     * <ul>
-     * <li>Always creates a (non null) matrix.</li>
-     * <li>The created matrix has the given attribute values.</li>
-     * </ul>
      *
      * @param rows     The number of rows of the matrix.
      * @param columns  The number of columns of this matrix.
      * @param elements The values of the elements of the matrix; the elements are in
      *                 <i>row-major</i> order, so {@code element[i*columns + j]} is the
      *                 value of cardinal row <var>i</var>, cardinal column <var>j</var>.
-     * @return the created matrix
      * @throws NullPointerException     If {@code elements} is null.
      * @throws IllegalArgumentException <ul>
      *                                              <li>If {@code rows} is not positive.</li>
@@ -63,7 +60,10 @@ public class ImmutableMatrixN implements Matrix {
      *                                              {@code rows} multiplied by {@code columns}.</li>
      *                                              </ul>
      */
-    public static ImmutableMatrixN create(final int rows, final int columns, @Nonnull final double[] elements) {
+    @Nonnull
+    public static ImmutableMatrixN create(@Nonnegative final int rows,
+                                          @Nonnegative final int columns,
+                                          @Nonnull final double[] elements) {
         Objects.requireNonNull(elements, "elements");
         if (rows < 1) {
             throw new IllegalArgumentException("rows " + rows);
@@ -86,8 +86,7 @@ public class ImmutableMatrixN implements Matrix {
     public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
-        }
-        if (obj == null) {
+        } else if (obj == null) {
             return false;
         }
         if (!(obj instanceof final ImmutableMatrixN other)) {
@@ -97,7 +96,13 @@ public class ImmutableMatrixN implements Matrix {
     }
 
     @Override
-    public final double get(final int i, final int j) {
+    @Nonnegative
+    public final int getColumns() {
+        return columns;
+    }
+
+    @Override
+    public final double get(@Nonnegative final int i, @Nonnegative final int j) {
         if (i < 0 || rows <= i) {
             throw new IndexOutOfBoundsException("i " + i);
         }
@@ -108,11 +113,7 @@ public class ImmutableMatrixN implements Matrix {
     }
 
     @Override
-    public final int getColumns() {
-        return columns;
-    }
-
-    @Override
+    @Nonnegative
     public final int getRows() {
         return rows;
     }

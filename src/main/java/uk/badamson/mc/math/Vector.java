@@ -18,6 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
@@ -28,13 +29,22 @@ import java.util.Objects;
  */
 public interface Vector extends Matrix {
 
+    static void requireValidWeights(double[] weight, Vector[] x) {
+        Objects.requireNonNull(weight, "weight");
+        if (weight.length == 0) {
+            throw new IllegalArgumentException("weight.length " + weight.length);
+        }
+        if (weight.length != x.length) {
+            throw new IllegalArgumentException("Inconsistent lengths weight.length " + weight.length + " x.length " + x.length);
+        }
+    }
+
     /**
      * <p>
      * Calculate the dot product of this vector and another vector.
      * </p>
      *
      * @param that The other vector
-     * @return the product
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
@@ -49,13 +59,11 @@ public interface Vector extends Matrix {
      * @param i the cardinal number of the row of the element (0 for the first
      *          row, 1 for the second row, and so on).
      * @return the value of the element
-     * @throws IndexOutOfBoundsException <ul>
-     *                                               <li>If {@code i} is negative.</li>
-     *                                               <li>If {@code i} is greater than or equal to the number of
-     *                                               {@linkplain #getRows() rows} of this vector.</li>
-     *                                               </ul>
+     * @throws IndexOutOfBoundsException If {@code i} is negative.
+     *                                   If {@code i} is greater than or equal to the number of
+     *                                   {@linkplain #getRows() rows} of this vector.
      */
-    double get(int i);
+    double get(@Nonnegative int i);
 
     /**
      * {@inheritDoc}
@@ -65,6 +73,7 @@ public interface Vector extends Matrix {
      * </ul>
      */
     @Override
+    @Nonnegative
     int getColumns();
 
     /**
@@ -76,9 +85,8 @@ public interface Vector extends Matrix {
      * <li>The number of dimensions equals the {@linkplain #getRows() number of
      * rows}.</li>
      * </ul>
-     *
-     * @return the number of dimensions
      */
+    @Nonnegative
     int getDimension();
 
     /**
@@ -88,9 +96,8 @@ public interface Vector extends Matrix {
      * <ul>
      * <li>The magnitude of this vector is the square root of the dot product of
      * this vector with itself.</li>
+     * <li>The magnitude will usually be non-negative. It will however be NaN if any components of  this vector are NaN.</li>
      * </ul>
-     *
-     * @return the magnitude
      */
     double magnitude();
 
@@ -103,9 +110,8 @@ public interface Vector extends Matrix {
      * large, not numbers, or which differ greatly in magnitude. It is otherwise
      * similar to the {@linkplain #dot(Vector) dot product} of the vector with
      * itself.
+     * The square magnitude will usually be non-negative. It will however be NaN if any components of this vector are NaN or if the computation overflows.
      * </p>
-     *
-     * @return the square of the magnitude.
      */
     double magnitude2();
 
@@ -113,35 +119,30 @@ public interface Vector extends Matrix {
      * <p>
      * Create the vector that is the mean of this vector with another vector.
      * </p>
-     * <ul>
-     * <li>Always returns a (non null) vector.</li>
-     * <li>The {@linkplain #getDimension() dimension} of the mean vector is equal to
-     * the dimension of this vector.</li>
-     * </ul>
+     * <p>The {@linkplain #getDimension() dimension} of the mean vector is equal to
+     * the dimension of this vector.</p>
      *
      * @param that The vector to take the mean with
-     * @return the mean vector
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain ImmutableVector3#getDimension() dimension} of
      *                                  }@code that} is not equal to the dimension of this vector.
      */
-    @Nonnull Vector mean(@Nonnull Vector that);
+    @Nonnull
+    Vector mean(@Nonnull Vector that);
 
     /**
      * <p>
      * Create the vector that is opposite in direction of this vector.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The opposite vector has the same {@linkplain #getDimension() dimension}
      * as this vector.</li>
      * <li>The {@linkplain #get(int) components} of the opposite vector are the
      * negative of the corresponding component of this vector.</li>
      * </ul>
-     *
-     * @return the opposite vector.
      */
-    @Nonnull Vector minus();
+    @Nonnull
+    Vector minus();
 
     /**
      * <p>
@@ -149,7 +150,6 @@ public interface Vector extends Matrix {
      * difference between this vector and another.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The difference vector has the same {@linkplain #getDimension() dimension}
      * as this vector.</li>
      * <li>The {@linkplain #get(int) components} of the difference vector are the
@@ -157,7 +157,6 @@ public interface Vector extends Matrix {
      * </ul>
      *
      * @param that The other vector
-     * @return the difference vector
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
@@ -171,7 +170,6 @@ public interface Vector extends Matrix {
      * this vector and another.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The sum vector has the same {@linkplain #getDimension() dimension} as
      * this vector.</li>
      * <li>The {@linkplain #get(int) components} of the sum vector are the sum with
@@ -179,7 +177,6 @@ public interface Vector extends Matrix {
      * </ul>
      *
      * @param that The other vector
-     * @return the sum vector
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
@@ -191,27 +188,12 @@ public interface Vector extends Matrix {
      * <p>
      * Create a vector that is this vector scaled by a given scalar.
      * </p>
-     * <ul>
-     * <li>Always returns a (non null) vector.
-     * <li>
-     * <li>The {@linkplain ImmutableVector3#getDimension() dimension} of the scaled
-     * vector is equal to the dimension of this vector.</li>
-     * </ul>
+     * <p>The {@linkplain ImmutableVector3#getDimension() dimension} of the scaled
+     * vector is equal to the dimension of this vector.</p>
      *
      * @param f the scalar
-     * @return the scaled vector
      */
     @Nonnull
     Vector scale(double f);
-
-    static void requireValidWeights(double[] weight, Vector[] x) {
-        Objects.requireNonNull(weight, "weight");
-        if (weight.length == 0) {
-            throw new IllegalArgumentException("weight.length " + weight.length);
-        }
-        if (weight.length != x.length) {
-            throw new IllegalArgumentException("Inconsistent lengths weight.length " + weight.length + " x.length " + x.length);
-        }
-    }
 
 }

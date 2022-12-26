@@ -35,16 +35,15 @@ public final class Rotation3Quaternion implements Rotation3 {
      * <p>
      * A zero rotation quaternion.
      * </p>
-     * <ul>
-     * <li>Has a (non null) zero rotation.</li>
-     * <li>The {@linkplain #getAngle() rotation angle} of the zero rotation is
-     * 0.</li>
-     * </ul>
+     * <p>The {@linkplain #getAngle() rotation angle} of the zero rotation is
+     * 0.</p>
      */
+    @Nonnull
     public static final Rotation3Quaternion ZERO = new Rotation3Quaternion(Quaternion.create(1, 0, 0, 0));
+
     private final Quaternion versor;
 
-    private Rotation3Quaternion(final Quaternion versor) {
+    private Rotation3Quaternion(@Nonnull final Quaternion versor) {
         this.versor = versor;
     }
 
@@ -53,7 +52,6 @@ public final class Rotation3Quaternion implements Rotation3 {
      * Create a rotation that has a given quaternion representation.
      * </p>
      * <ul>
-     * <li>Always creates a (non null) rotation.</li>
      * <li>The {@linkplain #getVersor() versor} of the created rotation is derived
      * from the given quaternion, {@linkplain Quaternion#scale(double) scaled} to
      * have unit {@linkplain Quaternion#norm() norm} (magnitude).</li>
@@ -65,8 +63,9 @@ public final class Rotation3Quaternion implements Rotation3 {
      * @return the rotation
      * @throws NullPointerException If {@code quaternion} is null.
      */
-    public static @Nonnull Rotation3Quaternion valueOf(@Nonnull final Quaternion quaternion) {
-        Objects.requireNonNull(quaternion, "quaternion");
+    @Nonnull
+    public static Rotation3Quaternion valueOf(@Nonnull final Quaternion quaternion) {
+        Objects.requireNonNull(quaternion);
         final double norm = quaternion.norm();
         if (norm == 1.0) {
             return new Rotation3Quaternion(quaternion);
@@ -82,7 +81,6 @@ public final class Rotation3Quaternion implements Rotation3 {
      * Create a rotation quaternion that has a given axis-angle representation.
      * </p>
      * <ul>
-     * <li>Always creates a (non null) rotation.</li>
      * <li>The {@linkplain #getAngle() rotation angle} of the created rotation is
      * equal to the given angle (converted to the range -2&pi; to 2&pi;).</li>
      * <li>The {@linkplain #getAxis() rotation axis} of the created rotation points
@@ -93,14 +91,16 @@ public final class Rotation3Quaternion implements Rotation3 {
      * @param angle The direction vector about which this rotation takes place. This
      *              direction need not have {@linkplain ImmutableVector3#magnitude()
      *              magnitude} of 1.
-     * @return the rotation
      * @throws NullPointerException     If {@code axis} is null.
      * @throws IllegalArgumentException If {@code axis} as zero {@linkplain ImmutableVector3#magnitude()
      *                                  magnitude} but the rotation amount is not zero.
      */
-    public static @Nonnull Rotation3Quaternion valueOfAxisAngle(@Nonnull final ImmutableVector3 axis,
-                                                                final double angle) {
-        Objects.requireNonNull(axis, "axis");
+    @Nonnull
+    public static Rotation3Quaternion valueOfAxisAngle(
+            @Nonnull final ImmutableVector3 axis,
+            final double angle
+    ) {
+        Objects.requireNonNull(axis);
         final double halfAngle = angle * 0.5;
         final double c = Math.cos(halfAngle);
         final double s = Math.sin(halfAngle);
@@ -119,8 +119,9 @@ public final class Rotation3Quaternion implements Rotation3 {
     }
 
     @Override
-    public @Nonnull ImmutableVector3 apply(@Nonnull final ImmutableVector3 v) {
-        Objects.requireNonNull(v, "v");
+    @Nonnull
+    public ImmutableVector3 apply(@Nonnull final ImmutableVector3 v) {
+        Objects.requireNonNull(v);
         final Quaternion conj = versor.conjugation(Quaternion.create(0, v.get(0), v.get(1), v.get(2)));
         return ImmutableVector3.create(conj.getB(), conj.getC(), conj.getD());
     }
@@ -132,8 +133,6 @@ public final class Rotation3Quaternion implements Rotation3 {
      * <ul>
      * <li>The angle is in the range -2&pi; to 2&pi;</li>
      * </ul>
-     *
-     * @return the angle
      */
     @Override
     public double getAngle() {
@@ -143,7 +142,8 @@ public final class Rotation3Quaternion implements Rotation3 {
     }
 
     @Override
-    public @Nonnull ImmutableVector3 getAxis() {
+    @Nonnull
+    public ImmutableVector3 getAxis() {
         final ImmutableVector3 su = ImmutableVector3.create(versor.getB(), versor.getC(), versor.getD());
         final double magnitude = su.magnitude();
         if (Double.MIN_NORMAL < magnitude) {
@@ -154,33 +154,39 @@ public final class Rotation3Quaternion implements Rotation3 {
     }
 
     @Override
-    public @Nonnull Quaternion getVersor() {
+    @Nonnull
+    public Quaternion getVersor() {
         return versor;
     }
 
     @Override
-    public @Nonnull Rotation3Quaternion minus() {
+    @Nonnull
+    public Rotation3Quaternion minus() {
         return new Rotation3Quaternion(versor.conjugate());
     }
 
     @Override
-    public @Nonnull Rotation3 minus(@Nonnull final Rotation3 that) {
-        Objects.requireNonNull(that, "that");
+    @Nonnull
+    public Rotation3 minus(@Nonnull final Rotation3 that) {
+        Objects.requireNonNull(that);
         return new Rotation3Quaternion(that.getVersor().conjugate().product(versor));
     }
 
     @Override
-    public @Nonnull Rotation3Quaternion plus(@Nonnull final Rotation3 that) {
-        Objects.requireNonNull(that, "that");
+    @Nonnull
+    public Rotation3Quaternion plus(@Nonnull final Rotation3 that) {
+        Objects.requireNonNull(that);
         return new Rotation3Quaternion(versor.product(that.getVersor()));
     }
 
     @Override
-    public @Nonnull Rotation3Quaternion scale(final double f) {
+    @Nonnull
+    public Rotation3Quaternion scale(final double f) {
         return new Rotation3Quaternion(versor.pow(f));
     }
 
     @Override
+    @Nonnull
     public String toString() {
         return "Rotation3Quaternion[" + getAngle() + " radians about " + getAxis() + "]";
     }

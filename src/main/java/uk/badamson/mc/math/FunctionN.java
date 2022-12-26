@@ -18,9 +18,11 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.util.function.ToDoubleFunction;
 
 /**
  * <p>
@@ -29,19 +31,18 @@ import javax.annotation.concurrent.NotThreadSafe;
  */
 @Immutable
 @NotThreadSafe
-public interface FunctionN {
+public interface FunctionN extends ToDoubleFunction<double[]> {
 
     /**
      * <p>
      * The number of independent variables of the function.
      * </p>
      * <p>
-     * This attribute must be <dfn>constant</dfn>: the value for a given object must
+     * This attribute must be positive and <dfn>constant</dfn>: the value for a given object must
      * always be the same value.
      * </p>
-     *
-     * @return the number of dimensions; positive.
      */
+    @Nonnegative
     int getDimension();
 
     /**
@@ -60,9 +61,14 @@ public interface FunctionN {
      * @throws NullPointerException      If {@code x} is null.
      * @throws IndexOutOfBoundsException (Optional) If the length of {@code x} is not equal to the
      *                                   {@linkplain #getDimension() number of dimensions} of this
-     *                                   function. In practice, many implementations will not complain is
+     *                                   function. In practice, many implementations will not complain if
      *                                   the length of {@code x} exceeds the number of dimensions of this
      *                                   function.
      */
     double value(@Nonnull double[] x);
+
+    @Override
+    default double applyAsDouble(@Nonnull double[] x) {
+        return value(x);
+    }
 }

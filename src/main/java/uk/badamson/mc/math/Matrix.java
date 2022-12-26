@@ -18,6 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
 /**
@@ -50,33 +51,33 @@ public interface Matrix {
      * @param j the cardinal number of the column of the element (0 for the first
      *          column, 1 for the second column, and so on).
      * @return the value of the element
-     * @throws IndexOutOfBoundsException <ul>
-     *                                               <li>If {@code i} is negative.</li>
-     *                                               <li>If {@code i} is greater than or equal to the number of
-     *                                               {@linkplain #getRows() rows} of this matrix.</li>
-     *                                               <li>If {@code j} is negative.</li>
-     *                                               <li>If {@code j} is greater than or equal to the number of
-     *                                               {@linkplain #getColumns() columns} of this matrix.</li>
-     *                                               </ul>
+     * @throws IndexOutOfBoundsException If {@code i} is negative.
+     *                                   If {@code i} is greater than or equal to the number of
+     *                                   {@linkplain #getRows() rows} of this matrix.
+     *                                   If {@code j} is negative.
+     *                                   If {@code j} is greater than or equal to the number of
+     *                                   {@linkplain #getColumns() columns} of this matrix.
      */
-    double get(int i, int j);
+    double get(@Nonnegative int i, @Nonnegative int j);
 
     /**
      * <p>
      * The number of columns of this matrix.
      * </p>
-     *
-     * @return the columns of rows; positive.
+     * <p>
+     * positive.
      */
+    @Nonnegative
     int getColumns();
 
     /**
      * <p>
      * The number of rows of this matrix.
      * </p>
-     *
-     * @return the number of rows; positive.
+     * <p>
+     * positive.
      */
+    @Nonnegative
     int getRows();
 
     /**
@@ -84,7 +85,6 @@ public interface Matrix {
      * Calculate the result of multiplying a vector by this matrix.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The {@linkplain ImmutableVectorN#getRows() number of rows} of the product
      * is equal to the number of rows of this matrix.</li>
      * </ul>

@@ -18,6 +18,7 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
@@ -44,18 +45,16 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * Create a vector from its components.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
-     * <li>This has the given values for its components.</li>
-     * <li>The {@linkplain #getDimension() number of dimensions} of this vector is
+     * <li>The {@linkplain #getDimension() number of dimensions} of the vector is
      * equal to the length of the given array of components.</li>
      * </ul>
      *
      * @param x The components of this vector
-     * @return the created vector
      * @throws NullPointerException     If {@code x} is null.
      * @throws IllegalArgumentException If {@code x} is empty (length 0)
      */
-    public static @Nonnull ImmutableVectorN create(@Nonnull final double... x) {
+    @Nonnull
+    public static ImmutableVectorN create(@Nonnull final double... x) {
         Objects.requireNonNull(x, "x");
         final int n = x.length;
         if (n == 0) {
@@ -69,17 +68,16 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * Create a zero vector having a given dimension.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The {@linkplain #getDimension() dimension} of the zero vector is the
      * given dimension.</li>
      * <li>The {@linkplain #get(int) elements} of the zero vector are all zero.</li>
      * </ul>
      *
      * @param dimension The dimension
-     * @return the zero vector.
      * @throws IllegalArgumentException If {@code dimension} is not positive
      */
-    public static @Nonnull ImmutableVectorN create0(final int dimension) {
+    @Nonnull
+    public static ImmutableVectorN create0(final int dimension) {
         if (dimension <= 0) {
             throw new IllegalArgumentException("dimension " + dimension);
         }
@@ -101,22 +99,19 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * @param x0 The original point
      * @param dx The direction vector along the line
      * @param w  Position parameter giving the position along the line.
-     * @return the indicated point on the line
-     * @throws NullPointerException     <ul>
-     *                                              <li>If {@code x0} is null.</li>
-     *                                              <li>If {@code dx} is null.</li>
-     *                                              </ul>
+     * @throws NullPointerException     If {@code x0} is null. If {@code dx} is null.
      * @throws IllegalArgumentException If {@code x0} and {@code dx} have different
      *                                  {@linkplain ImmutableVectorN#getDimension() dimensions}.
      */
-    public static @Nonnull ImmutableVectorN createOnLine(@Nonnull final ImmutableVectorN x0,
-                                                         @Nonnull final ImmutableVectorN dx,
-                                                         final double w) {
+    public static @Nonnull ImmutableVectorN createOnLine(
+            @Nonnull final ImmutableVectorN x0,
+            @Nonnull final ImmutableVectorN dx,
+            final double w) {
         Objects.requireNonNull(x0, "x0");
         Objects.requireNonNull(dx, "dx");
         requireConsistentDimensions(x0, dx);
-        final int n = x0.getDimension();
 
+        final int n = x0.getDimension();
         final double[] x = new double[n];
         for (int i = 0; i < n; i++) {
             x[i] = x0.elements[i] + w * dx.elements[i];
@@ -125,9 +120,11 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
     }
 
     private static void requireConsistentDimensions(final Vector v1, final Vector v2) {
-        if (v1.getDimension() != v2.getDimension()) {
+        var dimension1 = v1.getDimension();
+        var dimension2 = v2.getDimension();
+        if (dimension1 != dimension2) {
             throw new IllegalArgumentException(
-                    "Inconsistent dimensions, " + v1.getDimension() + ", " + v2.getDimension());
+                    "Inconsistent dimensions, " + dimension1 + ", " + dimension2);
         }
     }
 
@@ -137,21 +134,17 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * {@linkplain #getDimension() dimension}.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) sum vector.</li>
      * <li>The dimension of the sum equals the dimension of the summed vectors.</li>
      * </ul>
      *
      * @param x The vectors to sum
-     * @return The sum; not null
-     * @throws NullPointerException     <ul>
-     *                                              <li>If {@code x} is null.</li>
-     *                                              <li>If {@code x} has any null elements.</li>
-     *                                              </ul>
+     * @throws NullPointerException     If {@code x} is null. If {@code x} has any null elements.
      * @throws IllegalArgumentException If the elements of {@code x} do not have the same
      *                                  {@linkplain #getDimension() dimension}.
      * @see #plus(ImmutableVectorN)
      */
-    public static @Nonnull ImmutableVectorN sum(@Nonnull final ImmutableVectorN... x) {
+    @Nonnull
+    public static ImmutableVectorN sum(@Nonnull final ImmutableVectorN... x) {
         Objects.requireNonNull(x, "x");
         final int n = x.length;
         if (n == 0) {
@@ -181,28 +174,20 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * {@linkplain #getDimension() dimension}.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) sum vector.</li>
      * <li>The dimension of the sum equals the dimension of the summed vectors.</li>
      * </ul>
      *
      * @param weight The weights to apply; {@code weight[i]} is the weight for vector
      *               {@code x[i]}.
      * @param x      The vectors to sum
-     * @return The weighted sum; not null
-     * @throws NullPointerException     <ul>
-     *                                              <li>If {@code weight} is null.</li>
-     *                                              <li>If {@code x} is null.</li>
-     *                                              <li>If {@code x} has any null elements.</li>
-     *                                              </ul>
-     * @throws IllegalArgumentException <ul>
-     *                                              <li>If {@code weight} has a length of 0.</li>
-     *                                              <li>If {@code weight} and {@code x} have different lengths.</li>
-     *                                              <li>If the elements of {@code x} do not have the same
-     *                                              {@linkplain #getDimension() dimension}.</li>
-     *                                              </ul>
+     * @throws NullPointerException     If {@code weight} is null. If {@code x} is null. If {@code x} has any null elements.
+     * @throws IllegalArgumentException If {@code weight} has a length of 0. If {@code weight} and {@code x} have different lengths. If the elements of {@code x} do not have the same
+     *                                  {@linkplain #getDimension() dimension}.
      */
-    public static @Nonnull ImmutableVectorN weightedSum(@Nonnull final double[] weight,
-                                                        @Nonnull final ImmutableVectorN[] x) {
+    @Nonnull
+    public static ImmutableVectorN weightedSum(
+            @Nonnull final double[] weight,
+            @Nonnull final ImmutableVectorN[] x) {
         Objects.requireNonNull(weight, "weight");
         Objects.requireNonNull(x, "x");
         final int n = weight.length;
@@ -238,13 +223,13 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * </p>
      *
      * @param that The other vector
-     * @return the product
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
      */
     public double dot(@Nonnull final ImmutableVectorN that) {
         Objects.requireNonNull(that, "that");
+        requireConsistentDimensions(this, that);
 
         double d = 0.0;
         for (int i = 0, n = elements.length; i < n; ++i) {
@@ -279,7 +264,7 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      *                                   {@linkplain #getDimension() number of dimensions} of thsi vector.
      */
     @Override
-    public double get(final int i) {
+    public double get(@Nonnegative final int i) {
         return elements[i];
     }
 
@@ -290,14 +275,14 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * <ul>
      * <li>The number of dimensions is positive.</li>
      * </ul>
-     *
-     * @return the number of dimensions
      */
     @Override
+    @Nonnegative
     public int getDimension() {
         return elements.length;
     }
 
+    @Nonnegative
     private double getScale() {
         double scale = 0.0;
         for (final double xI : elements) {
@@ -310,8 +295,6 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * <p>
      * The magnitude of this vector.
      * </p>
-     *
-     * @return the magnitude
      */
     @Override
     public double magnitude() {
@@ -339,8 +322,6 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * similar to the {@linkplain #dot(ImmutableVectorN) dot product} of the vector
      * with itself.
      * </p>
-     *
-     * @return the square of the magnitude.
      */
     @Override
     public double magnitude2() {
@@ -365,7 +346,6 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * Create the vector that is the mean of this vector with another vector.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The {@linkplain ImmutableVectorN#getDimension() dimension} of the mean
      * vector is equal to the dimension of this vector.</li>
      * </ul>
@@ -374,9 +354,10 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * @return the mean vector
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain ImmutableVectorN#getDimension() dimension} of
-     *                                  }@code that} is not equal to ehe dimension of this vector.
+     *                                  {}}@code that} is not equal to ehe dimension of this vector.
      */
-    public @Nonnull ImmutableVectorN mean(@Nonnull final ImmutableVectorN that) {
+    @Nonnull
+    public ImmutableVectorN mean(@Nonnull final ImmutableVectorN that) {
         Objects.requireNonNull(that, "that");
         requireConsistentDimensions(this, that);
         final int n = elements.length;
@@ -388,11 +369,12 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
     }
 
     @Override
-    public @Nonnull ImmutableVectorN mean(@Nonnull final Vector that) {
+    @Nonnull
+    public ImmutableVectorN mean(@Nonnull final Vector that) {
         if (that instanceof ImmutableVectorN) {
             return mean((ImmutableVectorN) that);
         } else {
-            Objects.requireNonNull(that, "that");
+            Objects.requireNonNull(that);
             requireConsistentDimensions(this, that);
             final int n = elements.length;
             final double[] mean = new double[n];
@@ -408,17 +390,15 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * Create the vector that is opposite in direction of this vector.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The opposite vector has the same {@linkplain #getDimension() dimension}
      * as this vector.</li>
      * <li>The {@linkplain #get(int) components} of the opposite vector are the
      * negative of the corresponsing component of this vector.</li>
      * </ul>
-     *
-     * @return the opposite vector; not null
      */
     @Override
-    public @Nonnull ImmutableVectorN minus() {
+    @Nonnull
+    public ImmutableVectorN minus() {
         final int n = elements.length;
         final double[] minus = new double[n];
         for (int i = 0; i < n; ++i) {
@@ -433,7 +413,6 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * difference between this vector and another.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The difference vector has the same {@linkplain #getDimension() dimension}
      * as this vector.</li>
      * <li>The {@linkplain #get(int) components} of the difference vector are the
@@ -441,12 +420,12 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * </ul>
      *
      * @param that The other vector
-     * @return the difference vector
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
      */
-    public @Nonnull ImmutableVectorN minus(@Nonnull final ImmutableVectorN that) {
+    @Nonnull
+    public ImmutableVectorN minus(@Nonnull final ImmutableVectorN that) {
         Objects.requireNonNull(that, "that");
         requireConsistentDimensions(this, that);
 
@@ -459,7 +438,8 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
     }
 
     @Override
-    public @Nonnull ImmutableVectorN minus(@Nonnull final Vector that) {
+    @Nonnull
+    public ImmutableVectorN minus(@Nonnull final Vector that) {
         if (that instanceof ImmutableVectorN) {
             return minus((ImmutableVectorN) that);
         } else {
@@ -481,7 +461,6 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * this vector and another.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) vector.</li>
      * <li>The sum vector has the same {@linkplain #getDimension() dimension} as
      * this vector.</li>
      * <li>The {@linkplain #get(int) components} of the sum vector are the sum with
@@ -489,13 +468,13 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * </ul>
      *
      * @param that The other vector
-     * @return the sum vector
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
      *                                  not equal to the dimension of this.
      * @see #sum(ImmutableVectorN...)
      */
-    public @Nonnull ImmutableVectorN plus(@Nonnull final ImmutableVectorN that) {
+    @Nonnull
+    public ImmutableVectorN plus(@Nonnull final ImmutableVectorN that) {
         Objects.requireNonNull(that, "that");
         requireConsistentDimensions(this, that);
 
@@ -508,7 +487,8 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
     }
 
     @Override
-    public @Nonnull ImmutableVectorN plus(@Nonnull final Vector that) {
+    @Nonnull
+    public ImmutableVectorN plus(@Nonnull final Vector that) {
         if (that instanceof ImmutableVectorN) {
             return plus((ImmutableVectorN) that);
         } else {

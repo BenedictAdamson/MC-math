@@ -19,7 +19,9 @@ package uk.badamson.mc.math;
  */
 
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+import java.util.function.DoubleFunction;
 
 /**
  * <p>
@@ -29,7 +31,7 @@ import javax.annotation.concurrent.Immutable;
  */
 @FunctionalInterface
 @Immutable
-public interface Function1WithGradient {
+public interface Function1WithGradient extends DoubleFunction<Function1WithGradientValue> {
 
     /**
      * <p>
@@ -37,13 +39,18 @@ public interface Function1WithGradient {
      * continuous variable.
      * </p>
      * <ul>
-     * <li>Always returns a (non null) value and gradient.</li>
-     * <li>The {@linkplain Function1WithGradientValue#getX() domain value} of the
+     * <li>The {@linkplain Function1WithGradientValue#x() domain value} of the
      * returned object is the given domain value.</li>
      * </ul>
      *
      * @param x The domain value
      * @return The value of the function.
      */
+    @Nonnull
     Function1WithGradientValue value(double x);
+
+    @Override
+    default  Function1WithGradientValue apply(double x) {
+        return value(x);
+    }
 }
