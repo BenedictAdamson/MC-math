@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import uk.badamson.mc.ObjectTest;
+import uk.badamson.dbc.assertions.ObjectVerifier;
 
 /**
  * <p>
@@ -33,7 +33,7 @@ import uk.badamson.mc.ObjectTest;
 public class OrientationVectors3Test {
 
     public static void assertInvariants(final OrientationVectors3 orientation) {
-        ObjectTest.assertInvariants(orientation);// inherited
+        ObjectVerifier.assertInvariants(orientation);// inherited
 
         final ImmutableVectorN e1 = orientation.getE1();
         final ImmutableVectorN e2 = orientation.getE2();
@@ -57,7 +57,7 @@ public class OrientationVectors3Test {
 
     public static void assertInvariants(final OrientationVectors3 orientation1,
             final OrientationVectors3 orientation2) {
-        ObjectTest.assertInvariants(orientation1, orientation2);// inherited
+        ObjectVerifier.assertInvariants(orientation1, orientation2);// inherited
     }
 
     private static OrientationVectors3 createFromOrthogonalUnitBasisVectors(final ImmutableVectorN e1,

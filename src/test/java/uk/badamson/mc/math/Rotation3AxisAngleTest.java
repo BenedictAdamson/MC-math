@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -28,7 +28,7 @@ import static uk.badamson.mc.math.Rotation3Test.closeToRotation3;
 
 import org.junit.jupiter.api.Test;
 
-import uk.badamson.mc.ObjectTest;
+import uk.badamson.dbc.assertions.ObjectVerifier;
 
 /**
  * <p>
@@ -82,12 +82,12 @@ public class Rotation3AxisAngleTest {
     }
 
     public static void assertInvariants(final Rotation3AxisAngle rotation) {
-        ObjectTest.assertInvariants(rotation);// inherited
+        ObjectVerifier.assertInvariants(rotation);// inherited
         Rotation3Test.assertInvariants(rotation);// inherited
     }
 
     public static void assertInvariants(final Rotation3AxisAngle r1, final Rotation3AxisAngle r2) {
-        ObjectTest.assertInvariants(r1, r2);// inherited
+        ObjectVerifier.assertInvariants(r1, r2);// inherited
         Rotation3Test.assertInvariants(r1, r2);// inherited
     }
 

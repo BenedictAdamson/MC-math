@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -31,7 +31,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.Test;
 
-import uk.badamson.mc.ObjectTest;
+import uk.badamson.dbc.assertions.ObjectVerifier;
 
 /**
  * <p>
@@ -72,11 +72,11 @@ public class QuaternionTest {
     }// class
 
     public static void assertInvariants(final Quaternion q) {
-        ObjectTest.assertInvariants(q);// inherited
+        ObjectVerifier.assertInvariants(q);// inherited
     }
 
     public static void assertInvariants(final Quaternion q1, final Quaternion q2) {
-        ObjectTest.assertInvariants(q1, q2);// inherited
+        ObjectVerifier.assertInvariants(q1, q2);// inherited
 
         final boolean equals = q1.equals(q2);
         assertFalse(equals && Double.doubleToLongBits(q1.getA()) != Double.doubleToLongBits(q2.getA()),

@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
-import uk.badamson.mc.ObjectTest;
+import uk.badamson.dbc.assertions.ObjectVerifier;
 
 /**
  * <p>
@@ -33,11 +33,11 @@ import uk.badamson.mc.ObjectTest;
 public class Function1WithGradientValueTest {
 
     public static void assertInvariants(final Function1WithGradientValue v) {
-        ObjectTest.assertInvariants(v);// inherited
+        ObjectVerifier.assertInvariants(v);// inherited
     }
 
     public static void assertInvariants(final Function1WithGradientValue v1, final Function1WithGradientValue v2) {
-        ObjectTest.assertInvariants(v1, v2);// inherited
+        ObjectVerifier.assertInvariants(v1, v2);// inherited
 
         final boolean equals = v1.equals(v2);
         assertFalse(equals && Double.doubleToLongBits(v1.getX()) != Double.doubleToLongBits(v2.getX()),

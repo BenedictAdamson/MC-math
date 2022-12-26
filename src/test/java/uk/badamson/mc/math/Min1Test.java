@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-import uk.badamson.mc.ObjectTest;
+import uk.badamson.dbc.assertions.ObjectVerifier;
 import uk.badamson.mc.math.Min1.Bracket;
 
 /**
@@ -38,7 +38,7 @@ public class Min1Test {
     public static class BracketTest {
 
         public static void assertInvariants(final Min1.Bracket bracket) {
-            ObjectTest.assertInvariants(bracket);// inherited
+            ObjectVerifier.assertInvariants(bracket);// inherited
 
             final Function1Value left = bracket.getLeft();
             final Function1Value inner = bracket.getInner();
@@ -68,7 +68,7 @@ public class Min1Test {
         }
 
         public static void assertInvariants(final Min1.Bracket bracket1, final Min1.Bracket bracket2) {
-            ObjectTest.assertInvariants(bracket1, bracket2);// inherited
+            ObjectVerifier.assertInvariants(bracket1, bracket2);// inherited
         }
 
         private static Min1.Bracket constructor(final Function1Value left, final Function1Value inner,
