@@ -41,12 +41,9 @@ public final class Function1WithGradientValue {
      * Construct an object with given attribute values.
      * </p>
      *
-     * @param x
-     *            The domain value.
-     * @param f
-     *            The codomain value.
-     * @param dfdx
-     *            The gradient value
+     * @param x    The domain value.
+     * @param f    The codomain value.
+     * @param dfdx The gradient value
      */
     public Function1WithGradientValue(final double x, final double f, final double dfdx) {
         this.x = x;
@@ -87,7 +84,7 @@ public final class Function1WithGradientValue {
      * The gradient value.
      * </p>
      */
-    public final double getDfDx() {
+    public double getDfDx() {
         return dfdx;
     }
 
@@ -96,7 +93,7 @@ public final class Function1WithGradientValue {
      * The codomain value.
      * </p>
      */
-    public final double getF() {
+    public double getF() {
         return f;
     }
 
@@ -105,7 +102,7 @@ public final class Function1WithGradientValue {
      * The domain value
      * </p>
      */
-    public final double getX() {
+    public double getX() {
         return x;
     }
 

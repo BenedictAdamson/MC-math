@@ -18,11 +18,10 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import java.util.Objects;
-
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -71,29 +70,9 @@ public final class Quaternion {
     public static final Quaternion K = new Quaternion(0, 0, 0, 1);
 
     private static final double EXP_TOL = Math.pow(Double.MIN_NORMAL, 1.0 / 6.0) * 840.0;
-
-    /**
-     * <p>
-     * Create a quaternion with given components.
-     * </p>
-     *
-     * @param a
-     *            The real-number component of this quaternion.
-     * @param b
-     *            The <b>i</b> component of this quaternion.
-     * @param c
-     *            The <b>j</b> component of this quaternion.
-     * @param d
-     *            The <b>k</b> component of this quaternion.
-     */
-    public static Quaternion create(final double a, final double b, final double c, final double d) {
-        return new Quaternion(a, b, c, d);
-    }
-
     private final double a;
     private final double b;
     private final double c;
-
     private final double d;
 
     private Quaternion(final double a, final double b, final double c, final double d) {
@@ -105,12 +84,26 @@ public final class Quaternion {
 
     /**
      * <p>
+     * Create a quaternion with given components.
+     * </p>
+     *
+     * @param a The real-number component of this quaternion.
+     * @param b The <b>i</b> component of this quaternion.
+     * @param c The <b>j</b> component of this quaternion.
+     * @param d The <b>k</b> component of this quaternion.
+     */
+    public static Quaternion create(final double a, final double b, final double c, final double d) {
+        return new Quaternion(a, b, c, d);
+    }
+
+    /**
+     * <p>
      * Create a quaternion that is the conjugate of this quaternion.
      * </p>
      *
      * @return the conjugate; not null
      */
-    public final @NonNull Quaternion conjugate() {
+    public @NonNull Quaternion conjugate() {
         return new Quaternion(a, -b, -c, -d);
     }
 
@@ -123,13 +116,11 @@ public final class Quaternion {
      * That is, if this is <var>q</var> and the other quaternion is <var>p</var>,
      * the method computes <var>q</var><var>p</var><var>q</var><sup>-1</sup>.
      *
-     * @param p
-     *            The quaternion to be conjugated.
+     * @param p The quaternion to be conjugated.
      * @return the conjugation; not null
-     * @throws NullPointerException
-     *             If {@code p} is null
+     * @throws NullPointerException If {@code p} is null
      */
-    public final @NonNull Quaternion conjugation(@NonNull final Quaternion p) {
+    public @NonNull Quaternion conjugation(@NonNull final Quaternion p) {
         Objects.requireNonNull(p, "p");
         return product(p).product(conjugate()).scale(1.0 / norm2());
     }
@@ -143,14 +134,11 @@ public final class Quaternion {
      * <code>this.minus(that).norm()</code>.</li>
      * </ul>
      *
-     * @param that
-     *            The other quaternion
+     * @param that The other quaternion
      * @return the difference quaternion
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
-    public final double distance(@NonNull final Quaternion that) {
+    public double distance(@NonNull final Quaternion that) {
         return minus(that).norm();
     }
 
@@ -160,13 +148,11 @@ public final class Quaternion {
      * quaternion.
      * </p>
      *
-     * @param that
-     *            The other quaternion with which to calculate the dot product.
+     * @param that The other quaternion with which to calculate the dot product.
      * @return the dot product; not null.
-     * @throws NullPointerException
-     *             If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
-    public final double dot(@NonNull final Quaternion that) {
+    public double dot(@NonNull final Quaternion that) {
         Objects.requireNonNull(that, "that");
         return a * that.a + b * that.b + c * that.c + d * that.d;
     }
@@ -182,7 +168,7 @@ public final class Quaternion {
      * </p>
      */
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -207,7 +193,7 @@ public final class Quaternion {
      * @return the exponential; not null
      * @see Math#exp(double)
      */
-    public final @NonNull Quaternion exp() {
+    public @NonNull Quaternion exp() {
         final double ea = Math.exp(a);
         final Quaternion v = vector();
         final double vn = v.norm();
@@ -233,7 +219,7 @@ public final class Quaternion {
      * Its <i>scalar part</i>.
      * </p>
      */
-    public final double getA() {
+    public double getA() {
         return a;
     }
 
@@ -242,7 +228,7 @@ public final class Quaternion {
      * The <b>i</b> component of this quaternion.
      * </p>
      */
-    public final double getB() {
+    public double getB() {
         return b;
     }
 
@@ -251,7 +237,7 @@ public final class Quaternion {
      * The <b>j</b> component of this quaternion.
      * </p>
      */
-    public final double getC() {
+    public double getC() {
         return c;
     }
 
@@ -260,7 +246,7 @@ public final class Quaternion {
      * The <b>k</b> component of this quaternion.
      * </p>
      */
-    public final double getD() {
+    public double getD() {
         return d;
     }
 
@@ -275,7 +261,7 @@ public final class Quaternion {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         long temp;
@@ -304,7 +290,7 @@ public final class Quaternion {
      * @return the natural logarithm; not null
      * @see Math#log(double)
      */
-    public final @NonNull Quaternion log() {
+    public @NonNull Quaternion log() {
         final Quaternion v = vector();
         final double n = norm();
         final Quaternion sTerm = new Quaternion(Math.log(n), 0, 0, 0);
@@ -318,14 +304,11 @@ public final class Quaternion {
      * quaternion.
      * </p>
      *
-     * @param that
-     *            The quaternion to take the mean with
+     * @param that The quaternion to take the mean with
      * @return the mean quaternion; not null.
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
-    public final @NonNull Quaternion mean(@NonNull final Quaternion that) {
+    public @NonNull Quaternion mean(@NonNull final Quaternion that) {
         Objects.requireNonNull(that, "that");
         return new Quaternion((a + that.a) * 0.5, (b + that.b) * 0.5, (c + that.c) * 0.5, (d + that.d) * 0.5);
     }
@@ -336,14 +319,11 @@ public final class Quaternion {
      * quaternion; the difference of this quaternion and another.
      * </p>
      *
-     * @param that
-     *            The other quaternion
+     * @param that The other quaternion
      * @return the difference quaternion
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
-    public final @NonNull Quaternion minus(@NonNull final Quaternion that) {
+    public @NonNull Quaternion minus(@NonNull final Quaternion that) {
         Objects.requireNonNull(that, "that");
         return new Quaternion(a - that.a, b - that.b, c - that.c, d - that.d);
     }
@@ -359,7 +339,7 @@ public final class Quaternion {
      *
      * @return the norm
      */
-    public final double norm() {
+    public double norm() {
         final double s = getScale();
         final double f = 1.0 / s;
         final double as = a * f;
@@ -380,7 +360,7 @@ public final class Quaternion {
      *
      * @return the square of the norm.
      */
-    public final double norm2() {
+    public double norm2() {
         final double s = getScale();
         final double f = 1.0 / s;
         final double as = a * f;
@@ -396,14 +376,11 @@ public final class Quaternion {
      * the sum of this quaternion and another.
      * </p>
      *
-     * @param that
-     *            The other quaternion
+     * @param that The other quaternion
      * @return the sum quaternion
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
-    public final @NonNull Quaternion plus(@NonNull final Quaternion that) {
+    public @NonNull Quaternion plus(@NonNull final Quaternion that) {
         Objects.requireNonNull(that, "that");
         return new Quaternion(a + that.a, b + that.b, c + that.c, d + that.d);
     }
@@ -419,12 +396,11 @@ public final class Quaternion {
      * {@linkplain #vector() vector} part.
      * </p>
      *
-     * @param p
-     *            The power to raise this quaternion to
+     * @param p The power to raise this quaternion to
      * @return the power; not null
      * @see Math#pow(double, double)
      */
-    public final Quaternion pow(final double p) {
+    public Quaternion pow(final double p) {
         final double n = norm();
         final Quaternion v = vector();
         final Quaternion direction = v.versor();
@@ -442,13 +418,11 @@ public final class Quaternion {
      * <li>Always returns a (non null) quaternion.</li>
      * </ul>
      *
-     * @param that
-     *            the other quaternion
+     * @param that the other quaternion
      * @return the product
-     * @throws NullPointerException
-     *             If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
-    public final @NonNull Quaternion product(@NonNull final Quaternion that) {
+    public @NonNull Quaternion product(@NonNull final Quaternion that) {
         Objects.requireNonNull(that, "that");
         return new Quaternion(a * that.a - b * that.b - c * that.c - d * that.d,
                 a * that.b + b * that.a + c * that.d - d * that.c, a * that.c - b * that.d + c * that.a + d * that.b,
@@ -462,7 +436,7 @@ public final class Quaternion {
      *
      * @return the conjugate; not null
      */
-    public final @NonNull Quaternion reciprocal() {
+    public @NonNull Quaternion reciprocal() {
         return conjugate().scale(1.0 / norm2());
     }
 
@@ -475,16 +449,15 @@ public final class Quaternion {
      * <li>
      * </ul>
      *
-     * @param f
-     *            the scalar
+     * @param f the scalar
      * @return the scaled quaternion
      */
-    public final @NonNull Quaternion scale(final double f) {
+    public @NonNull Quaternion scale(final double f) {
         return new Quaternion(a * f, b * f, c * f, d * f);
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return a + "+" + b + "i+" + c + "j+" + d + "k";
     }
 
@@ -495,7 +468,7 @@ public final class Quaternion {
      *
      * @return the vector part; not null
      */
-    public final @NonNull Quaternion vector() {
+    public @NonNull Quaternion vector() {
         return new Quaternion(0, b, c, d);
     }
 
@@ -514,7 +487,7 @@ public final class Quaternion {
      *
      * @return the versor; not null
      */
-    public final @NonNull Quaternion versor() {
+    public @NonNull Quaternion versor() {
         final double s = getScale();
         final double f1 = 1.0 / s;
         final double as = a * f1;

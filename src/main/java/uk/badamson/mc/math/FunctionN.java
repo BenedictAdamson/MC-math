@@ -43,7 +43,7 @@ public interface FunctionN {
      *
      * @return the number of dimensions; positive.
      */
-    public int getDimension();
+    int getDimension();
 
     /**
      * <p>
@@ -55,19 +55,15 @@ public interface FunctionN {
      * teh value.
      * </p>
      *
-     * @param x
-     *            The values of the continuous variables; x[i] is the value of
-     *            variable <var>i</var>.
+     * @param x The values of the continuous variables; x[i] is the value of
+     *          variable <var>i</var>.
      * @return The value of the function.
-     *
-     * @throws NullPointerException
-     *             If {@code x} is null.
-     * @throws IndexOutOfBoundsException
-     *             (Optional) If the length of {@code x} is not equal to the
-     *             {@linkplain #getDimension() number of dimensions} of this
-     *             function. In practice, many implementations will not complain is
-     *             the length of {@code x} exceeds the number of dimensions of this
-     *             function.
+     * @throws NullPointerException      If {@code x} is null.
+     * @throws IndexOutOfBoundsException (Optional) If the length of {@code x} is not equal to the
+     *                                   {@linkplain #getDimension() number of dimensions} of this
+     *                                   function. In practice, many implementations will not complain is
+     *                                   the length of {@code x} exceeds the number of dimensions of this
+     *                                   function.
      */
-    public double value(@NonNull double[] x);
+    double value(@NonNull double[] x);
 }

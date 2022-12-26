@@ -35,9 +35,8 @@ public interface Function1 {
      * The value of the function for a given value of the continuous variable.
      * </p>
      *
-     * @param x
-     *            The value of the continuous variable
+     * @param x The value of the continuous variable
      * @return The value of the function.
      */
-    public double value(double x);
+    double value(double x);
 }

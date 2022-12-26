@@ -18,11 +18,10 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import java.util.Objects;
-
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -44,24 +43,18 @@ public final class FunctionNWithGradientValue {
      * Construct an object with given attribute values.
      * </p>
      *
-     * @param x
-     *            The domain vector.
-     * @param f
-     *            The codomain value.
-     * @param dfdx
-     *            The gradient vector
-     *
-     * @throws NullPointerException
-     *             <ul>
-     *             <li>If {@code x} is null.</li>
-     *             <li>If {@code dfdx} is null.</li>
-     *             </ul>
-     * @throws IllegalArgumentException
-     *             If {@code x} and {@code dfdx} have different
-     *             {@linkplain ImmutableVectorN#getDimension() dimensions}.
+     * @param x    The domain vector.
+     * @param f    The codomain value.
+     * @param dfdx The gradient vector
+     * @throws NullPointerException     <ul>
+     *                                              <li>If {@code x} is null.</li>
+     *                                              <li>If {@code dfdx} is null.</li>
+     *                                              </ul>
+     * @throws IllegalArgumentException If {@code x} and {@code dfdx} have different
+     *                                  {@linkplain ImmutableVectorN#getDimension() dimensions}.
      */
     public FunctionNWithGradientValue(@NonNull final ImmutableVectorN x, final double f,
-            @NonNull final ImmutableVectorN dfdx) {
+                                      @NonNull final ImmutableVectorN dfdx) {
         Objects.requireNonNull(x, "x");
         Objects.requireNonNull(dfdx, "dfdx");
         if (x.getDimension() != dfdx.getDimension()) {
@@ -112,7 +105,7 @@ public final class FunctionNWithGradientValue {
      * vector}.</li>
      * </ul>
      */
-    public final @NonNull ImmutableVectorN getDfDx() {
+    public @NonNull ImmutableVectorN getDfDx() {
         return dfdx;
     }
 
@@ -121,7 +114,7 @@ public final class FunctionNWithGradientValue {
      * The codomain value.
      * </p>
      */
-    public final double getF() {
+    public double getF() {
         return f;
     }
 
@@ -134,7 +127,7 @@ public final class FunctionNWithGradientValue {
      * <li>Always have a (non null) domain vector.</li>
      * </ul>
      */
-    public final @NonNull ImmutableVectorN getX() {
+    public @NonNull ImmutableVectorN getX() {
         return x;
     }
 

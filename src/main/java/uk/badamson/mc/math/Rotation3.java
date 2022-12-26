@@ -42,13 +42,11 @@ public interface Rotation3 {
      * axis} produces a rotated vector equal to the given vector.</li>
      * </ul>
      *
-     * @param v
-     *            The direction vector to be rotated.
+     * @param v The direction vector to be rotated.
      * @return The rotated vector.
-     * @throws NullPointerException
-     *             If {@code v} is null
+     * @throws NullPointerException If {@code v} is null
      */
-    public @NonNull ImmutableVector3 apply(@NonNull ImmutableVector3 v);
+    @NonNull ImmutableVector3 apply(@NonNull ImmutableVector3 v);
 
     /**
      * <p>
@@ -61,7 +59,7 @@ public interface Rotation3 {
      *
      * @return the angle
      */
-    public double getAngle();
+    double getAngle();
 
     /**
      * <p>
@@ -76,7 +74,7 @@ public interface Rotation3 {
      *
      * @return the axis
      */
-    public @NonNull ImmutableVector3 getAxis();
+    @NonNull ImmutableVector3 getAxis();
 
     /**
      * <p>
@@ -94,7 +92,7 @@ public interface Rotation3 {
      *
      * @return the versor.
      */
-    public @NonNull Quaternion getVersor();
+    @NonNull Quaternion getVersor();
 
     /**
      * <p>
@@ -111,7 +109,7 @@ public interface Rotation3 {
      *
      * @return the opposite rotation.
      */
-    public @NonNull Rotation3 minus();
+    @NonNull Rotation3 minus();
 
     /**
      * <p>
@@ -127,14 +125,11 @@ public interface Rotation3 {
      * <li>The difference between a rotation and itself is the zero rotation.</li>
      * </ul>
      *
-     * @param that
-     *            The other rotation
+     * @param that The other rotation
      * @return the rotation difference.
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
-    public @NonNull Rotation3 minus(@NonNull Rotation3 that);
+    @NonNull Rotation3 minus(@NonNull Rotation3 that);
 
     /**
      * <p>
@@ -152,14 +147,11 @@ public interface Rotation3 {
      * original.</li>
      * </ul>
      *
-     * @param that
-     *            The other rotation
+     * @param that The other rotation
      * @return the sum rotation
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
-    public @NonNull Rotation3 plus(@NonNull Rotation3 that);
+    @NonNull Rotation3 plus(@NonNull Rotation3 that);
 
     /**
      * <p>
@@ -178,9 +170,8 @@ public interface Rotation3 {
      * original.</li>
      * </ul>
      *
-     * @param f
-     *            the scaling factor
+     * @param f the scaling factor
      * @return the scaled rotation
      */
-    public @NonNull Rotation3 scale(double f);
+    @NonNull Rotation3 scale(double f);
 }

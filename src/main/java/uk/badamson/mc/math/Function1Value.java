@@ -39,10 +39,8 @@ public final class Function1Value {
      * Construct an object with given attribute values.
      * </p>
      *
-     * @param x
-     *            The domain value.
-     * @param f
-     *            The codomain value.
+     * @param x The domain value.
+     * @param f The codomain value.
      */
     public Function1Value(final double x, final double f) {
         this.x = x;
@@ -81,7 +79,7 @@ public final class Function1Value {
      * The codomain value.
      * </p>
      */
-    public final double getF() {
+    public double getF() {
         return f;
     }
 
@@ -90,7 +88,7 @@ public final class Function1Value {
      * The domain value
      * </p>
      */
-    public final double getX() {
+    public double getX() {
         return x;
     }
 

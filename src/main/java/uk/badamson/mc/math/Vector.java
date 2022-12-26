@@ -32,36 +32,29 @@ public interface Vector extends Matrix {
      * Calculate the dot product of this vector and another vector.
      * </p>
      *
-     * @param that
-     *            The other vector
+     * @param that The other vector
      * @return the product
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
-     * @throws IllegalArgumentException
-     *             If the {@linkplain #getDimension() dimension} of {@code that} is
-     *             not equal to the dimension of this.
+     * @throws NullPointerException     If {@code that} is null.
+     * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
+     *                                  not equal to the dimension of this.
      */
-    public double dot(@NonNull Vector that);
+    double dot(@NonNull Vector that);
 
     /**
      * <p>
      * The value of an element of this vector.
      * </p>
      *
-     * @param i
-     *            the cardinal number of the row of the element (0 for the first
-     *            row, 1 for the second row, and so on).
+     * @param i the cardinal number of the row of the element (0 for the first
+     *          row, 1 for the second row, and so on).
      * @return the value of the element
-     *
-     * @throws IndexOutOfBoundsException
-     *             <ul>
-     *             <li>If {@code i} is negative.</li>
-     *             <li>If {@code i} is greater than or equal to the number of
-     *             {@linkplain #getRows() rows} of this vector.</li>
-     *             </ul>
+     * @throws IndexOutOfBoundsException <ul>
+     *                                               <li>If {@code i} is negative.</li>
+     *                                               <li>If {@code i} is greater than or equal to the number of
+     *                                               {@linkplain #getRows() rows} of this vector.</li>
+     *                                               </ul>
      */
-    public double get(int i);
+    double get(int i);
 
     /**
      * {@inheritDoc}
@@ -71,7 +64,7 @@ public interface Vector extends Matrix {
      * </ul>
      */
     @Override
-    public int getColumns();
+    int getColumns();
 
     /**
      * <p>
@@ -85,7 +78,7 @@ public interface Vector extends Matrix {
      *
      * @return the number of dimensions
      */
-    public int getDimension();
+    int getDimension();
 
     /**
      * <p>
@@ -98,7 +91,7 @@ public interface Vector extends Matrix {
      *
      * @return the magnitude
      */
-    public double magnitude();
+    double magnitude();
 
     /**
      * <p>
@@ -113,7 +106,7 @@ public interface Vector extends Matrix {
      *
      * @return the square of the magnitude.
      */
-    public double magnitude2();
+    double magnitude2();
 
     /**
      * <p>
@@ -125,17 +118,13 @@ public interface Vector extends Matrix {
      * the dimension of this vector.</li>
      * </ul>
      *
-     * @param that
-     *            The vector to take the mean with
+     * @param that The vector to take the mean with
      * @return the mean vector
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
-     * @throws IllegalArgumentException
-     *             If the {@linkplain ImmutableVector3#getDimension() dimension} of
-     *             }@code that} is not equal to the dimension of this vector.
+     * @throws NullPointerException     If {@code that} is null.
+     * @throws IllegalArgumentException If the {@linkplain ImmutableVector3#getDimension() dimension} of
+     *                                  }@code that} is not equal to the dimension of this vector.
      */
-    public @NonNull Vector mean(@NonNull Vector that);
+    @NonNull Vector mean(@NonNull Vector that);
 
     /**
      * <p>
@@ -151,7 +140,7 @@ public interface Vector extends Matrix {
      *
      * @return the opposite vector.
      */
-    public @NonNull Vector minus();
+    @NonNull Vector minus();
 
     /**
      * <p>
@@ -166,17 +155,13 @@ public interface Vector extends Matrix {
      * difference of the corresponding component of this vector.</li>
      * </ul>
      *
-     * @param that
-     *            The other vector
+     * @param that The other vector
      * @return the difference vector
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
-     * @throws IllegalArgumentException
-     *             If the {@linkplain #getDimension() dimension} of {@code that} is
-     *             not equal to the dimension of this.
+     * @throws NullPointerException     If {@code that} is null.
+     * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
+     *                                  not equal to the dimension of this.
      */
-    public @NonNull Vector minus(@NonNull Vector that);
+    @NonNull Vector minus(@NonNull Vector that);
 
     /**
      * <p>
@@ -191,17 +176,13 @@ public interface Vector extends Matrix {
      * the corresponding component of this vector.</li>
      * </ul>
      *
-     * @param that
-     *            The other vector
+     * @param that The other vector
      * @return the sum vector
-     *
-     * @throws NullPointerException
-     *             If {@code that} is null.
-     * @throws IllegalArgumentException
-     *             If the {@linkplain #getDimension() dimension} of {@code that} is
-     *             not equal to the dimension of this.
+     * @throws NullPointerException     If {@code that} is null.
+     * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
+     *                                  not equal to the dimension of this.
      */
-    public @NonNull Vector plus(@NonNull Vector that);
+    @NonNull Vector plus(@NonNull Vector that);
 
     /**
      * <p>
@@ -214,10 +195,9 @@ public interface Vector extends Matrix {
      * vector is equal to the dimension of this vector.</li>
      * </ul>
      *
-     * @param f
-     *            the scalar
+     * @param f the scalar
      * @return the scaled vector
      */
-    public @NonNull Vector scale(double f);
+    @NonNull Vector scale(double f);
 
 }

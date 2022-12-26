@@ -18,12 +18,11 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import java.util.Arrays;
-import java.util.Objects;
-
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * <p>
@@ -32,6 +31,15 @@ import javax.annotation.concurrent.Immutable;
  */
 @Immutable
 public class ImmutableMatrixN implements Matrix {
+
+    protected final double[] elements;
+    private final int rows;
+    private final int columns;
+    ImmutableMatrixN(final int rows, final int columns, @NonNull final double[] elements) {
+        this.rows = rows;
+        this.columns = columns;
+        this.elements = elements;
+    }
 
     /**
      * <p>
@@ -42,25 +50,19 @@ public class ImmutableMatrixN implements Matrix {
      * <li>The created matrix has the given attribute values.</li>
      * </ul>
      *
-     * @param rows
-     *            The number of rows of the matrix.
-     * @param columns
-     *            The number of columns of this matrix.
-     * @param elements
-     *            The values of the elements of the matrix; the elements are in
-     *            <i>row-major</i> order, so {@code element[i*columns + j]} is the
-     *            value of cardinal row <var>i</var>, cardinal column <var>j</var>.
+     * @param rows     The number of rows of the matrix.
+     * @param columns  The number of columns of this matrix.
+     * @param elements The values of the elements of the matrix; the elements are in
+     *                 <i>row-major</i> order, so {@code element[i*columns + j]} is the
+     *                 value of cardinal row <var>i</var>, cardinal column <var>j</var>.
      * @return the created matrix
-     *
-     * @throws NullPointerException
-     *             If {@code elements} is null.
-     * @throws IllegalArgumentException
-     *             <ul>
-     *             <li>If {@code rows} is not positive.</li>
-     *             <li>If {@code columns} is not positive.</li>
-     *             <li>If the length of {@code elements} is not equal to
-     *             {@code rows} multiplied by {@code columns}.</li>
-     *             </ul>
+     * @throws NullPointerException     If {@code elements} is null.
+     * @throws IllegalArgumentException <ul>
+     *                                              <li>If {@code rows} is not positive.</li>
+     *                                              <li>If {@code columns} is not positive.</li>
+     *                                              <li>If the length of {@code elements} is not equal to
+     *                                              {@code rows} multiplied by {@code columns}.</li>
+     *                                              </ul>
      */
     public static ImmutableMatrixN create(final int rows, final int columns, @NonNull final double[] elements) {
         Objects.requireNonNull(elements, "elements");
@@ -81,16 +83,6 @@ public class ImmutableMatrixN implements Matrix {
         }
     }
 
-    private final int rows;
-    private final int columns;
-    protected final double[] elements;
-
-    ImmutableMatrixN(final int rows, final int columns, @NonNull final double[] elements) {
-        this.rows = rows;
-        this.columns = columns;
-        this.elements = elements;
-    }
-
     @Override
     public final boolean equals(final Object obj) {
         if (this == obj) {
@@ -99,10 +91,9 @@ public class ImmutableMatrixN implements Matrix {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ImmutableMatrixN)) {
+        if (!(obj instanceof final ImmutableMatrixN other)) {
             return false;
         }
-        final ImmutableMatrixN other = (ImmutableMatrixN) obj;
         return rows == other.rows && Arrays.equals(elements, other.elements);
     }
 

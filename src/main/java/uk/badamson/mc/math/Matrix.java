@@ -38,32 +38,28 @@ public interface Matrix {
      * </p>
      */
     @Override
-    public boolean equals(Object obj);
+    boolean equals(Object obj);
 
     /**
      * <p>
      * The value of an element of this matrix.
      * </p>
      *
-     * @param i
-     *            the cardinal number of the row of the element (0 for the first
-     *            row, 1 for the second row, and so on).
-     * @param j
-     *            the cardinal number of the column of the element (0 for the first
-     *            column, 1 for the second column, and so on).
+     * @param i the cardinal number of the row of the element (0 for the first
+     *          row, 1 for the second row, and so on).
+     * @param j the cardinal number of the column of the element (0 for the first
+     *          column, 1 for the second column, and so on).
      * @return the value of the element
-     *
-     * @throws IndexOutOfBoundsException
-     *             <ul>
-     *             <li>If {@code i} is negative.</li>
-     *             <li>If {@code i} is greater than or equal to the number of
-     *             {@linkplain #getRows() rows} of this matrix.</li>
-     *             <li>If {@code j} is negative.</li>
-     *             <li>If {@code j} is greater than or equal to the number of
-     *             {@linkplain #getColumns() columns} of this matrix.</li>
-     *             </ul>
+     * @throws IndexOutOfBoundsException <ul>
+     *                                               <li>If {@code i} is negative.</li>
+     *                                               <li>If {@code i} is greater than or equal to the number of
+     *                                               {@linkplain #getRows() rows} of this matrix.</li>
+     *                                               <li>If {@code j} is negative.</li>
+     *                                               <li>If {@code j} is greater than or equal to the number of
+     *                                               {@linkplain #getColumns() columns} of this matrix.</li>
+     *                                               </ul>
      */
-    public double get(int i, int j);
+    double get(int i, int j);
 
     /**
      * <p>
@@ -81,7 +77,7 @@ public interface Matrix {
      *
      * @return the number of rows; positive.
      */
-    public int getRows();
+    int getRows();
 
     /**
      * <p>
@@ -93,17 +89,13 @@ public interface Matrix {
      * is equal to the number of rows of this matrix.</li>
      * </ul>
      *
-     * @param x
-     *            The vector to multiply
+     * @param x The vector to multiply
      * @return the product of this and the given vector.
-     *
-     * @throws NullPointerException
-     *             If {@code x} is null.
-     * @throws IllegalArgumentException
-     *             If the {@linkplain ImmutableVectorN#getRows() number of rows} of
-     *             {@code x} is not equal to the {@linkplain #getColumns() number of
-     *             columns} of this.
+     * @throws NullPointerException     If {@code x} is null.
+     * @throws IllegalArgumentException If the {@linkplain ImmutableVectorN#getRows() number of rows} of
+     *                                  {@code x} is not equal to the {@linkplain #getColumns() number of
+     *                                  columns} of this.
      */
-    public @NonNull Vector multiply(@NonNull Vector x);
+    @NonNull Vector multiply(@NonNull Vector x);
 
 }

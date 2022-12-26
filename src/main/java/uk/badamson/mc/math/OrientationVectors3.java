@@ -18,11 +18,10 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import java.util.Objects;
-
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -55,6 +54,15 @@ public final class OrientationVectors3 {
             ImmutableVectorN.create(0, 1, 0), ImmutableVectorN.create(0, 0, 1));
 
     private static final double TOLERANCE = Math.max(Math.nextAfter(1.0, 2.0) - 1.0, 1.0 - Math.nextAfter(1.0, 0.0));
+    private final ImmutableVectorN e1;
+    private final ImmutableVectorN e2;
+    private final ImmutableVectorN e3;
+
+    private OrientationVectors3(final ImmutableVectorN e1, final ImmutableVectorN e2, final ImmutableVectorN e3) {
+        this.e1 = e1;
+        this.e2 = e2;
+        this.e3 = e3;
+    }
 
     /**
      * <p>
@@ -69,45 +77,39 @@ public final class OrientationVectors3 {
      * </ul>
      * </section>
      *
-     * @param e1
-     *            The first orthogonal unit basis vector of this orientation; its
-     *            local <i>x</i> direction.
-     * @param e2
-     *            The second orthogonal unit basis vector of this orientation; its
-     *            local <i>y</i> direction.
-     * @param e3
-     *            The third orthogonal unit basis vector of this orientation; its
-     *            local <i>z</i> direction.
-     *
-     * @throws NullPointerException
-     *             <ul>
-     *             <li>If {@code e1} is null.</li>
-     *             <li>If {@code e2} is null.</li>
-     *             <li>If {@code e3} is null.</li>
-     *             </ul>
-     * @throws IllegalArgumentException
-     *             <ul>
-     *             <li>If {@code e1} does not have unit
-     *             {@linkplain ImmutableVectorN#magnitude() magnitude}.</li>
-     *             <li>If {@code e2} does not have unit magnitude.</li>
-     *             <li>If {@code e3} does not have unit magnitude.</li>
-     *             <li>If {@code e1} is not 3
-     *             {@linkplain ImmutableVectorN#getDimension() dimensional}.</li>
-     *             <li>If {@code e2} is not 3
-     *             {@linkplain ImmutableVectorN#getDimension() dimensional}.</li>
-     *             <li>If {@code e3} is not 3
-     *             {@linkplain ImmutableVectorN#getDimension() dimensional}.</li>
-     *             <li>If {@code e1} and {@code e2} do not have a zero
-     *             {@linkplain ImmutableVectorN#dot(ImmutableVectorN) dot
-     *             product}.</li>
-     *             <li>If {@code e1} and {@code e3} do not have a zero dot
-     *             product.</li>
-     *             <li>If {@code e2} and {@code e3} do not have a zero dot
-     *             product.</li>
-     *             </ul>
+     * @param e1 The first orthogonal unit basis vector of this orientation; its
+     *           local <i>x</i> direction.
+     * @param e2 The second orthogonal unit basis vector of this orientation; its
+     *           local <i>y</i> direction.
+     * @param e3 The third orthogonal unit basis vector of this orientation; its
+     *           local <i>z</i> direction.
+     * @throws NullPointerException     <ul>
+     *                                              <li>If {@code e1} is null.</li>
+     *                                              <li>If {@code e2} is null.</li>
+     *                                              <li>If {@code e3} is null.</li>
+     *                                              </ul>
+     * @throws IllegalArgumentException <ul>
+     *                                              <li>If {@code e1} does not have unit
+     *                                              {@linkplain ImmutableVectorN#magnitude() magnitude}.</li>
+     *                                              <li>If {@code e2} does not have unit magnitude.</li>
+     *                                              <li>If {@code e3} does not have unit magnitude.</li>
+     *                                              <li>If {@code e1} is not 3
+     *                                              {@linkplain ImmutableVectorN#getDimension() dimensional}.</li>
+     *                                              <li>If {@code e2} is not 3
+     *                                              {@linkplain ImmutableVectorN#getDimension() dimensional}.</li>
+     *                                              <li>If {@code e3} is not 3
+     *                                              {@linkplain ImmutableVectorN#getDimension() dimensional}.</li>
+     *                                              <li>If {@code e1} and {@code e2} do not have a zero
+     *                                              {@linkplain ImmutableVectorN#dot(ImmutableVectorN) dot
+     *                                              product}.</li>
+     *                                              <li>If {@code e1} and {@code e3} do not have a zero dot
+     *                                              product.</li>
+     *                                              <li>If {@code e2} and {@code e3} do not have a zero dot
+     *                                              product.</li>
+     *                                              </ul>
      */
     public static OrientationVectors3 createFromOrthogonalUnitBasisVectors(@NonNull final ImmutableVectorN e1,
-            @NonNull final ImmutableVectorN e2, @NonNull final ImmutableVectorN e3) {
+                                                                           @NonNull final ImmutableVectorN e2, @NonNull final ImmutableVectorN e3) {
         requireUnit3Vector(e1, "e1");
         requireUnit3Vector(e2, "e2");
         requireUnit3Vector(e3, "e3");
@@ -119,7 +121,7 @@ public final class OrientationVectors3 {
     }
 
     private static void requireOrthogonal(final ImmutableVectorN e1, final String name1, final ImmutableVectorN e2,
-            final String name2) {
+                                          final String name2) {
         if (0.0 < Math.abs(e1.dot(e2))) {
             throw new IllegalArgumentException("Not orthogonal " + name1 + " " + e1 + " " + name2 + " " + e1);
         }
@@ -132,18 +134,6 @@ public final class OrientationVectors3 {
             throw new IllegalArgumentException(message + " " + e + " (magnitude " + m + ")");
         }
         return e;
-    }
-
-    private final ImmutableVectorN e1;
-
-    private final ImmutableVectorN e2;
-
-    private final ImmutableVectorN e3;
-
-    private OrientationVectors3(final ImmutableVectorN e1, final ImmutableVectorN e2, final ImmutableVectorN e3) {
-        this.e1 = e1;
-        this.e2 = e2;
-        this.e3 = e3;
     }
 
     /**
@@ -164,7 +154,7 @@ public final class OrientationVectors3 {
      *
      * @return the e1 vector
      */
-    public final @NonNull ImmutableVectorN getE1() {
+    public @NonNull ImmutableVectorN getE1() {
         return e1;
     }
 
@@ -186,7 +176,7 @@ public final class OrientationVectors3 {
      *
      * @return the e2 vector
      */
-    public final @NonNull ImmutableVectorN getE2() {
+    public @NonNull ImmutableVectorN getE2() {
         return e2;
     }
 
@@ -205,7 +195,7 @@ public final class OrientationVectors3 {
      *
      * @return the e3 vector
      */
-    public final @NonNull ImmutableVectorN getE3() {
+    public @NonNull ImmutableVectorN getE3() {
         return e3;
     }
 

@@ -18,11 +18,10 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import java.util.Objects;
-
 import edu.umd.cs.findbugs.annotations.NonNull;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -31,213 +30,6 @@ import javax.annotation.concurrent.Immutable;
  * </p>
  */
 public final class Min1 {
-
-    /**
-     * <p>
-     * A bracket of the minimum of a {@linkplain Function1 one dimensional
-     * function}.
-     * </p>
-     * <p>
-     * A Bracket indicates a range of values within which the minimum is known to be
-     * located.
-     * </p>
-     * <p>
-     * Each iteration of an iterative minimisation methods computes a new, smaller,
-     * bracket located within the previous bracket. A complication of iterative
-     * minimisation methods is that iterations should remember some of the previous
-     * function evaluations. It is therefore useful if the bracket records the
-     * function evaluations for the end points of the range of values. A further
-     * complication is that, to be sure we have a minimum within the bracket, we
-     * need to know that, somewhere within the range of values, there is a function
-     * value smaller than the values at the end points of the range. Furthermore, it
-     * is is useful to retain the position and the function value for that point.
-     * Hence a bracket has three {@linkplain Function1Value points}:
-     *
-     * </p>
-     */
-    @Immutable
-    public static final class Bracket {
-        @NonNull
-        private final Function1Value left;
-        @NonNull
-        private final Function1Value inner;
-        @NonNull
-        private final Function1Value right;
-
-        /**
-         * <p>
-         * Construct a Bracket having given attribute values.
-         * </p>
-         *
-         * <section>
-         * <h1>Post Conditions</h1>
-         * <ul>
-         * <li>The constructed bracket has the given attribute values.</li>
-         * </ul>
-         * </section>
-         *
-         * @param left
-         *            The leftmost point of this Bracket.
-         * @param inner
-         *            The inner point of this Bracket.
-         * @param right
-         *            The right point of of this Bracket.
-         *
-         * @throws NullPointerException
-         *             <ul>
-         *             <li>If {@code left} is null.</li>
-         *             <li>If {@code inner} is null.</li>
-         *             <li>If {@code right} is null.</li>
-         *             </ul>
-         * @throws IllegalArgumentException
-         *             <ul>
-         *             <li>If {@code inner} is not to the right of {@code left}.</li>
-         *             <li>If {@code inner} is not below {@code left}.</li>
-         *             <li>If {@code right} is not to the right of {@code inner}.</li>
-         *             <li>If {@code right} point is not above {@code inner}.</li>
-         *             </ul>
-         */
-        public Bracket(@NonNull final Function1Value left, @NonNull final Function1Value inner,
-                @NonNull final Function1Value right) {
-            Objects.requireNonNull(left, "left");
-            Objects.requireNonNull(inner, "inner");
-            Objects.requireNonNull(right, "right");
-            /* Attention: precondition checks must handle NaN values. */
-            final double innerX = inner.getX();
-            final double innerY = inner.getF();
-            if (!(left.getX() < innerX)) {
-                throw new IllegalArgumentException("inner <" + inner + "> not to the right of left <" + left + ">");
-            }
-            if (!(innerX < right.getX())) {
-                throw new IllegalArgumentException("right <" + right + "> not to the right of inner <" + inner + ">");
-            }
-            if (!(innerY < left.getF())) {
-                throw new IllegalArgumentException("inner <" + inner + "> not below left <" + left + ">");
-            }
-            if (!(innerY < right.getF())) {
-                throw new IllegalArgumentException("inner <" + inner + "> not below right <" + right + ">");
-            }
-            this.left = left;
-            this.inner = inner;
-            this.right = right;
-        }
-
-        /**
-         * <p>
-         * Whether this object is <dfn>equivalent</dfn> another object.
-         * </p>
-         * <p>
-         * The {@link Min1.Bracket} class has <i>value semantics</i>: this object is
-         * equivalent to another object if, and only if, the other object is also a
-         * {@link Min1.Bracket} object, and thw two objects have equivalent attributes.
-         * </p>
-         */
-        @Override
-        public boolean equals(final Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final Bracket other = (Bracket) obj;
-            return left.equals(other.left) && inner.equals(other.inner) && right.equals(other.right);
-        }
-
-        /**
-         * <p>
-         * The inner point of this Bracket.
-         * </p>
-         * <ul>
-         * <li>Always have a (non null) inner point.</li>
-         * <li>The inner point is to the right of the {@linkplain #getLeft() leftmost
-         * point}; it has a larger {@linkplain Function1Value#getX() abscissa}.</li>
-         * <li>The inner point is below the leftmost point; it has a smaller
-         * {@linkplain Function1Value#getF() ordinate}.</li>
-         * </ul>
-         *
-         * @return the inner point.
-         */
-        public final @NonNull Function1Value getInner() {
-            return inner;
-        }
-
-        /**
-         * <p>
-         * The leftmost point of this Bracket.
-         * </p>
-         *
-         * @return the leftmost point; not null.
-         */
-        public final @NonNull Function1Value getLeft() {
-            return left;
-        }
-
-        /**
-         * <p>
-         * The smallest function value of the points constituting this bracket.
-         * </p>
-         * <ul>
-         * <li>The smallest function value of the points constituting this bracket is
-         * the {@linkplain Function1Value#getF() y value (ordinate)} of the
-         * {@linkplain #getInner() inner point} of the bracket.</li>
-         * </ul>
-         *
-         * @return
-         */
-        public final double getMin() {
-            return inner.getF();
-        }
-
-        /**
-         * <p>
-         * The right point of of this Bracket.
-         * </p>
-         * <ul>
-         * <li>Always have a (non null) rightmost point.</li>
-         * <li>The rightmost point is to the right of the {@linkplain #getInner() inner
-         * point}; it has a smaller {@linkplain Function1Value#getX() abscissa}.</li>
-         * <li>The rightmost point is above the inner point; it has a larger
-         * {@linkplain Function1Value#getF() ordinate}.</li>
-         * </ul>
-         *
-         * @return the rightmost point
-         */
-        public final @NonNull Function1Value getRight() {
-            return right;
-        }
-
-        /**
-         * <p>
-         * The size of this bracket.
-         * </p>
-         * <ul>
-         * <li>The width of a bracket is always positive.</li>
-         * <li>The width is the difference between the {@linkplain Function1Value#getX()
-         * x coordinate (abscissa)} of the {@linkplain #getRight() rightmost} point and
-         * the x coordinate of the {@linkplain #getLeft() leftmost} point.</li>
-         * </ul>
-         *
-         * @return the width
-         */
-        public final double getWidth() {
-            return right.getX() - left.getX();
-        }
-
-        @Override
-        public final int hashCode() {
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + left.hashCode();
-            result = prime * result + inner.hashCode();
-            result = prime * result + right.hashCode();
-            return result;
-        }
-
-    }// class
 
     /**
      * <p>
@@ -251,17 +43,19 @@ public final class Min1 {
      * </p>
      */
     public static final double TOLERANCE = Math.sqrt(Math.nextAfter(1.0, 2.0) - 1.0);
-
     private static final double GOLD = (1.0 + Math.sqrt(5.0)) * 0.5;
-
     private static final double MAX_STEP = 100;
+
+    private Min1() {
+        throw new AssertionError("Class should not be instantiated");
+    }
 
     /*
      * Rounding errors mean that it is never worthwhile taking tiny steps. Instead
      * try stepping into the largest interval.
      */
     private static double avoidTinyStep(final double xNew, final double xTolerance, final double xLeft,
-            final double xInner, final double xRight) {
+                                        final double xInner, final double xRight) {
         final double dx = xNew - xInner;
         if (Math.abs(dx) < xTolerance) {
             return stepIntoLargestInterval(xLeft, xInner, xRight);
@@ -271,7 +65,7 @@ public final class Min1 {
     }
 
     private static double bisect(final Function1WithGradientValue left, final Function1WithGradientValue inner,
-            final Function1WithGradientValue right, final double xTolerance, final double fTolerance) {
+                                 final Function1WithGradientValue right, final double xTolerance, final double fTolerance) {
         final double xi = inner.getX();
         final double dfdxi = inner.getDfDx();
         if (fTolerance / xTolerance < Math.abs(dfdxi)) {
@@ -317,32 +111,24 @@ public final class Min1 {
      * (abscissa)} values using the given function.</li>
      * </ul>
      *
-     * @param f
-     *            The function for which a bracket is to be found.
-     * @param x1
-     *            A guess for the position of a minimum
-     * @param x2
-     *            A second guess for the position of the minimum
+     * @param f  The function for which a bracket is to be found.
+     * @param x1 A guess for the position of a minimum
+     * @param x2 A second guess for the position of the minimum
      * @return a bracket
-     *
-     * @throws NullPointerException
-     *             If {@code f} is null.
-     * @throws IllegalArgumentException
-     *             <ul>
-     *             <li>If {@code x1} equals {@code x2}.</li>
-     *             <li>If {@code x1} is {@linkplain Double#isNaN(double) is not a
-     *             number}.</li>
-     *             <li>If {@code x2} is is not a number.</li>
-     *             </ul>
-     * @throws PoorlyConditionedFunctionException
-     *             <ul>
-     *             <li>If {@code f} does not have a minimum</li>
-     *             <li>If {@code f} has a minimum, but it is impossible to find a
-     *             bracket for P@code f} using {@code x1} and {@code x2} because the
-     *             function has an odd-powered high order term that causes the
-     *             iterative procedure to diverge.</li>
-     *             </ul>
-     *
+     * @throws NullPointerException               If {@code f} is null.
+     * @throws IllegalArgumentException           <ul>
+     *                                                        <li>If {@code x1} equals {@code x2}.</li>
+     *                                                        <li>If {@code x1} is {@linkplain Double#isNaN(double) is not a
+     *                                                        number}.</li>
+     *                                                        <li>If {@code x2} is is not a number.</li>
+     *                                                        </ul>
+     * @throws PoorlyConditionedFunctionException <ul>
+     *                                                        <li>If {@code f} does not have a minimum</li>
+     *                                                        <li>If {@code f} has a minimum, but it is impossible to find a
+     *                                                        bracket for P@code f} using {@code x1} and {@code x2} because the
+     *                                                        function has an odd-powered high order term that causes the
+     *                                                        iterative procedure to diverge.</li>
+     *                                                        </ul>
      */
     public static @NonNull Bracket findBracket(@NonNull final Function1 f, final double x1, final double x2)
             throws PoorlyConditionedFunctionException {
@@ -493,29 +279,23 @@ public final class Min1 {
      * the given bracket.</li>
      * </ul>
      *
-     * @param f
-     *            The function for which a minimum is to be found.
-     * @param bracket
-     *            A bracket of the minimum to be found.
-     * @param tolerance
-     *            The convergence tolerance. This should not normally exceed the
-     *            {@linkplain #TOLERANCE recommended minimum tolerance}.
+     * @param f         The function for which a minimum is to be found.
+     * @param bracket   A bracket of the minimum to be found.
+     * @param tolerance The convergence tolerance. This should not normally exceed the
+     *                  {@linkplain #TOLERANCE recommended minimum tolerance}.
      * @return a minimum of the function.
-     *
-     * @throws NullPointerException
-     *             <ul>
-     *             <li>If {@code f} is null.</li>
-     *             <li>If {@code bracket} is null.</li>
-     *             </ul>
-     * @throws IllegalArgumentException
-     *             <ul>
-     *             <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
-     *             <li>(Optional) if {@code bracket} is not consistent with
-     *             {@code f}.</li>
-     *             </ul>
+     * @throws NullPointerException     <ul>
+     *                                              <li>If {@code f} is null.</li>
+     *                                              <li>If {@code bracket} is null.</li>
+     *                                              </ul>
+     * @throws IllegalArgumentException <ul>
+     *                                              <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
+     *                                              <li>(Optional) if {@code bracket} is not consistent with
+     *                                              {@code f}.</li>
+     *                                              </ul>
      */
     public static @NonNull Function1Value findBrent(@NonNull final Function1 f, @NonNull final Bracket bracket,
-            final double tolerance) {
+                                                    final double tolerance) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(bracket, "bracket");
         if (!(0.0 < tolerance && tolerance < 1.0)) {
@@ -624,29 +404,23 @@ public final class Min1 {
      * value} of the given bracket.</li>
      * </ul>
      *
-     * @param f
-     *            The function for which a minimum is to be found.
-     * @param bracket
-     *            A bracket of the minimum to be found.
-     * @param tolerance
-     *            The convergence tolerance. This should not normally exceed the
-     *            {@linkplain #TOLERANCE recommended minimum tolerance}.
+     * @param f         The function for which a minimum is to be found.
+     * @param bracket   A bracket of the minimum to be found.
+     * @param tolerance The convergence tolerance. This should not normally exceed the
+     *                  {@linkplain #TOLERANCE recommended minimum tolerance}.
      * @return a minimum of the function.
-     *
-     * @throws NullPointerException
-     *             <ul>
-     *             <li>If {@code f} is null.</li>
-     *             <li>If {@code bracket} is null.</li>
-     *             </ul>
-     * @throws IllegalArgumentException
-     *             <ul>
-     *             <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
-     *             <li>(Optional) if {@code bracket} is not consistent with
-     *             {@code f}.</li>
-     *             </ul>
+     * @throws NullPointerException     <ul>
+     *                                              <li>If {@code f} is null.</li>
+     *                                              <li>If {@code bracket} is null.</li>
+     *                                              </ul>
+     * @throws IllegalArgumentException <ul>
+     *                                              <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
+     *                                              <li>(Optional) if {@code bracket} is not consistent with
+     *                                              {@code f}.</li>
+     *                                              </ul>
      */
     public static @NonNull Function1WithGradientValue findBrent(@NonNull final Function1WithGradient f,
-            @NonNull final Bracket bracket, final double tolerance) {
+                                                                @NonNull final Bracket bracket, final double tolerance) {
         Objects.requireNonNull(f, "f");
         Objects.requireNonNull(bracket, "bracket");
         if (!(0.0 < tolerance && tolerance < 1.0)) {
@@ -786,7 +560,7 @@ public final class Min1 {
     }
 
     private static double goldenSectionSearch(final Function1Value p1, final Function1Value p2,
-            final Function1Value p3) {
+                                              final Function1Value p3) {
         final double x2 = p2.getX();
         final double x21 = x2 - p1.getX();
         final double x32 = p3.getX() - x2;
@@ -816,7 +590,7 @@ public final class Min1 {
     }
 
     private static double parabolicExtrapolation(final Function1Value p1, final Function1Value p2,
-            final Function1Value p3) {
+                                                 final Function1Value p3) {
         final double x2 = p2.getX();
         final double y2 = p2.getF();
         final double x21 = x2 - p1.getX();
@@ -830,12 +604,12 @@ public final class Min1 {
     }
 
     private static boolean secantExtrapolationOk(final double xNew, final Function1WithGradientValue left,
-            final Function1WithGradientValue inner, final Function1WithGradientValue right) {
+                                                 final Function1WithGradientValue inner, final Function1WithGradientValue right) {
         return left.getX() < xNew && xNew < right.getX() && (xNew - inner.getX()) * inner.getDfDx() <= 0;
     }
 
     private static double secantGradientExtrapolation(final Function1WithGradientValue p1,
-            final Function1WithGradientValue p2) {
+                                                      final Function1WithGradientValue p2) {
         final double x1 = p1.getX();
         final double x2 = p2.getX();
         final double y1 = p1.getDfDx();
@@ -885,8 +659,205 @@ public final class Min1 {
         return xInner + dx;
     }
 
-    private Min1() {
-        throw new AssertionError("Class should not be instantiated");
-    }
+    /**
+     * <p>
+     * A bracket of the minimum of a {@linkplain Function1 one dimensional
+     * function}.
+     * </p>
+     * <p>
+     * A Bracket indicates a range of values within which the minimum is known to be
+     * located.
+     * </p>
+     * <p>
+     * Each iteration of an iterative minimisation methods computes a new, smaller,
+     * bracket located within the previous bracket. A complication of iterative
+     * minimisation methods is that iterations should remember some of the previous
+     * function evaluations. It is therefore useful if the bracket records the
+     * function evaluations for the end points of the range of values. A further
+     * complication is that, to be sure we have a minimum within the bracket, we
+     * need to know that, somewhere within the range of values, there is a function
+     * value smaller than the values at the end points of the range. Furthermore, it
+     * is is useful to retain the position and the function value for that point.
+     * Hence a bracket has three {@linkplain Function1Value points}:
+     *
+     * </p>
+     */
+    @Immutable
+    public static final class Bracket {
+        @NonNull
+        private final Function1Value left;
+        @NonNull
+        private final Function1Value inner;
+        @NonNull
+        private final Function1Value right;
+
+        /**
+         * <p>
+         * Construct a Bracket having given attribute values.
+         * </p>
+         *
+         * <section>
+         * <h1>Post Conditions</h1>
+         * <ul>
+         * <li>The constructed bracket has the given attribute values.</li>
+         * </ul>
+         * </section>
+         *
+         * @param left  The leftmost point of this Bracket.
+         * @param inner The inner point of this Bracket.
+         * @param right The right point of of this Bracket.
+         * @throws NullPointerException     <ul>
+         *                                              <li>If {@code left} is null.</li>
+         *                                              <li>If {@code inner} is null.</li>
+         *                                              <li>If {@code right} is null.</li>
+         *                                              </ul>
+         * @throws IllegalArgumentException <ul>
+         *                                              <li>If {@code inner} is not to the right of {@code left}.</li>
+         *                                              <li>If {@code inner} is not below {@code left}.</li>
+         *                                              <li>If {@code right} is not to the right of {@code inner}.</li>
+         *                                              <li>If {@code right} point is not above {@code inner}.</li>
+         *                                              </ul>
+         */
+        public Bracket(@NonNull final Function1Value left, @NonNull final Function1Value inner,
+                       @NonNull final Function1Value right) {
+            Objects.requireNonNull(left, "left");
+            Objects.requireNonNull(inner, "inner");
+            Objects.requireNonNull(right, "right");
+            /* Attention: precondition checks must handle NaN values. */
+            final double innerX = inner.getX();
+            final double innerY = inner.getF();
+            if (!(left.getX() < innerX)) {
+                throw new IllegalArgumentException("inner <" + inner + "> not to the right of left <" + left + ">");
+            }
+            if (!(innerX < right.getX())) {
+                throw new IllegalArgumentException("right <" + right + "> not to the right of inner <" + inner + ">");
+            }
+            if (!(innerY < left.getF())) {
+                throw new IllegalArgumentException("inner <" + inner + "> not below left <" + left + ">");
+            }
+            if (!(innerY < right.getF())) {
+                throw new IllegalArgumentException("inner <" + inner + "> not below right <" + right + ">");
+            }
+            this.left = left;
+            this.inner = inner;
+            this.right = right;
+        }
+
+        /**
+         * <p>
+         * Whether this object is <dfn>equivalent</dfn> another object.
+         * </p>
+         * <p>
+         * The {@link Min1.Bracket} class has <i>value semantics</i>: this object is
+         * equivalent to another object if, and only if, the other object is also a
+         * {@link Min1.Bracket} object, and thw two objects have equivalent attributes.
+         * </p>
+         */
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Bracket other = (Bracket) obj;
+            return left.equals(other.left) && inner.equals(other.inner) && right.equals(other.right);
+        }
+
+        /**
+         * <p>
+         * The inner point of this Bracket.
+         * </p>
+         * <ul>
+         * <li>Always have a (non null) inner point.</li>
+         * <li>The inner point is to the right of the {@linkplain #getLeft() leftmost
+         * point}; it has a larger {@linkplain Function1Value#getX() abscissa}.</li>
+         * <li>The inner point is below the leftmost point; it has a smaller
+         * {@linkplain Function1Value#getF() ordinate}.</li>
+         * </ul>
+         *
+         * @return the inner point.
+         */
+        public @NonNull Function1Value getInner() {
+            return inner;
+        }
+
+        /**
+         * <p>
+         * The leftmost point of this Bracket.
+         * </p>
+         *
+         * @return the leftmost point; not null.
+         */
+        public @NonNull Function1Value getLeft() {
+            return left;
+        }
+
+        /**
+         * <p>
+         * The smallest function value of the points constituting this bracket.
+         * </p>
+         * <ul>
+         * <li>The smallest function value of the points constituting this bracket is
+         * the {@linkplain Function1Value#getF() y value (ordinate)} of the
+         * {@linkplain #getInner() inner point} of the bracket.</li>
+         * </ul>
+         *
+         * @return
+         */
+        public double getMin() {
+            return inner.getF();
+        }
+
+        /**
+         * <p>
+         * The right point of of this Bracket.
+         * </p>
+         * <ul>
+         * <li>Always have a (non null) rightmost point.</li>
+         * <li>The rightmost point is to the right of the {@linkplain #getInner() inner
+         * point}; it has a smaller {@linkplain Function1Value#getX() abscissa}.</li>
+         * <li>The rightmost point is above the inner point; it has a larger
+         * {@linkplain Function1Value#getF() ordinate}.</li>
+         * </ul>
+         *
+         * @return the rightmost point
+         */
+        public @NonNull Function1Value getRight() {
+            return right;
+        }
+
+        /**
+         * <p>
+         * The size of this bracket.
+         * </p>
+         * <ul>
+         * <li>The width of a bracket is always positive.</li>
+         * <li>The width is the difference between the {@linkplain Function1Value#getX()
+         * x coordinate (abscissa)} of the {@linkplain #getRight() rightmost} point and
+         * the x coordinate of the {@linkplain #getLeft() leftmost} point.</li>
+         * </ul>
+         *
+         * @return the width
+         */
+        public double getWidth() {
+            return right.getX() - left.getX();
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + left.hashCode();
+            result = prime * result + inner.hashCode();
+            result = prime * result + right.hashCode();
+            return result;
+        }
+
+    }// class
 
 }

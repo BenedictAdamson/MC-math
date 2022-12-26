@@ -42,9 +42,8 @@ public interface Function1WithGradient {
      * returned object is the given domain value.</li>
      * </ul>
      *
-     * @param x
-     *            The domain value
+     * @param x The domain value
      * @return The value of the function.
      */
-    public Function1WithGradientValue value(double x);
+    Function1WithGradientValue value(double x);
 }

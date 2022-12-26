@@ -42,7 +42,7 @@ public interface FunctionNWithGradient {
      *
      * @return the number of dimensions; positive.
      */
-    public int getDimension();
+    int getDimension();
 
     /**
      * <p>
@@ -55,16 +55,12 @@ public interface FunctionNWithGradient {
      * returned object is the given domain value.</li>
      * </ul>
      *
-     * @param x
-     *            The domain value
+     * @param x The domain value
      * @return The value of the function.
-     *
-     * @throws NullPointerException
-     *             If {@code x} is null.
-     * @throws IllegalArgumentException
-     *             If the {@linkplain ImmutableVectorN#getDimension() dimension} of
-     *             {@code x} does not equal the {@linkplain #getDimension()
-     *             dimension} of this functor.
+     * @throws NullPointerException     If {@code x} is null.
+     * @throws IllegalArgumentException If the {@linkplain ImmutableVectorN#getDimension() dimension} of
+     *                                  {@code x} does not equal the {@linkplain #getDimension()
+     *                                  dimension} of this functor.
      */
-    public @NonNull FunctionNWithGradientValue value(@NonNull ImmutableVectorN x);
+    @NonNull FunctionNWithGradientValue value(@NonNull ImmutableVectorN x);
 }
