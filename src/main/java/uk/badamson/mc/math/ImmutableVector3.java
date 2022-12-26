@@ -96,7 +96,7 @@ public final class ImmutableVector3 implements Vector {
      * <p>
      * Calculate the sum of several 3 dimensional vectors.
      * </p>
-     * </ul>
+     * <ul>
      * <li>Always returns a (non null) sum vector.</li>
      * <li>The dimension of the sum equals the dimension of the summed vectors.</li>
      * </ul>
@@ -146,6 +146,7 @@ public final class ImmutableVector3 implements Vector {
      *                                              <li>If {@code weight} is null.</li>
      *                                              <li>If {@code x} is null.</li>
      *                                              <li>If {@code x} has any null elements.</li>
+     *                                              </ul>
      * @throws IllegalArgumentException <ul>
      *                                              <li>If {@code weight} has a length of 0.</li>
      *                                              <li>If {@code weight} and {@code x} have different lengths.</li>

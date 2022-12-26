@@ -136,7 +136,7 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * Calculate the sum of several vectors that have the same
      * {@linkplain #getDimension() dimension}.
      * </p>
-     * </ul>
+     * <ul>
      * <li>Always returns a (non null) sum vector.</li>
      * <li>The dimension of the sum equals the dimension of the summed vectors.</li>
      * </ul>
@@ -181,7 +181,7 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * Calculate the weighted sum of several vectors that have the same
      * {@linkplain #getDimension() dimension}.
      * </p>
-     * </ul>
+     * <ul>
      * <li>Always returns a (non null) sum vector.</li>
      * <li>The dimension of the sum equals the dimension of the summed vectors.</li>
      * </ul>
@@ -194,6 +194,7 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      *                                              <li>If {@code weight} is null.</li>
      *                                              <li>If {@code x} is null.</li>
      *                                              <li>If {@code x} has any null elements.</li>
+     *                                              </ul>
      * @throws IllegalArgumentException <ul>
      *                                              <li>If {@code weight} has a length of 0.</li>
      *                                              <li>If {@code weight} and {@code x} have different lengths.</li>

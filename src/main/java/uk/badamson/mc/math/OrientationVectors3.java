@@ -70,7 +70,7 @@ public final class OrientationVectors3 {
      * </p>
      *
      * <section>
-     * <h1>Post Conditions</h1>
+     * <h4>Post Conditions</h4>
      * <ul>
      * <li>Always creates a (non null) object.</li>
      * <li>The created object has the given attributes.</li>

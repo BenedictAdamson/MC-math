@@ -161,10 +161,10 @@ public final class MinN {
      * @throws IllegalArgumentException <ul>
      *                                              <li>If the {@linkplain ImmutableVectorN#getDimension() dimension}
      *                                              of {code x0} is different from the dimension of
-     *                                              {@code dx}.</li></li>
+     *                                              {@code dx}.</li>
      *                                              <li>If the dimension of {code x0} is different from the
      *                                              {@linkplain FunctionN#getDimension() number of dimensions} of
-     *                                              {@code f}.</li></li>
+     *                                              {@code f}.</li>
      *                                              </ul>
      */
     public static @NonNull Function1WithGradient createLineFunction(@NonNull final FunctionNWithGradient f,
@@ -232,7 +232,7 @@ public final class MinN {
      *                                                        <li>If the {@linkplain ImmutableVectorN#getDimension() dimension}
      *                                                        of {code x0} is different from the
      *                                                        {@linkplain FunctionN#getDimension() dimension} of
-     *                                                        {@code f}.</li></li>
+     *                                                        {@code f}.</li>
      *                                                        <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
      *                                                        </ul>
      * @throws PoorlyConditionedFunctionException <ul>
@@ -327,7 +327,7 @@ public final class MinN {
      * @throws IllegalArgumentException           <ul>
      *                                                        <li>If the length of {code x} is different from the
      *                                                        {@linkplain FunctionN#getDimension() number of dimensions} of
-     *                                                        {@code f}.</li></li>
+     *                                                        {@code f}.</li>
      *                                                        <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
      *                                                        </ul>
      * @throws PoorlyConditionedFunctionException <ul>

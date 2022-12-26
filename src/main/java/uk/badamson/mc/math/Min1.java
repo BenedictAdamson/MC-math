@@ -697,7 +697,7 @@ public final class Min1 {
          * </p>
          *
          * <section>
-         * <h1>Post Conditions</h1>
+         * <h4>Post Conditions</h4>
          * <ul>
          * <li>The constructed bracket has the given attribute values.</li>
          * </ul>
