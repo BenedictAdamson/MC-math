@@ -131,17 +131,11 @@ public final class ImmutableVector1 implements Vector {
      *                                              </ul>
      */
     public static ImmutableVector1 weightedSum(@NonNull final double[] weight, @NonNull final ImmutableVector1[] x) {
-        Objects.requireNonNull(weight, "weight");
         Objects.requireNonNull(x, "x");
-        final int n = weight.length;
-        if (n == 0) {
-            throw new IllegalArgumentException("weight.length " + n);
-        }
-        if (n != x.length) {
-            throw new IllegalArgumentException("Inconsistent lengths weight.length " + n + " x.length " + x.length);
-        }
+        Vector.requireValidWeights(weight, x);
         Objects.requireNonNull(x[0], "x[0]");
 
+        final int n = weight.length;
         double sumX = 0.0;
         for (int j = 0; j < n; ++j) {
             final double wj = weight[j];

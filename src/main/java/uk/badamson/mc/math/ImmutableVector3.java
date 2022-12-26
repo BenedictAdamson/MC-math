@@ -154,16 +154,10 @@ public final class ImmutableVector3 implements Vector {
      */
     public static @NonNull ImmutableVector3 weightedSum(@NonNull final double[] weight,
                                                         @NonNull final ImmutableVector3[] x) {
-        Objects.requireNonNull(weight, "weight");
         Objects.requireNonNull(x, "x");
-        final int n = weight.length;
-        if (n == 0) {
-            throw new IllegalArgumentException("weight.length " + n);
-        }
-        if (n != x.length) {
-            throw new IllegalArgumentException("Inconsistent lengths weight.length " + n + " x.length " + x.length);
-        }
+        Vector.requireValidWeights(weight, x);
         Objects.requireNonNull(x[0], "x[0]");
+        final int n = weight.length;
 
         double sumX = 0.0;
         double sumY = 0.0;

@@ -341,12 +341,7 @@ public final class Quaternion {
      */
     public double norm() {
         final double s = getScale();
-        final double f = 1.0 / s;
-        final double as = a * f;
-        final double bs = b * f;
-        final double cs = c * f;
-        final double ds = d * f;
-        return Math.sqrt(as * as + bs * bs + cs * cs + ds * ds) * s;
+        return Math.sqrt(sn2(s)) * s;
     }
 
     /**
@@ -362,12 +357,16 @@ public final class Quaternion {
      */
     public double norm2() {
         final double s = getScale();
+        return sn2(s) * (s * s);
+    }
+
+    private double sn2(double s) {
         final double f = 1.0 / s;
         final double as = a * f;
         final double bs = b * f;
         final double cs = c * f;
         final double ds = d * f;
-        return (as * as + bs * bs + cs * cs + ds * ds) * (s * s);
+        return as * as + bs * bs + cs * cs + ds * ds;
     }
 
     /**
@@ -490,11 +489,7 @@ public final class Quaternion {
     public @NonNull Quaternion versor() {
         final double s = getScale();
         final double f1 = 1.0 / s;
-        final double as = a * f1;
-        final double bs = b * f1;
-        final double cs = c * f1;
-        final double ds = d * f1;
-        final double hypot = Math.sqrt(as * as + bs * bs + cs * cs + ds * ds);
+        final double hypot = Math.sqrt(sn2(s));
         if (Double.MIN_NORMAL < hypot) {
             final double f2 = f1 / hypot;
             return scale(f2);

@@ -20,6 +20,8 @@ package uk.badamson.mc.math;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+import java.util.Objects;
+
 /**
  * <p>
  * A column vector.
@@ -199,5 +201,15 @@ public interface Vector extends Matrix {
      * @return the scaled vector
      */
     @NonNull Vector scale(double f);
+
+    static void requireValidWeights(double[] weight, Vector[] x) {
+        Objects.requireNonNull(weight, "weight");
+        if (weight.length == 0) {
+            throw new IllegalArgumentException("weight.length " + weight.length);
+        }
+        if (weight.length != x.length) {
+            throw new IllegalArgumentException("Inconsistent lengths weight.length " + weight.length + " x.length " + x.length);
+        }
+    }
 
 }
