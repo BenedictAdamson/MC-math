@@ -38,6 +38,7 @@ import uk.badamson.dbc.assertions.ObjectVerifier;
  * Unit tests of the {@link Quaternion} class.
  * </p>
  */
+@SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
 public class QuaternionTest {
 
     private static class IsCloseTo extends TypeSafeMatcher<Quaternion> {
@@ -52,16 +53,16 @@ public class QuaternionTest {
         @Override
         public void describeMismatchSafely(final Quaternion item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item).appendText(" differed by ")
-                    .appendValue(Double.valueOf(distance(item)));
+                    .appendValue(distance(item));
         }
 
         @Override
         public void describeTo(final Description description) {
-            description.appendText("a quaternion within ").appendValue(Double.valueOf(tolerance)).appendText(" of ")
+            description.appendText("a quaternion within ").appendValue(tolerance).appendText(" of ")
                     .appendValue(value);
         }
 
-        private final double distance(final Quaternion item) {
+        private double distance(final Quaternion item) {
             return value.distance(item);
         }
 
@@ -110,7 +111,7 @@ public class QuaternionTest {
         return c;
     }
 
-    public static final Quaternion conjugation(final Quaternion q, final Quaternion p) {
+    public static Quaternion conjugation(final Quaternion q, final Quaternion p) {
         final double tolerance = Math.max(q.norm() * p.norm(), Double.MIN_NORMAL);
         final Quaternion expected = q.product(p).product(q.reciprocal());
 
@@ -735,35 +736,35 @@ public class QuaternionTest {
     public void dot_a() {
         final double p = dot(Quaternion.ONE, Quaternion.create(5, 4, 3, 2));
 
-        assertThat("result", Double.valueOf(p), closeTo(5, Double.MIN_NORMAL));
+        assertThat("result", p, closeTo(5, Double.MIN_NORMAL));
     }
 
     @Test
     public void dot_b() {
         final double p = dot(Quaternion.I, Quaternion.create(4, 5, 3, 2));
 
-        assertThat("result", Double.valueOf(p), closeTo(5, Double.MIN_NORMAL));
+        assertThat("result", p, closeTo(5, Double.MIN_NORMAL));
     }
 
     @Test
     public void dot_c() {
         final double p = dot(Quaternion.J, Quaternion.create(3, 4, 5, 2));
 
-        assertThat("result", Double.valueOf(p), closeTo(5, Double.MIN_NORMAL));
+        assertThat("result", p, closeTo(5, Double.MIN_NORMAL));
     }
 
     @Test
     public void dot_d() {
         final double p = dot(Quaternion.K, Quaternion.create(2, 4, 3, 5));
 
-        assertThat("result", Double.valueOf(p), closeTo(5, Double.MIN_NORMAL));
+        assertThat("result", p, closeTo(5, Double.MIN_NORMAL));
     }
 
     @Test
     public void dot_mixed() {
         final double p = dot(Quaternion.create(1, 2, 3, 4), Quaternion.create(5, 4, 3, 2));
 
-        assertThat("result", Double.valueOf(p), closeTo(30, Double.MIN_NORMAL));
+        assertThat("result", p, closeTo(30, Double.MIN_NORMAL));
     }
 
     @Test

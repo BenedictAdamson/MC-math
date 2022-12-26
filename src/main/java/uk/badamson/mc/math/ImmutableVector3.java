@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
@@ -122,8 +123,7 @@ public final class ImmutableVector3 implements Vector {
         double sumX = 0.0;
         double sumY = 0.0;
         double sumZ = 0.0;
-        for (int j = 0; j < n; ++j) {
-            final ImmutableVector3 xj = x[j];
+        for (final ImmutableVector3 xj : x) {
             Objects.requireNonNull(xj, "x[j]");
             sumX += xj.x;
             sumY += xj.y;
@@ -233,16 +233,12 @@ public final class ImmutableVector3 implements Vector {
      */
     @Override
     public double get(final int i) {
-        switch (i) {
-            case 0:
-                return x;
-            case 1:
-                return y;
-            case 2:
-                return z;
-            default:
-                throw new IndexOutOfBoundsException("i " + i);
-        }
+        return switch (i) {
+            case 0 -> x;
+            case 1 -> y;
+            case 2 -> z;
+            default -> throw new IndexOutOfBoundsException("i " + i);
+        };
     }
 
     /**
@@ -400,6 +396,7 @@ public final class ImmutableVector3 implements Vector {
      * @throws IllegalArgumentException If {@code x} is not null, because a 3 dimensional vector can not
      *                                  be used to matrix-multiply a vector.
      */
+    @Nonnull
     @Override
     public @NonNull Vector multiply(@NonNull final Vector x) {
         Objects.requireNonNull(x, "x");
@@ -442,6 +439,7 @@ public final class ImmutableVector3 implements Vector {
         }
     }
 
+    @Nonnull
     @Override
     public @NonNull ImmutableVector3 scale(final double f) {
         return new ImmutableVector3(x * f, y * f, z * f);

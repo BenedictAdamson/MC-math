@@ -30,6 +30,7 @@ import uk.badamson.dbc.assertions.ObjectVerifier;
  * Unit tests of the class {@link OrientationVectors3}.
  * </p>
  */
+@SuppressWarnings({"UnusedReturnValue", "unused"})
 public class OrientationVectors3Test {
 
     public static void assertInvariants(final OrientationVectors3 orientation) {

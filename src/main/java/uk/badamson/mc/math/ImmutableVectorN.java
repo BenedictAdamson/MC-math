@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
 import java.util.Objects;
@@ -161,8 +162,7 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
 
         final int d = x[0].getDimension();
         final double[] sum = new double[d];
-        for (int j = 0; j < n; ++j) {
-            final ImmutableVectorN xj = x[j];
+        for (final ImmutableVectorN xj : x) {
             Objects.requireNonNull(xj, "x[j]");
             if (xj.getDimension() != d) {
                 throw new IllegalArgumentException("Inconsistent dimension " + d + ", " + xj.getDimension());
@@ -539,6 +539,7 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * @param f the scalar
      * @return the scaled vector
      */
+    @Nonnull
     @Override
     public ImmutableVectorN scale(final double f) {
         final int n = elements.length;

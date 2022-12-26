@@ -25,11 +25,14 @@ import org.junit.jupiter.api.Test;
 
 import uk.badamson.dbc.assertions.ObjectVerifier;
 
+import javax.annotation.Nonnull;
+
 /**
  * <p>
  * Unit tests for the class {@link Function1Value}.
  * </p>
  */
+@SuppressWarnings("UnusedReturnValue")
 public class Function1ValueTest {
 
     public static void assertInvariants(final Function1Value point) {
@@ -46,6 +49,7 @@ public class Function1ValueTest {
                 "Value semantics, f");
     }
 
+    @Nonnull
     private static Function1Value constructor(final double x, final double f) {
         final Function1Value point = new Function1Value(x, f);
 

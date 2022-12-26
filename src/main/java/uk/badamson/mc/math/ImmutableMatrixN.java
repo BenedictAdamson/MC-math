@@ -20,6 +20,7 @@ package uk.badamson.mc.math;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
 import java.util.Objects;
@@ -127,6 +128,7 @@ public class ImmutableMatrixN implements Matrix {
         return result;
     }
 
+    @Nonnull
     @Override
     public final @NonNull ImmutableVectorN multiply(@NonNull final Vector x) {
         Objects.requireNonNull(x, "x");

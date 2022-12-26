@@ -127,13 +127,12 @@ public final class OrientationVectors3 {
         }
     }
 
-    private static ImmutableVectorN requireUnit3Vector(final ImmutableVectorN e, final String message) {
+    private static void requireUnit3Vector(final ImmutableVectorN e, final String message) {
         Objects.requireNonNull(e, message);
         final double m = e.magnitude2();
         if (e.getDimension() != 3 || TOLERANCE < Math.abs(m - 1.0)) {
             throw new IllegalArgumentException(message + " " + e + " (magnitude " + m + ")");
         }
-        return e;
     }
 
     /**

@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
  * Unit tests of the class {@link ImmutableVector1}.
  * </p>
  */
+@SuppressWarnings({"UnusedReturnValue", "unused"})
 public class ImmutableVector1Test {
 
     public static void assertInvariants(final ImmutableVector1 x) {
@@ -82,7 +83,7 @@ public class ImmutableVector1Test {
         return mean;
     }
 
-    public static final ImmutableVector1 minus(final ImmutableVector1 x) {
+    public static ImmutableVector1 minus(final ImmutableVector1 x) {
         final ImmutableVector1 minus = (ImmutableVector1) VectorTest.minus(x);// inherited
 
         assertInvariants(minus);
@@ -91,7 +92,7 @@ public class ImmutableVector1Test {
         return minus;
     }
 
-    private static final ImmutableVector1 minus(final ImmutableVector1 x, final ImmutableVector1 that) {
+    private static ImmutableVector1 minus(final ImmutableVector1 x, final ImmutableVector1 that) {
         final ImmutableVector1 diff = (ImmutableVector1) VectorTest.minus(x, that);// inherited
 
         assertInvariants(diff);
@@ -100,7 +101,7 @@ public class ImmutableVector1Test {
         return diff;
     }
 
-    public static final ImmutableVector1 minus(final ImmutableVector1 x, final Vector that) {
+    public static ImmutableVector1 minus(final ImmutableVector1 x, final Vector that) {
         final ImmutableVector1 diff = (ImmutableVector1) VectorTest.minus(x, that);// inherited
 
         assertInvariants(diff);
@@ -109,7 +110,7 @@ public class ImmutableVector1Test {
         return diff;
     }
 
-    private static final ImmutableVector1 plus(final ImmutableVector1 x, final ImmutableVector1 that) {
+    private static ImmutableVector1 plus(final ImmutableVector1 x, final ImmutableVector1 that) {
         final ImmutableVector1 sum = (ImmutableVector1) VectorTest.plus(x, that);// inherited
 
         assertInvariants(sum);
@@ -119,7 +120,7 @@ public class ImmutableVector1Test {
         return sum;
     }
 
-    public static final ImmutableVector1 plus(final ImmutableVector1 x, final Vector that) {
+    public static ImmutableVector1 plus(final ImmutableVector1 x, final Vector that) {
         final ImmutableVector1 diff = (ImmutableVector1) VectorTest.plus(x, that);// inherited
 
         assertInvariants(diff);
@@ -152,15 +153,15 @@ public class ImmutableVector1Test {
         return sum;
     }
 
-    private static final void sum_multiple1(final double x) {
-        final ImmutableVector1 sum = sum(new ImmutableVector1[] { ImmutableVector1.create(x) });
+    private static void sum_multiple1(final double x) {
+        final ImmutableVector1 sum = sum(ImmutableVector1.create(x));
 
         assertEquals(x, sum.get(0), Double.MIN_NORMAL, "sum x");
     }
 
-    private static final void sum_multiple2(final double x1, final double x2) {
+    private static void sum_multiple2(final double x1, final double x2) {
         final ImmutableVector1 sum = sum(
-                new ImmutableVector1[] { ImmutableVector1.create(x1), ImmutableVector1.create(x2) });
+                ImmutableVector1.create(x1), ImmutableVector1.create(x2));
 
         assertEquals(x1 + x2, sum.get(0), Double.MIN_NORMAL, "sum x");
     }
@@ -177,7 +178,7 @@ public class ImmutableVector1Test {
         return sum;
     }
 
-    private static final void weightedSum_1(final double weight, final double x) {
+    private static void weightedSum_1(final double weight, final double x) {
         final ImmutableVector1 sum = weightedSum(new double[] { weight },
                 new ImmutableVector1[] { ImmutableVector1.create(x) });
 

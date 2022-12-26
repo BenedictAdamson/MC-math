@@ -49,7 +49,7 @@ public class MatrixTest {
         }
     }
 
-    public static final Vector multiply(final Matrix a, final Vector x) {
+    public static Vector multiply(final Matrix a, final Vector x) {
         final Vector ax = a.multiply(x);
 
         assertNotNull(ax, "Not null, result");// guard

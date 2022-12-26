@@ -33,8 +33,10 @@ import uk.badamson.mc.math.Min1.Bracket;
  * Unit tests for the class {@link Min1}.
  * </p>
  */
+@SuppressWarnings({"SameParameterValue", "UnusedReturnValue"})
 public class Min1Test {
 
+    @SuppressWarnings({"UnusedReturnValue", "unused"})
     public static class BracketTest {
 
         public static void assertInvariants(final Min1.Bracket bracket) {
@@ -98,67 +100,33 @@ public class Min1Test {
     private static final Function1Value POINT_4 = new Function1Value(5, 4);
     private static final Function1Value POINT_5 = new Function1Value(6, 9);
 
-    private static final Function1 SQUARED = new Function1() {
+    private static final Function1 SQUARED = x -> x * x;
 
-        @Override
-        public double value(final double x) {
-            return x * x;
-        }
+    private static final Function1 POWER_4 = x -> {
+        final double x2 = x * x;
+        return x2 * x2;
     };
 
-    private static final Function1 POWER_4 = new Function1() {
-
-        @Override
-        public double value(final double x) {
-            final double x2 = x * x;
-            return x2 * x2;
-        }
+    private static final Function1 ORDER_3 = x -> {
+        final double x2 = x * x;
+        return x + x2 - x * x2;
     };
 
-    private static final Function1 ORDER_3 = new Function1() {
-
-        @Override
-        public double value(final double x) {
-            final double x2 = x * x;
-            return x + x2 - x * x2;
+    private static final Function1 NOT_SMOOTH = x -> {
+        double f = x * x;
+        if (-1 < x) {
+            f += x + 1;
         }
+        return f;
     };
 
-    private static final Function1 NOT_SMOOTH = new Function1() {
+    private static final Function1 COS = Math::cos;
 
-        @Override
-        public double value(final double x) {
-            double f = x * x;
-            if (-1 < x) {
-                f += x + 1;
-            }
-            return f;
-        }
-    };
+    private static final Function1WithGradient SQUARED_WITH_GRADIENT = x -> new Function1WithGradientValue(x, x * x, 2.0 * x);
 
-    private static final Function1 COS = new Function1() {
-
-        @Override
-        public double value(final double x) {
-            return Math.cos(x);
-        }
-    };
-
-    private static final Function1WithGradient SQUARED_WITH_GRADIENT = new Function1WithGradient() {
-
-        @Override
-        public Function1WithGradientValue value(final double x) {
-            return new Function1WithGradientValue(x, x * x, 2.0 * x);
-        }
-    };
-
-    private static final Function1WithGradient POWER_4_WITH_GRADIENT = new Function1WithGradient() {
-
-        @Override
-        public Function1WithGradientValue value(final double x) {
-            final double x2 = x * x;
-            return new Function1WithGradientValue(x, x2 * x2, 4.0 * x2 * x);
-        }
+    private static final Function1WithGradient POWER_4_WITH_GRADIENT = x -> {
+        final double x2 = x * x;
+        return new Function1WithGradientValue(x, x2 * x2, 4.0 * x2 * x);
     };
 
     private static void assertConsistent(final Min1.Bracket bracket, final Function1 f) {
@@ -218,8 +186,8 @@ public class Min1Test {
         return min;
     }
 
-    private static final void findBrent_power4(final double x1, final double x2, final double x3,
-            final double tolerance) {
+    private static void findBrent_power4(final double x1, final double x2, final double x3,
+                                         final double tolerance) {
         assert x1 < x2;
         assert x2 < x3;
         assert x1 < 0.0;
@@ -230,8 +198,8 @@ public class Min1Test {
         findBrent(SQUARED, bracket, tolerance);
     }
 
-    private static final void findBrent_squared(final double x1, final double x2, final double x3,
-            final double tolerance) {
+    private static void findBrent_squared(final double x1, final double x2, final double x3,
+                                          final double tolerance) {
         assert x1 < x2;
         assert x2 < x3;
         assert x1 < 0.0;
@@ -242,8 +210,8 @@ public class Min1Test {
         findBrent(SQUARED, bracket, tolerance);
     }
 
-    private static final void findBrent_withGradientPower4(final double x1, final double x2, final double x3,
-            final double tolerance) {
+    private static void findBrent_withGradientPower4(final double x1, final double x2, final double x3,
+                                                     final double tolerance) {
         assert x1 < x2;
         assert x2 < x3;
         assert x1 < 0.0;
@@ -254,8 +222,8 @@ public class Min1Test {
         findBrent(POWER_4_WITH_GRADIENT, bracket, tolerance);
     }
 
-    private static final void findBrent_withGradientSquared(final double x1, final double x2, final double x3,
-            final double tolerance) {
+    private static void findBrent_withGradientSquared(final double x1, final double x2, final double x3,
+                                                      final double tolerance) {
         assert x1 < x2;
         assert x2 < x3;
         assert x1 < 0.0;

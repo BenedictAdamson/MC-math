@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
  * Unit tests of the class {@link ImmutableVector3}.
  * </p>
  */
+@SuppressWarnings({"UnusedReturnValue", "unused"})
 public class ImmutableVector3Test {
 
     private static class IsCloseTo extends TypeSafeMatcher<ImmutableVector3> {
@@ -47,16 +48,16 @@ public class ImmutableVector3Test {
         @Override
         public void describeMismatchSafely(final ImmutableVector3 item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item).appendText(" differed by ")
-                    .appendValue(Double.valueOf(distance(item)));
+                    .appendValue(distance(item));
         }
 
         @Override
         public void describeTo(final Description description) {
-            description.appendText("a vector within ").appendValue(Double.valueOf(tolerance)).appendText(" of ")
+            description.appendText("a vector within ").appendValue(tolerance).appendText(" of ")
                     .appendValue(value);
         }
 
-        private final double distance(final ImmutableVector3 item) {
+        private double distance(final ImmutableVector3 item) {
             return item.minus(value).magnitude();
         }
 
@@ -135,7 +136,7 @@ public class ImmutableVector3Test {
         return mean;
     }
 
-    public static final ImmutableVector3 minus(final ImmutableVector3 x) {
+    public static ImmutableVector3 minus(final ImmutableVector3 x) {
         final ImmutableVector3 minus = (ImmutableVector3) VectorTest.minus(x);// inherited
 
         assertInvariants(minus);
@@ -144,7 +145,7 @@ public class ImmutableVector3Test {
         return minus;
     }
 
-    private static final ImmutableVector3 minus(final ImmutableVector3 x, final ImmutableVector3 that) {
+    private static ImmutableVector3 minus(final ImmutableVector3 x, final ImmutableVector3 that) {
         final ImmutableVector3 diff = (ImmutableVector3) VectorTest.minus(x, that);// inherited
 
         assertInvariants(diff);
@@ -153,7 +154,7 @@ public class ImmutableVector3Test {
         return diff;
     }
 
-    public static final ImmutableVector3 minus(final ImmutableVector3 x, final Vector that) {
+    public static ImmutableVector3 minus(final ImmutableVector3 x, final Vector that) {
         final ImmutableVector3 diff = (ImmutableVector3) VectorTest.minus(x, that);// inherited
 
         assertInvariants(diff);
@@ -162,7 +163,7 @@ public class ImmutableVector3Test {
         return diff;
     }
 
-    private static final ImmutableVector3 plus(final ImmutableVector3 x, final ImmutableVector3 that) {
+    private static ImmutableVector3 plus(final ImmutableVector3 x, final ImmutableVector3 that) {
         final ImmutableVector3 sum = (ImmutableVector3) VectorTest.plus(x, that);// inherited
 
         assertInvariants(sum);
@@ -172,7 +173,7 @@ public class ImmutableVector3Test {
         return sum;
     }
 
-    public static final ImmutableVector3 plus(final ImmutableVector3 x, final Vector that) {
+    public static ImmutableVector3 plus(final ImmutableVector3 x, final Vector that) {
         final ImmutableVector3 diff = (ImmutableVector3) VectorTest.plus(x, that);// inherited
 
         assertInvariants(diff);
@@ -205,31 +206,31 @@ public class ImmutableVector3Test {
         return sum;
     }
 
-    private static final void sum_multiple1(final double x, final double y, final double z) {
-        final ImmutableVector3 sum = sum(new ImmutableVector3[] { ImmutableVector3.create(x, y, z) });
+    private static void sum_multiple1(final double x, final double y, final double z) {
+        final ImmutableVector3 sum = sum(ImmutableVector3.create(x, y, z));
 
         assertEquals(x, sum.get(0), Double.MIN_NORMAL, "sum x");
         assertEquals(y, sum.get(1), Double.MIN_NORMAL, "sum y");
         assertEquals(z, sum.get(2), Double.MIN_NORMAL, "sum z");
     }
 
-    private static final void sum_multipleX2(final double x1, final double x2) {
+    private static void sum_multipleX2(final double x1, final double x2) {
         final ImmutableVector3 sum = sum(
-                new ImmutableVector3[] { ImmutableVector3.create(x1, 0, 0), ImmutableVector3.create(x2, 0, 0) });
+                ImmutableVector3.create(x1, 0, 0), ImmutableVector3.create(x2, 0, 0));
 
         assertEquals(x1 + x2, sum.get(0), Double.MIN_NORMAL, "sum x");
     }
 
-    private static final void sum_multipleY2(final double y1, final double y2) {
+    private static void sum_multipleY2(final double y1, final double y2) {
         final ImmutableVector3 sum = sum(
-                new ImmutableVector3[] { ImmutableVector3.create(0, y1, 0), ImmutableVector3.create(0, y2, 0) });
+                ImmutableVector3.create(0, y1, 0), ImmutableVector3.create(0, y2, 0));
 
         assertEquals(y1 + y2, sum.get(1), Double.MIN_NORMAL, "sum y");
     }
 
-    private static final void sum_multipleZ2(final double z1, final double z2) {
+    private static void sum_multipleZ2(final double z1, final double z2) {
         final ImmutableVector3 sum = sum(
-                new ImmutableVector3[] { ImmutableVector3.create(0, 0, z1), ImmutableVector3.create(0, 0, z2) });
+                ImmutableVector3.create(0, 0, z1), ImmutableVector3.create(0, 0, z2));
 
         assertEquals(z1 + z2, sum.get(2), Double.MIN_NORMAL, "sum z");
     }
@@ -246,7 +247,7 @@ public class ImmutableVector3Test {
         return sum;
     }
 
-    private static final void weightedSum_1(final double weight, final double x, final double y, final double z) {
+    private static void weightedSum_1(final double weight, final double x, final double y, final double z) {
         final ImmutableVector3 sum = weightedSum(new double[] { weight },
                 new ImmutableVector3[] { ImmutableVector3.create(x, y, z) });
 

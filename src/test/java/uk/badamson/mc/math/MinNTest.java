@@ -25,11 +25,14 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.Nonnull;
+
 /**
  * <p>
  * Unit tests of the {@link MinN} class.
  * </p>
  */
+@SuppressWarnings({"UnnecessaryLocalVariable", "UnusedReturnValue", "SameParameterValue"})
 public class MinNTest {
 
     private static final FunctionN CONSTANT_1 = new FunctionN() {
@@ -40,7 +43,7 @@ public class MinNTest {
         }
 
         @Override
-        public double value(final double[] x) {
+        public double value(@Nonnull final double[] x) {
             return 1.0;
         }
     };
@@ -53,7 +56,7 @@ public class MinNTest {
         }
 
         @Override
-        public double value(final double[] x) {
+        public double value(@Nonnull final double[] x) {
             return x[0] + x[1];
         }
     };
@@ -66,7 +69,7 @@ public class MinNTest {
         }
 
         @Override
-        public double value(final double[] x) {
+        public double value(@Nonnull final double[] x) {
             return x[0] * x[0] + x[1] * x[1];
         }
     };
@@ -78,15 +81,16 @@ public class MinNTest {
             return 2;
         }
 
+        @Nonnull
         @Override
-        public FunctionNWithGradientValue value(final ImmutableVectorN x) {
+        public FunctionNWithGradientValue value(@Nonnull final ImmutableVectorN x) {
             final double x0 = x.get(0);
             final double x1 = x.get(1);
             return new FunctionNWithGradientValue(x, x0 * x0 + x1 * x1, ImmutableVectorN.create(2.0 * x0, 2.0 * x1));
         }
     };
 
-    private static final double adjacentPrecision(final double x) {
+    private static double adjacentPrecision(final double x) {
         final double next = Math.nextAfter(x, Double.POSITIVE_INFINITY);
         final double precision = Math.max(next - x, Min1.TOLERANCE * Math.abs(x));
         assert 0.0 < precision;

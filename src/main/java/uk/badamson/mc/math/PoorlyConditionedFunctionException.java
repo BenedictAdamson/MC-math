@@ -18,6 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import java.io.Serial;
+
 /**
  * <p>
  * An exception class for indicating that minimization of a
@@ -36,6 +38,7 @@ package uk.badamson.mc.math;
  */
 public final class PoorlyConditionedFunctionException extends IllegalArgumentException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     PoorlyConditionedFunctionException(final Function1 f) {

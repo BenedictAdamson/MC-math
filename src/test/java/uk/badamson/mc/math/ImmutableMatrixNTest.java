@@ -31,6 +31,7 @@ import uk.badamson.dbc.assertions.ObjectVerifier;
  * Unit tests of the class {@link ImmutableMatrixN}
  * </p>
  */
+@SuppressWarnings("UnusedReturnValue")
 public class ImmutableMatrixNTest {
 
     public static void assertInvariants(final ImmutableMatrixN matrix) {
@@ -63,6 +64,7 @@ public class ImmutableMatrixNTest {
         create(1, 1, new double[] { x });
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static void create_equals(final int rows, final int columns, final double[] elements) {
         final ImmutableMatrixN matrix1 = ImmutableMatrixN.create(rows, columns, elements);
         final ImmutableMatrixN matrix2 = ImmutableMatrixN.create(rows, columns, elements);
@@ -91,7 +93,7 @@ public class ImmutableMatrixNTest {
         return create(elements.length, 1, elements);
     }
 
-    private static final ImmutableVectorN multiply(final ImmutableMatrixN a, final Vector x) {
+    private static ImmutableVectorN multiply(final ImmutableMatrixN a, final Vector x) {
         final ImmutableVectorN ax = (ImmutableVectorN) MatrixTest.multiply(a, x);// inherited
 
         assertNotNull(ax, "Not null, result");// guard

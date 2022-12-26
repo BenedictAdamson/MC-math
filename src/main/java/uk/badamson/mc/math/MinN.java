@@ -34,6 +34,7 @@ public final class MinN {
         throw new AssertionError("Class should not be instantiated");
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     private static double basicPowell(final FunctionN f, final double[] x0, final double[] dx0, final double[] x,
                                       final double[][] dx) throws PoorlyConditionedFunctionException {
         final int n = f.getDimension();
@@ -120,16 +121,12 @@ public final class MinN {
                     "Inconsistent lengths, x0 " + n + ", dx " + dx.length + ", f.dimensions " + f.getDimension());
         }
 
-        return new Function1() {
-
-            @Override
-            public double value(final double w) {
-                final double[] x = new double[n];
-                for (int i = 0; i < n; i++) {
-                    x[i] = x0[i] + w * dx[i];
-                }
-                return f.value(x);
+        return w -> {
+            final double[] x = new double[n];
+            for (int i = 0; i < n; i++) {
+                x[i] = x0[i] + w * dx[i];
             }
+            return f.value(x);
         };
     }
 
@@ -182,12 +179,11 @@ public final class MinN {
 
             @Override
             public String toString() {
-                String str = f +
+                return f +
                         " along " +
                         x0 +
                         " + w*" +
                         dx;
-                return str;
             }
 
             @Override

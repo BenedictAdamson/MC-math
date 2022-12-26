@@ -20,7 +20,6 @@ package uk.badamson.mc.math;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * <p>
@@ -28,29 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * interface.
  * </p>
  */
+@SuppressWarnings("unused")
 public class Function1WithGradientTest {
 
+    @SuppressWarnings({"EmptyMethod", "unused"})
     public static void assertInvariants(final Function1WithGradient f) {
         // Do nothing
-    }
-
-    public static void assertValueConsistentWithGradient(final Function1WithGradient f, final double x1,
-            final double x2, final int n) {
-        assert 3 <= n;
-        final Function1WithGradientValue[] fx = new Function1WithGradientValue[n];
-        for (int i = 0; i < n; ++i) {
-            final double x = x1 + (x2 - x1) * i / n;
-            fx[i] = f.value(x);
-        }
-        for (int i = 1; i < n - 1; i++) {
-            final Function1WithGradientValue fl = fx[i - 1];
-            final Function1WithGradientValue fi = fx[i];
-            final Function1WithGradientValue fr = fx[i + 1];
-            final double dfl = fi.getF() - fl.getF();
-            final double dfr = fr.getF() - fi.getF();
-            assertTrue(sign(dfl) != sign(dfr) || sign(fi.getDfDx()) == sign(dfl),
-                    "Consistent gradient <" + fl + "," + fi + "," + fr + ">");
-        }
     }
 
     private static int sign(final double x) {

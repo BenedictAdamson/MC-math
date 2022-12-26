@@ -164,7 +164,7 @@ public final class Min1 {
                 final double fNew = f.value(xNew);
                 if (fNew < p3.getF()) {
                     // Found a minimum between p2 and p3
-                    assert !Double.isNaN(fNew);
+                    // !Double.isNaN(fNew);
                     p1 = p2;
                     p2 = new Function1Value(xNew, fNew);
                     // p3 unchanged
@@ -174,7 +174,7 @@ public final class Min1 {
                      * Function has higher order terms. We have p1.y > p2.y and fNew > p2.y, which
                      * can form a bracket
                      */
-                    assert !Double.isNaN(fNew);
+                    // !Double.isNaN(fNew);
                     // p1 unchanged
                     // p2 unchanged
                     p3 = new Function1Value(xNew, fNew);
@@ -599,8 +599,7 @@ public final class Min1 {
         final double y21 = y2 - p1.getF();
         final double x21y23 = x21 * y23;
         final double x23y21 = x23 * y21;
-        final double xNew = x2 - (x21 * x21y23 - x23 * x23y21) / (2.0 * (x21y23 - x23y21));
-        return xNew;
+        return x2 - (x21 * x21y23 - x23 * x23y21) / (2.0 * (x21y23 - x23y21));
     }
 
     private static boolean secantExtrapolationOk(final double xNew, final Function1WithGradientValue left,
@@ -807,7 +806,6 @@ public final class Min1 {
          * {@linkplain #getInner() inner point} of the bracket.</li>
          * </ul>
          *
-         * @return
          */
         public double getMin() {
             return inner.getF();

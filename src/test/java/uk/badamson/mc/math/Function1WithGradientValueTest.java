@@ -30,6 +30,7 @@ import uk.badamson.dbc.assertions.ObjectVerifier;
  * Unit tests for the class {@link Function1WithGradientValue}.
  * </p>
  */
+@SuppressWarnings("UnusedReturnValue")
 public class Function1WithGradientValueTest {
 
     public static void assertInvariants(final Function1WithGradientValue v) {

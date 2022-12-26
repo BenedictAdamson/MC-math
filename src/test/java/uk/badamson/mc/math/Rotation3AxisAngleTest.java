@@ -35,6 +35,7 @@ import uk.badamson.dbc.assertions.ObjectVerifier;
  * Unit tests for the class {@link Rotation3AxisAngle}
  * </p>
  */
+@SuppressWarnings({"UnusedReturnValue", "SameParameterValue"})
 public class Rotation3AxisAngleTest {
 
     private static final double TOLERANCE = 4.0 * (Math.nextAfter(1.0, Double.POSITIVE_INFINITY) - 1.0);
@@ -163,7 +164,7 @@ public class Rotation3AxisAngleTest {
         final Rotation3 sum = plus(r1, r2);
 
         assertThat("axis", sum.getAxis(), closeToImmutableVector3(axis, TOLERANCE));
-        assertThat("normalized angle", Double.valueOf(normalizedAngle(sum.getAngle())),
+        assertThat("normalized angle", normalizedAngle(sum.getAngle()),
                 closeTo(normalizedAngle(angle1 + angle2), TOLERANCE));
     }
 
@@ -206,7 +207,7 @@ public class Rotation3AxisAngleTest {
         assertInvariants(rotation);
         assertEquals(angle, rotation.getAngle(), TOLERANCE, "angle.");
         assertThat("The rotation axis of the created rotation points in the same direction as the given axis.",
-                Double.valueOf(axisMagnitude), closeTo(axis.dot(rotation.getAxis()), axisMagnitude * TOLERANCE));
+                axisMagnitude, closeTo(axis.dot(rotation.getAxis()), axisMagnitude * TOLERANCE));
 
         return rotation;
     }

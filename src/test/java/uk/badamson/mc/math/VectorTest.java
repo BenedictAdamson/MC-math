@@ -31,6 +31,7 @@ import org.hamcrest.TypeSafeMatcher;
  * Unit tests of classes that implement the {@link Vector} interface.
  * </p>
  */
+@SuppressWarnings("unused")
 public class VectorTest {
 
     private static class IsCloseTo extends TypeSafeMatcher<Vector> {
@@ -45,16 +46,16 @@ public class VectorTest {
         @Override
         public void describeMismatchSafely(final Vector item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item).appendText(" differed by ")
-                    .appendValue(Double.valueOf(distance(item)));
+                    .appendValue(distance(item));
         }
 
         @Override
         public void describeTo(final Description description) {
-            description.appendText("a vector within ").appendValue(Double.valueOf(tolerance)).appendText(" of ")
+            description.appendText("a vector within ").appendValue(tolerance).appendText(" of ")
                     .appendValue(value);
         }
 
-        private final double distance(final Vector item) {
+        private double distance(final Vector item) {
             return value.minus(item).magnitude();
         }
 
@@ -90,7 +91,7 @@ public class VectorTest {
         return mean;
     }
 
-    public static final Vector minus(final Vector x) {
+    public static Vector minus(final Vector x) {
         final Vector minus = x.minus();
 
         assertNotNull(minus, "Not null, result");// guard
@@ -110,7 +111,7 @@ public class VectorTest {
         return minus;
     }
 
-    public static final Vector minus(final Vector x, final Vector that) {
+    public static Vector minus(final Vector x, final Vector that) {
         final Vector diff = x.minus(that);
 
         assertNotNull(diff, "Not null, result");// guard
@@ -127,7 +128,7 @@ public class VectorTest {
         return diff;
     }
 
-    public static final Vector multiply(final Vector a, final Vector x) {
+    public static Vector multiply(final Vector a, final Vector x) {
         final Vector ax = MatrixTest.multiply(a, x);// inherited
 
         assertInvariants(a);// check for side-efffects
@@ -136,7 +137,7 @@ public class VectorTest {
         return ax;
     }
 
-    public static final Vector plus(final Vector x, final Vector that) {
+    public static Vector plus(final Vector x, final Vector that) {
         final Vector sum = x.plus(that);
 
         assertNotNull(sum, "Not null, result");// guard
