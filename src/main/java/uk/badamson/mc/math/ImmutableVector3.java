@@ -241,6 +241,12 @@ public final class ImmutableVector3 implements Vector {
         return 3;
     }
 
+    @Nonnull
+    @Override
+    public double[] getComponentsAsArray() {
+        return new double[]{x, y, z};
+    }
+
     @Nonnegative
     private double getScale() {
         return Math.max(Math.max(Math.abs(x), Math.abs(y)), Math.abs(z));

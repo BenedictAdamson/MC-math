@@ -222,6 +222,12 @@ public final class ImmutableVector1 implements Vector {
         return 1;
     }
 
+    @Nonnull
+    @Override
+    public double[] getComponentsAsArray() {
+        return new double[]{x};
+    }
+
     @Override
     public int hashCode() {
         return Double.hashCode(x);

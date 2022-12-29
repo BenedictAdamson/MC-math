@@ -91,6 +91,20 @@ public interface Vector extends Matrix {
 
     /**
      * <p>
+     * Create an array that holds the components of this vector.
+     * </p>
+     * <p>
+     * The <var>i</var><sup>th</sup> component of the returned array is equal to the
+     * <var>i</var><sup>th</sup>
+     * {@linkplain #get(int) component}
+     * of this vector.
+     * </p>
+     */
+    @Nonnull
+    double[] getComponentsAsArray();
+
+    /**
+     * <p>
      * The magnitude of this vector.
      * </p>
      * <ul>

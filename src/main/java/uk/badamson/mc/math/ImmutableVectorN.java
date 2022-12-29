@@ -22,6 +22,7 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -86,13 +87,36 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
 
     /**
      * <p>
+     * Copy a {@link Vector}
+     * </p>
+     * <p>
+     * Return an immutable vector that has the same {@linkplain Vector#getDimension() dimension}
+     * and {@linkplain Vector#get(int) components}
+     * as a given vector.
+     * If the given {@link Vector} is subsequently modified, the returned Vector will not reflect such modifications.
+     * </p>
+     *
+     * @see java.util.List#copyOf(Collection)
+     */
+    @Nonnull
+    public static ImmutableVectorN copyOf(@Nonnull Vector x) {
+        Objects.requireNonNull(x);
+        if (x instanceof ImmutableVectorN) {
+            return (ImmutableVectorN) x;
+        } else {
+            return new ImmutableVectorN(x.getComponentsAsArray());
+        }
+    }
+
+    /**
+     * <p>
      * Create a vector that lies along a line given by an origin point and position
      * vector.
      * </p>
      * <ul>
      * <li>Always returns a (non null) vector.</li>
      * <li>The {@linkplain ImmutableVectorN#getDimension() dimension} of the
-     * returned vector is equal to the dimension of thetwo input vectors.</li>
+     * returned vector is equal to the dimension of the two input vectors.</li>
      * <li>Returns the vector <code>x0 + w dx</code></li>
      * </ul>
      *
@@ -261,7 +285,7 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * @param i The index of the component.
      * @return the component.
      * @throws IndexOutOfBoundsException If {@code i} is less than 0 or greater than or equal to the
-     *                                   {@linkplain #getDimension() number of dimensions} of thsi vector.
+     *                                   {@linkplain #getDimension() number of dimensions} of this vector.
      */
     @Override
     public double get(@Nonnegative final int i) {
@@ -280,6 +304,12 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
     @Nonnegative
     public int getDimension() {
         return elements.length;
+    }
+
+    @Nonnull
+    @Override
+    public double[] getComponentsAsArray() {
+        return Arrays.copyOf(elements, elements.length);
     }
 
     @Nonnegative
@@ -393,7 +423,7 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * <li>The opposite vector has the same {@linkplain #getDimension() dimension}
      * as this vector.</li>
      * <li>The {@linkplain #get(int) components} of the opposite vector are the
-     * negative of the corresponsing component of this vector.</li>
+     * negative of the corresponding component of this vector.</li>
      * </ul>
      */
     @Override

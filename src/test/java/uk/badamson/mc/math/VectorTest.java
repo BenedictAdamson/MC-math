@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,6 +18,8 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,6 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import javax.annotation.Nonnull;
 
 /**
  * <p>
@@ -165,4 +169,19 @@ public class VectorTest {
         return scaled;
     }
 
+    @Nonnull
+    public static double[] getComponentsAsArray(final Vector x) {
+        final var result = x.getComponentsAsArray();
+
+        assertInvariants(x);
+        assertThat(result, notNullValue());
+
+        final var dimension = x.getDimension();
+        assertThat(result.length, is(x.getDimension()));
+        for (int i = 0; i < dimension; ++i) {
+            assertThat("[" + i + "]", result[i], is(x.get(i)));
+        }
+
+        return result;
+    }
 }

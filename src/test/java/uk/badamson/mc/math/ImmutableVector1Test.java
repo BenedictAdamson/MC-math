@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,12 +18,11 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.hamcrest.Matcher;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * <p>
@@ -483,9 +482,34 @@ public class ImmutableVector1Test {
 
     @Test
     public void weightedSum_2() {
-        final ImmutableVector1 sum = weightedSum(new double[] { 1.0, 2.0 },
-                new ImmutableVector1[] { ImmutableVector1.create(3), ImmutableVector1.create(5) });
+        final ImmutableVector1 sum = weightedSum(new double[]{1.0, 2.0},
+                new ImmutableVector1[]{ImmutableVector1.create(3), ImmutableVector1.create(5)});
 
         assertEquals(13.0, sum.get(0), Double.MIN_NORMAL, "sum[0]");
+    }
+
+    public static double[] getComponentsAsArray(final ImmutableVector1 x) {
+        final var result = VectorTest.getComponentsAsArray(x);// inherited
+        assertInvariants(x);
+        return result;
+    }
+
+    @Nested
+    public class ComponentsAsArray {
+
+        @Test
+        public void zero() {
+            test(0.0);
+        }
+
+        @Test
+        public void one() {
+            test(1.0);
+        }
+
+        private void test(double v) {
+            final var x = ImmutableVector1.create(v);
+            getComponentsAsArray(x);
+        }
     }
 }

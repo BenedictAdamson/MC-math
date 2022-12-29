@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,49 +18,33 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-/**
- * <p>
- * Unit tests of the class {@link ImmutableVectorN}.
- * </p>
- */
+import javax.annotation.Nonnull;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+
 @SuppressWarnings({"UnusedReturnValue", "unused"})
 public class ImmutableVectorNTest {
 
-    public static void assertInvariants(final ImmutableVectorN x) {
+    public static void assertInvariants(@Nonnull final ImmutableVectorN x) {
         ImmutableMatrixNTest.assertInvariants(x);// inherited
         VectorTest.assertInvariants(x);// inherited
 
-        assertEquals(1, x.getColumns(), "columns");
-        final int dimensions = x.getDimension();
-        assertTrue(0 < dimensions, "The number of dimensions <" + dimensions + "> is positive");
+        final var dimensions = x.getDimension();
+        final var columns = x.getColumns();
+        assertAll(
+                () -> assertThat("columns", columns, is(1)),
+                () -> assertThat("dimensions", dimensions, greaterThan(0))
+        );
     }
 
-    public static void assertInvariants(final ImmutableVectorN x1, final ImmutableVectorN x2) {
+    public static void assertInvariants(@Nonnull final ImmutableVectorN x1, @Nonnull final ImmutableVectorN x2) {
         ImmutableMatrixNTest.assertInvariants(x1, x2);// inherited
         VectorTest.assertInvariants(x1, x2);// inherited
-
-        if (x1.equals(x2)) {
-            final int dimensions1 = x1.getDimension();
-            assertEquals(dimensions1, x2.getDimension(), "Equality requires equal dimensions");// guard
-            for (int i = 0; i < dimensions1; i++) {
-                assertEquals(x1.get(i), x2.get(i), Double.MIN_NORMAL, "Equality requires equal components [" + i + "]");
-            }
-        }
-    }
-
-    private static void construct_equals(final double x) {
-        final ImmutableVectorN v1 = ImmutableVectorN.create(x);
-        final ImmutableVectorN v2 = ImmutableVectorN.create(x);
-
-        assertInvariants(v1, v2);
-        assertEquals(v1, v2, "Equivalent");
     }
 
     private static ImmutableVectorN create(final double... x) {
@@ -186,19 +170,6 @@ public class ImmutableVectorNTest {
         return sum;
     }
 
-    private static void sum_multiple1(final double x) {
-        final ImmutableVectorN sum = sum(ImmutableVectorN.create(x));
-
-        assertEquals(x, sum.get(0), Double.MIN_NORMAL, "sum[0]");
-    }
-
-    private static void sum_multiple2(final double x1, final double x2) {
-        final ImmutableVectorN sum = sum(
-                ImmutableVectorN.create(x1), ImmutableVectorN.create(x2));
-
-        assertEquals(x1 + x2, sum.get(0), Double.MIN_NORMAL, "sum[0]");
-    }
-
     private static ImmutableVectorN weightedSum(final double[] weight, final ImmutableVectorN[] x) {
         final ImmutableVectorN sum = ImmutableVectorN.weightedSum(weight, x);
 
@@ -214,467 +185,695 @@ public class ImmutableVectorNTest {
         return sum;
     }
 
-    private static void weightedSum_11(final double weight, final double x) {
-        final ImmutableVectorN sum = weightedSum(new double[] { weight },
-                new ImmutableVectorN[] { ImmutableVectorN.create(x) });
-
-        assertEquals(weight * x, sum.get(0), Double.MIN_NORMAL, "sum[0]");
-    }
+    private static ImmutableVectorN copyOf(@Nonnull Vector x) {
+        final var copy = ImmutableVectorN.copyOf(x);
 
-    @Test
-    public void construct_equals1A() {
-        construct_equals(0.0);
-    }
+        assertThat(copy, notNullValue());
+        assertInvariants(copy);
+        VectorTest.assertInvariants(x);
+        VectorTest.assertInvariants(x, copy);
 
-    @Test
-    public void construct_equals1B() {
-        construct_equals(1.0);
-    }
+        final var dimension = copy.getDimension();
+        assertThat(dimension, is(x.getDimension()));
+        for (int i = 0; i < dimension; ++i) {
+            assertThat("[" + i + "]", copy.get(i), is(x.get(i)));
+        }
 
-    @Test
-    public void construct_equals1C() {
-        construct_equals(Double.POSITIVE_INFINITY);
+        return copy;
     }
 
-    @Test
-    public void construct_equals2() {
-        final double x1 = 0.0;
-        final double x2 = 1.0;
-        final ImmutableVectorN v1 = ImmutableVectorN.create(x1, x2);
-        final ImmutableVectorN v2 = ImmutableVectorN.create(x1, x2);
-
-        assertInvariants(v1, v2);
-        assertEquals(v1, v2, "Equivalent");
+    public static double[] getComponentsAsArray(final ImmutableVectorN x) {
+        final var result = VectorTest.getComponentsAsArray(x);// inherited
+        assertInvariants(x);
+        return result;
     }
 
-    @Test
-    public void construct_notEqualsA() {
-        final ImmutableVectorN v1 = ImmutableVectorN.create(0.0);
-        final ImmutableVectorN v2 = ImmutableVectorN.create(1.0);
+    @Nested
+    public class Create {
 
-        assertInvariants(v1, v2);
-        assertNotEquals(v1, v2, "Not equivalent");
-    }
 
-    @Test
-    public void construct_notEqualsB() {
-        final ImmutableVectorN v1 = ImmutableVectorN.create(0.0);
-        final ImmutableVectorN v2 = ImmutableVectorN.create(0.0, 1.0);
+        @Test
+        public void zero() {
+            final ImmutableVectorN x = create(0.0);
 
-        assertInvariants(v1, v2);
-        assertNotEquals(v1, v2, "Not equivalent");
-    }
+            assertEquals(0.0, x.magnitude2(), Double.MIN_NORMAL, "magnitude^2");
+            assertEquals(0.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
+        }
 
-    @Test
-    public void create_10() {
-        final ImmutableVectorN x = create(0.0);
+        @Test
+        public void minusOne() {
+            final ImmutableVectorN x = create(-1.0);
 
-        assertEquals(0.0, x.magnitude2(), Double.MIN_NORMAL, "magnitude^2");
-        assertEquals(0.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
-    }
+            assertEquals(1.0, x.magnitude2(), Double.MIN_NORMAL, "magnitude^2");
+            assertEquals(1.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
+        }
 
-    @Test
-    public void create_1B() {
-        final ImmutableVectorN x = create(-1.0);
+        @Test
+        public void max() {
+            final double xI = Double.MAX_VALUE;
+            final ImmutableVectorN x = create(xI);
 
-        assertEquals(1.0, x.magnitude2(), Double.MIN_NORMAL, "magnitude^2");
-        assertEquals(1.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
-    }
+            assertEquals(xI, x.magnitude(), xI * 1.0E-6, "magnitude");
+        }
 
-    @Test
-    public void create_1Max() {
-        final double xI = Double.MAX_VALUE;
-        final ImmutableVectorN x = create(xI);
+        @Test
+        public void nan() {
+            final ImmutableVectorN x = create(Double.POSITIVE_INFINITY);
 
-        assertEquals(xI, x.magnitude(), xI * 1.0E-6, "magnitude");
-    }
+            final double magnitude2 = x.magnitude2();
+            final double magnitude = x.magnitude();
+            assertEquals(Double.doubleToLongBits(magnitude2), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
+                    "magnitude^2 <" + magnitude2 + "> (bits)");
+            assertEquals(Double.doubleToLongBits(magnitude), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
+                    "magnitude <" + magnitude + "> (bits)");
+        }
 
-    @Test
-    public void create_1Nan() {
-        final ImmutableVectorN x = create(Double.POSITIVE_INFINITY);
-
-        final double magnitude2 = x.magnitude2();
-        final double magnitude = x.magnitude();
-        assertEquals(Double.doubleToLongBits(magnitude2), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
-                "magnitude^2 <" + magnitude2 + "> (bits)");
-        assertEquals(Double.doubleToLongBits(magnitude), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
-                "magnitude <" + magnitude + "> (bits)");
-    }
+        @Test
+        public void twoDimensionalA() {
+            final ImmutableVectorN x = create(0.0, 1.0);
 
-    @Test
-    public void create_2A() {
-        final ImmutableVectorN x = create(0.0, 1.0);
+            assertEquals(1.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
+        }
 
-        assertEquals(1.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
-    }
+        @Test
+        public void twoDimensionalB() {
+            final ImmutableVectorN x = create(1.0, 1.0);
 
-    @Test
-    public void create_2B() {
-        final ImmutableVectorN x = create(1.0, 1.0);
+            assertEquals(Math.sqrt(2.0), x.magnitude(), Double.MIN_NORMAL, "magnitude");
+        }
 
-        assertEquals(Math.sqrt(2.0), x.magnitude(), Double.MIN_NORMAL, "magnitude");
-    }
 
-    @Test
-    public void create01() {
-        create0(1);
-    }
+        @Nested
+        public class TwoEquivalent {
 
-    @Test
-    public void create02() {
-        create0(2);
-    }
+            @Test
+            public void twoDimensional() {
+                final double x1 = 0.0;
+                final double x2 = 1.0;
+                final var v1 = ImmutableVectorN.create(x1, x2);
+                final var v2 = ImmutableVectorN.create(x1, x2);
 
-    @Test
-    public void createOnLine_A() {
-        final ImmutableVectorN x0 = ImmutableVectorN.create(0.0);
-        final ImmutableVectorN dx = ImmutableVectorN.create(1.0);
-        final double w = 1.0;
+                assertInvariants(v1, v2);
+                assertEquals(v1, v2, "Equivalent");
+            }
 
-        final ImmutableVectorN x = createOnLine(x0, dx, w);
+            @Nested
+            public class OneDimensional {
 
-        assertEquals(1.0, x.get(0), Double.MIN_NORMAL, "x");
-    }
 
-    @Test
-    public void createOnLine_B() {
-        final ImmutableVectorN x0 = ImmutableVectorN.create(1.0);
-        final ImmutableVectorN dx = ImmutableVectorN.create(1.0);
-        final double w = 1.0;
+                @Test
+                public void a() {
+                    test(0.0);
+                }
 
-        final ImmutableVectorN x = createOnLine(x0, dx, w);
+                @Test
+                public void b() {
+                    test(1.0);
+                }
 
-        assertEquals(2.0, x.get(0), Double.MIN_NORMAL, "x");
-    }
+                @Test
+                public void withNan() {
+                    test(Double.POSITIVE_INFINITY);
+                }
 
-    @Test
-    public void createOnLine_C() {
-        final ImmutableVectorN x0 = ImmutableVectorN.create(0.0);
-        final ImmutableVectorN dx = ImmutableVectorN.create(2.0);
-        final double w = 1.0;
+                private void test(final double x) {
+                    final ImmutableVectorN v1 = ImmutableVectorN.create(x);
+                    final ImmutableVectorN v2 = ImmutableVectorN.create(x);
 
-        final ImmutableVectorN x = createOnLine(x0, dx, w);
+                    assertInvariants(v1, v2);
+                    assertEquals(v1, v2, "Equivalent");
+                }
+            }
 
-        assertEquals(2.0, x.get(0), Double.MIN_NORMAL, "x");
-    }
+        }
 
-    @Test
-    public void createOnLine_D() {
-        final ImmutableVectorN x0 = ImmutableVectorN.create(0.0);
-        final ImmutableVectorN dx = ImmutableVectorN.create(1.0);
-        final double w = 2.0;
+        @Nested
+        public class TwoDifferent {
 
-        final ImmutableVectorN x = createOnLine(x0, dx, w);
 
-        assertEquals(2.0, x.get(0), Double.MIN_NORMAL, "x");
-    }
+            @Test
+            public void sameDimension() {
+                final ImmutableVectorN v1 = ImmutableVectorN.create(0.0);
+                final ImmutableVectorN v2 = ImmutableVectorN.create(1.0);
 
-    @Test
-    public void dot_A() {
-        final double d = ImmutableVectorN.create(1.0).dot(ImmutableVectorN.create(1.0));
-        assertEquals(1.0, d, Double.MIN_NORMAL, "dot product");
-    }
+                assertInvariants(v1, v2);
+                assertNotEquals(v1, v2, "Not equivalent");
+            }
 
-    @Test
-    public void dot_B() {
-        final double d = ImmutableVectorN.create(2.0).dot(ImmutableVectorN.create(1.0));
-        assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
-    }
+            @Test
+            public void differentDimensions() {
+                final ImmutableVectorN v1 = ImmutableVectorN.create(0.0);
+                final ImmutableVectorN v2 = ImmutableVectorN.create(0.0, 1.0);
 
-    @Test
-    public void dot_C() {
-        final double d = ImmutableVectorN.create(1.0).dot(ImmutableVectorN.create(2.0));
-        assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
+                assertInvariants(v1, v2);
+                assertNotEquals(v1, v2, "Not equivalent");
+            }
+        }
     }
 
-    @Test
-    public void dot_D() {
-        final double d = ImmutableVectorN.create(2.0).dot(ImmutableVectorN.create(2.0));
-        assertEquals(4.0, d, Double.MIN_NORMAL, "dot product");
-    }
+    @Nested
+    public class Create0 {
 
-    @Test
-    public void dot_E() {
-        final double d = ImmutableVectorN.create(1.0, 1.0).dot(ImmutableVectorN.create(1.0, 1.0));
-        assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
-    }
+        @Test
+        public void one() {
+            create0(1);
+        }
 
-    @Test
-    public void mean_1A() {
-        final ImmutableVectorN mean = mean(ImmutableVectorN.create(1.0), ImmutableVectorN.create(1.0));
-        assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
+        @Test
+        public void two() {
+            create0(2);
+        }
     }
 
-    @Test
-    public void mean_1B() {
-        final ImmutableVectorN mean = mean(ImmutableVectorN.create(1.0), ImmutableVectorN.create(-1.0));
-        assertEquals(0.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
-    }
+    @Nested
+    public class CreateOnLine {
 
-    @Test
-    public void mean_1C() {
-        final ImmutableVectorN mean = mean(ImmutableVectorN.create(2.0), ImmutableVectorN.create(0.0));
-        assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
-    }
+        @Test
+        public void a() {
+            final ImmutableVectorN x0 = ImmutableVectorN.create(0.0);
+            final ImmutableVectorN dx = ImmutableVectorN.create(1.0);
+            final double w = 1.0;
 
-    @Test
-    public void mean_1D() {
-        final ImmutableVectorN mean = mean(ImmutableVectorN.create(0.0), ImmutableVectorN.create(2.0));
-        assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
-    }
+            final ImmutableVectorN x = createOnLine(x0, dx, w);
 
-    @Test
-    public void mean_2() {
-        final ImmutableVectorN mean = mean(ImmutableVectorN.create(1.0, 2.0), ImmutableVectorN.create(3.0, 4.0));
-        assertEquals(2.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
-        assertEquals(3.0, mean.get(1), Double.MIN_NORMAL, "mean[1]");
-    }
+            assertEquals(1.0, x.get(0), Double.MIN_NORMAL, "x");
+        }
 
-    @Test
-    public void minus_0() {
-        minus(ImmutableVectorN.create(0.0));
-    }
+        @Test
+        public void b() {
+            final ImmutableVectorN x0 = ImmutableVectorN.create(1.0);
+            final ImmutableVectorN dx = ImmutableVectorN.create(1.0);
+            final double w = 1.0;
 
-    @Test
-    public void minus_1A() {
-        minus(ImmutableVectorN.create(1.0));
-    }
+            final ImmutableVectorN x = createOnLine(x0, dx, w);
 
-    @Test
-    public void minus_1B() {
-        minus(ImmutableVectorN.create(-2.0));
-    }
+            assertEquals(2.0, x.get(0), Double.MIN_NORMAL, "x");
+        }
 
-    @Test
-    public void minus_1Infinity() {
-        minus(ImmutableVectorN.create(Double.POSITIVE_INFINITY));
-    }
+        @Test
+        public void c() {
+            final ImmutableVectorN x0 = ImmutableVectorN.create(0.0);
+            final ImmutableVectorN dx = ImmutableVectorN.create(2.0);
+            final double w = 1.0;
 
-    @Test
-    public void minus_1Nan() {
-        minus(ImmutableVectorN.create(Double.NaN));
-    }
+            final ImmutableVectorN x = createOnLine(x0, dx, w);
 
-    @Test
-    public void minus_2() {
-        minus(ImmutableVectorN.create(1.0, 2.0));
-    }
+            assertEquals(2.0, x.get(0), Double.MIN_NORMAL, "x");
+        }
 
-    @Test
-    public void minus_vector0A() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(0);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(0);
+        @Test
+        public void d() {
+            final ImmutableVectorN x0 = ImmutableVectorN.create(0.0);
+            final ImmutableVectorN dx = ImmutableVectorN.create(1.0);
+            final double w = 2.0;
 
-        minus(x1, x2);
-    }
+            final ImmutableVectorN x = createOnLine(x0, dx, w);
 
-    @Test
-    public void minus_vector0B() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(1);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(0);
+            assertEquals(2.0, x.get(0), Double.MIN_NORMAL, "x");
+        }
 
-        minus(x1, x2);
     }
 
-    @Test
-    public void minus_vector0C() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(1, 2);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(0, 0);
+    @Nested
+    public class Dot {
 
-        minus(x1, x2);
-    }
+        @Test
+        public void a() {
+            final double d = ImmutableVectorN.create(1.0).dot(ImmutableVectorN.create(1.0));
+            assertEquals(1.0, d, Double.MIN_NORMAL, "dot product");
+        }
+
+        @Test
+        public void b() {
+            final double d = ImmutableVectorN.create(2.0).dot(ImmutableVectorN.create(1.0));
+            assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
+        }
+
+        @Test
+        public void c() {
+            final double d = ImmutableVectorN.create(1.0).dot(ImmutableVectorN.create(2.0));
+            assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
+        }
 
-    @Test
-    public void minus_vectorA() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(2);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(1);
+        @Test
+        public void d() {
+            final double d = ImmutableVectorN.create(2.0).dot(ImmutableVectorN.create(2.0));
+            assertEquals(4.0, d, Double.MIN_NORMAL, "dot product");
+        }
 
-        minus(x1, x2);
+        @Test
+        public void e() {
+            final double d = ImmutableVectorN.create(1.0, 1.0).dot(ImmutableVectorN.create(1.0, 1.0));
+            assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
+        }
     }
 
-    @Test
-    public void minus_vectorB() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(2);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(-1);
+    @Nested
+    public class Mean {
 
-        minus(x1, x2);
-    }
+        @Test
+        public void twoDimensional() {
+            final ImmutableVectorN mean = mean(ImmutableVectorN.create(1.0, 2.0), ImmutableVectorN.create(3.0, 4.0));
+            assertEquals(2.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
+            assertEquals(3.0, mean.get(1), Double.MIN_NORMAL, "mean[1]");
+        }
 
-    @Test
-    public void minus_vectorC() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(1, 2);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(3, 4);
+        @Nested
+        public class OneDimensional {
 
-        minus(x1, x2);
-    }
+            @Test
+            public void a() {
+                final ImmutableVectorN mean = mean(ImmutableVectorN.create(1.0), ImmutableVectorN.create(1.0));
+                assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
+            }
 
-    @Test
-    public void plus_0A() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(0);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(0);
+            @Test
+            public void b() {
+                final ImmutableVectorN mean = mean(ImmutableVectorN.create(1.0), ImmutableVectorN.create(-1.0));
+                assertEquals(0.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
+            }
 
-        plus(x1, x2);
-    }
+            @Test
+            public void c() {
+                final ImmutableVectorN mean = mean(ImmutableVectorN.create(2.0), ImmutableVectorN.create(0.0));
+                assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
+            }
 
-    @Test
-    public void plus_0B() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(1);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(0);
+            @Test
+            public void d() {
+                final ImmutableVectorN mean = mean(ImmutableVectorN.create(0.0), ImmutableVectorN.create(2.0));
+                assertEquals(1.0, mean.get(0), Double.MIN_NORMAL, "mean[0]");
+            }
 
-        plus(x1, x2);
+        }
     }
 
-    @Test
-    public void plus_0C() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(1, 2);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(0, 0);
+    @Nested
+    public class UnaryMinus {
 
-        plus(x1, x2);
-    }
+        @Test
+        public void twoDimensional() {
+            minus(ImmutableVectorN.create(1.0, 2.0));
+        }
 
-    @Test
-    public void plus_A() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(2);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(1);
+        @Nested
+        public class OneDimensional {
+            @Test
+            public void zero() {
+                minus(ImmutableVectorN.create(0.0));
+            }
 
-        plus(x1, x2);
-    }
+            @Test
+            public void minusOne() {
+                minus(ImmutableVectorN.create(1.0));
+            }
 
-    @Test
-    public void plus_B() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(2);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(-1);
+            @Test
+            public void minusTwo() {
+                minus(ImmutableVectorN.create(-2.0));
+            }
 
-        plus(x1, x2);
-    }
+            @Test
+            public void infinity() {
+                minus(ImmutableVectorN.create(Double.POSITIVE_INFINITY));
+            }
 
-    @Test
-    public void plus_C() {
-        final ImmutableVectorN x1 = ImmutableVectorN.create(1, 2);
-        final ImmutableVectorN x2 = ImmutableVectorN.create(3, 4);
+            @Test
+            public void minus_1Nan() {
+                minus(ImmutableVectorN.create(Double.NaN));
+            }
 
-        plus(x1, x2);
+        }
+
     }
 
-    @Test
-    public void scale_1A() {
-        final ImmutableVectorN scaled = scale(ImmutableVectorN.create(1.0), 0.0);
+    @Nested
+    public class BinaryMinus {
 
-        assertEquals(0.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
-    }
 
-    @Test
-    public void scale_1B() {
-        final ImmutableVectorN scaled = scale(ImmutableVectorN.create(0.0), 1.0);
+        @Nested
+        public class OneDimensional {
 
-        assertEquals(0.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
-    }
 
-    @Test
-    public void scale_1C() {
-        final ImmutableVectorN scaled = scale(ImmutableVectorN.create(1.0), 1.0);
+            @Test
+            public void zeroes() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(0);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(0);
 
-        assertEquals(1.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
-    }
+                minus(x1, x2);
+            }
 
-    @Test
-    public void scale_1D() {
-        final ImmutableVectorN scaled = scale(ImmutableVectorN.create(1.0), -2.0);
+            @Test
+            public void firstNonZero() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(1);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(0);
 
-        assertEquals(-2.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
-    }
+                minus(x1, x2);
+            }
 
-    @Test
-    public void scale_2() {
-        final ImmutableVectorN scaled = scale(ImmutableVectorN.create(1.0, 2.0), 4.0);
+            @Test
+            public void bothPositive() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(2);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(1);
 
-        assertEquals(4.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
-        assertEquals(8.0, scaled.get(1), Double.MIN_NORMAL, "scaled[1]");
-    }
+                minus(x1, x2);
+            }
 
-    @Test
-    public void sum_multiple1A() {
-        sum_multiple1(1.0);
-    }
+            @Test
+            public void secondNegative() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(2);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(-1);
 
-    @Test
-    public void sum_multiple1B() {
-        sum_multiple1(0.0);
-    }
+                minus(x1, x2);
+            }
 
-    @Test
-    public void sum_multiple1C() {
-        sum_multiple1(-1.0);
-    }
+        }
 
-    @Test
-    public void sum_multiple1D() {
-        final ImmutableVectorN sum = sum(ImmutableVectorN.create(1.0, 3.0));
+        @Nested
+        public class TwoDimensional {
 
-        assertEquals(1.0, sum.get(0), Double.MIN_NORMAL, "sum[0]");
-        assertEquals(3.0, sum.get(1), Double.MIN_NORMAL, "sum[1]");
-    }
+            @Test
+            public void secondZero() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(1, 2);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(0, 0);
 
-    @Test
-    public void sum_multiple2A() {
-        sum_multiple2(1.0, 0.0);
-    }
+                minus(x1, x2);
+            }
 
-    @Test
-    public void sum_multiple2B() {
-        sum_multiple2(0.0, 1.0);
-    }
+            @Test
+            public void bothNonZero() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(1, 2);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(3, 4);
 
-    @Test
-    public void sum_multiple2C() {
-        sum_multiple2(1.0, 1.0);
-    }
+                minus(x1, x2);
+            }
 
-    @Test
-    public void sum_multiple2D() {
-        sum_multiple2(1.0, 2.0);
-    }
+        }
 
-    @Test
-    public void weightedSum_11A() {
-        weightedSum_11(0.0, 1.0);
     }
 
-    @Test
-    public void weightedSum_11B() {
-        weightedSum_11(1.0, 0.0);
-    }
+    @Nested
+    public class Plus {
+
+        @Nested
+        public class OneDimensional {
+
+            @Test
+            public void bothZero() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(0);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(0);
+
+                plus(x1, x2);
+            }
+
+            @Test
+            public void secondZero() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(1);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(0);
+
+                plus(x1, x2);
+            }
+
+            @Test
+            public void bothPositive() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(2);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(1);
+
+                plus(x1, x2);
+            }
+
+            @Test
+            public void oneNegative() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(2);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(-1);
+
+                plus(x1, x2);
+            }
 
-    @Test
-    public void weightedSum_11C() {
-        weightedSum_11(1.0, 1.0);
+        }
+
+        @Nested
+        public class TwoDimensional {
+
+            @Test
+            public void oneZero() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(1, 2);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(0, 0);
+
+                plus(x1, x2);
+            }
+
+            @Test
+            public void bothNonZero() {
+                final ImmutableVectorN x1 = ImmutableVectorN.create(1, 2);
+                final ImmutableVectorN x2 = ImmutableVectorN.create(3, 4);
+
+                plus(x1, x2);
+            }
+
+        }
+
     }
+
+    @Nested
+    public class Scale {
+
+        @Test
+        public void twoDimensional() {
+            final ImmutableVectorN scaled = scale(ImmutableVectorN.create(1.0, 2.0), 4.0);
+
+            assertEquals(4.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
+            assertEquals(8.0, scaled.get(1), Double.MIN_NORMAL, "scaled[1]");
+        }
+
+        @Nested
+        public class OneDimensional {
+
+            @Test
+            public void oneByZero() {
+                final ImmutableVectorN scaled = scale(ImmutableVectorN.create(1.0), 0.0);
+
+                assertEquals(0.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
+            }
+
+            @Test
+            public void zeroByOne() {
+                final ImmutableVectorN scaled = scale(ImmutableVectorN.create(0.0), 1.0);
+
+                assertEquals(0.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
+            }
+
+            @Test
+            public void byUnity() {
+                final ImmutableVectorN scaled = scale(ImmutableVectorN.create(1.0), 1.0);
 
-    @Test
-    public void weightedSum_11D() {
-        weightedSum_11(2.0, 1.0);
+                assertEquals(1.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
+            }
+
+            @Test
+            public void byNegative() {
+                final ImmutableVectorN scaled = scale(ImmutableVectorN.create(1.0), -2.0);
+
+                assertEquals(-2.0, scaled.get(0), Double.MIN_NORMAL, "scaled[0]");
+            }
+
+        }
+
     }
+
+    @Nested
+    public class SumMultiple {
+
+        @Nested
+        public class OneArgument {
+
+            @Test
+            public void twoDimensional() {
+                final ImmutableVectorN sum = sum(ImmutableVectorN.create(1.0, 3.0));
+
+                assertEquals(1.0, sum.get(0), Double.MIN_NORMAL, "sum[0]");
+                assertEquals(3.0, sum.get(1), Double.MIN_NORMAL, "sum[1]");
+            }
+
+            @Nested
+            public class OneDimensional {
+
+                private static void test(final double x) {
+                    final ImmutableVectorN sum = sum(ImmutableVectorN.create(x));
+
+                    assertEquals(x, sum.get(0), Double.MIN_NORMAL, "sum[0]");
+                }
+
+                @Test
+                public void sum_multiple1A() {
+                    test(1.0);
+                }
+
+                @Test
+                public void sum_multiple1B() {
+                    test(0.0);
+                }
+
+                @Test
+                public void sum_multiple1C() {
+                    test(-1.0);
+                }
+
+            }
+
+        }
 
-    @Test
-    public void weightedSum_11E() {
-        weightedSum_11(1.0, 2.0);
+
+        @Nested
+        public class TwoArguments {
+            private static void test(final double x1, final double x2) {
+                final ImmutableVectorN sum = sum(
+                        ImmutableVectorN.create(x1), ImmutableVectorN.create(x2));
+
+                assertEquals(x1 + x2, sum.get(0), Double.MIN_NORMAL, "sum[0]");
+            }
+
+            @Test
+            public void onePlusZero() {
+                test(1.0, 0.0);
+            }
+
+            @Test
+            public void zeroPlusOne() {
+                test(0.0, 1.0);
+            }
+
+            @Test
+            public void onePlusOne() {
+                test(1.0, 1.0);
+            }
+
+            @Test
+            public void onePlusTwo() {
+                test(1.0, 2.0);
+            }
+
+        }
     }
+
+    @Nested
+    public class WeightedSum {
+
+        @Test
+        public void twoArguments() {
+            final ImmutableVectorN sum = weightedSum(new double[]{1.0, 2.0},
+                    new ImmutableVectorN[]{ImmutableVectorN.create(3.0), ImmutableVectorN.create(5.0)});
+
+            assertEquals(13.0, sum.get(0), Double.MIN_NORMAL, "sum[0]");
+        }
+
+        @Nested
+        public class SingleArgument {
+
+            @Test
+            public void twoDimensional() {
+                final ImmutableVectorN sum = weightedSum(new double[]{2.0},
+                        new ImmutableVectorN[]{ImmutableVectorN.create(1.0, 3.0)});
+
+                assertEquals(2.0, sum.get(0), Double.MIN_NORMAL, "sum[0]");
+                assertEquals(6.0, sum.get(1), Double.MIN_NORMAL, "sum[1]");
+            }
+
+            @Nested
+            public class OneDimensional {
+
+                private static void test(final double weight, final double x) {
+                    final ImmutableVectorN sum = weightedSum(new double[]{weight},
+                            new ImmutableVectorN[]{ImmutableVectorN.create(x)});
+
+                    assertEquals(weight * x, sum.get(0), Double.MIN_NORMAL, "sum[0]");
+                }
 
-    @Test
-    public void weightedSum_12() {
-        final ImmutableVectorN sum = weightedSum(new double[] { 2.0 },
-                new ImmutableVectorN[] { ImmutableVectorN.create(1.0, 3.0) });
+                @Test
+                public void zeroWeight() {
+                    test(0.0, 1.0);
+                }
 
-        assertEquals(2.0, sum.get(0), Double.MIN_NORMAL, "sum[0]");
-        assertEquals(6.0, sum.get(1), Double.MIN_NORMAL, "sum[1]");
+                @Test
+                public void zeroComponent() {
+                    test(1.0, 0.0);
+                }
+
+                @Test
+                public void unityWeightAndComponent() {
+                    test(1.0, 1.0);
+                }
+
+                @Test
+                public void nonUnityWeight() {
+                    test(2.0, 1.0);
+                }
+
+                @Test
+                public void nonUnityComponent() {
+                    test(1.0, 2.0);
+                }
+
+            }
+
+        }
+
     }
+
+    @Nested
+    public class CopyOf {
+
+        @Test
+        public void ofImmutableVector3() {
+            copyOf(ImmutableVector3.create(2.0, 3.0, 4.0));
+        }
 
-    @Test
-    public void weightedSum_21() {
-        final ImmutableVectorN sum = weightedSum(new double[] { 1.0, 2.0 },
-                new ImmutableVectorN[] { ImmutableVectorN.create(3.0), ImmutableVectorN.create(5.0) });
+        @Nested
+        public class OfImmutableVectorN {
 
-        assertEquals(13.0, sum.get(0), Double.MIN_NORMAL, "sum[0]");
+            @Test
+            public void oneDimensional() {
+                copyOf(ImmutableVectorN.create(1.0));
+            }
+
+            @Test
+            public void twoDimensional() {
+                copyOf(ImmutableVectorN.create(1.0, 2.0));
+            }
+        }
+
+        @Nested
+        public class OfImmutableVector1 {
+
+            @Test
+            public void a() {
+                copyOf(ImmutableVector1.create(1.0));
+            }
+
+            @Test
+            public void b() {
+                copyOf(ImmutableVector1.create(2.0));
+            }
+
+        }
     }
+
+    @Nested
+    public class ComponentsAsArray {
 
+        @Test
+        public void zero() {
+            test(0.0);
+        }
+
+        @Test
+        public void nonZero() {
+            test(1.0, 2.0, 3.0);
+        }
+
+        private void test(double... x) {
+            final var v = ImmutableVectorN.create(x);
+            getComponentsAsArray(v);
+        }
+    }
 }
