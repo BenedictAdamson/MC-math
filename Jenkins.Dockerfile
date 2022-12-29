@@ -1,7 +1,7 @@
 # Dockerfile for the use in the Jenkinsfile for the MC-math project,
 # to set up the build environment for Jenkins to use.
 
-# © Copyright Benedict Adamson 2018-19.
+# © Copyright Benedict Adamson 2018-22.
 # 
 # This file is part of MC-math.
 #
@@ -19,7 +19,18 @@
 # along with MC-des.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-FROM debian:stretch-backports
+FROM debian:11
+
+ARG JENKINSUID
+ARG JENKINSGID
+
 RUN apt-get -y update && apt-get -y install \
    maven \
-   openjdk-11-jdk-headless
+   openjdk-17-jdk-headless
+RUN apt-get remove -y openjdk-11-jre-headless
+
+# Setup users and groups
+RUN groupadd -g ${JENKINSGID} jenkins
+RUN useradd -c "Jenkins user" -g ${JENKINSGID} -M -N -u ${JENKINSUID} jenkins
+
+WORKDIR /home/jenkins/agent

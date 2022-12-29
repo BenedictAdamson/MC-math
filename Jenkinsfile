@@ -1,7 +1,7 @@
 // Jenkinsfile for the MC-math project
 
 /* 
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018-22.
  * 
  * This file is part of MC-math.
  *
@@ -23,52 +23,52 @@
   * Jenkins plugins used:
   * Config File Provider
   *     - Should configure the file settings.xml with ID 'maven-settings' as the Maven settings file
-  * JUnit
-  * Warnings 5
+  *     - That settings.xml configuration should provide authentication credentials
+  *       (in server/servers elements) for the services with the following IDs:
+  *         - MC.repo: the Maven release repository, at localhost:8081
+  *         - MC-SNAPSHOT.repo: the Maven SNAPSHOT repository, at localhost:8081
+  * Docker Pipeline
+  * Pipeline Utility Steps
+  * Warnings Next Generation
+  *
+  * An administrator will need to permit scripts to use method org.apache.maven.model.Model getVersion.
   */
  
 pipeline { 
     agent {
         dockerfile {
             filename 'Jenkins.Dockerfile'
-            args '-v $HOME/.m2:/root/.m2 --network="host"'
+            additionalBuildArgs  '--build-arg JENKINSUID=`id -u jenkins` --build-arg JENKINSGID=`id -g jenkins`'
+            args '-v $HOME:/home/jenkins -v /var/run/docker.sock:/var/run/docker.sock --network="host" -u jenkins:jenkins'
         }
+    }
+    triggers {
+        pollSCM('H */4 * * *')
     }
     environment {
-        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
+        JAVA_HOME = '/usr/lib/jvm/java-1.17.0-openjdk-amd64'
+        PATH = '/usr/sbin:/usr/bin:/sbin:/bin'
     }
     stages {
-        stage('Build') { 
-            steps {
-                configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]){ 
-                    sh 'mvn -s $MAVEN_SETTINGS -DskipTests=true clean package'
-                }
-            }
-        }
-        stage('Check') { 
-            steps {
-                configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]){  
-                    sh 'mvn -s $MAVEN_SETTINGS spotbugs:spotbugs'
-                }
-            }
-        }
-        stage('Test') { 
-            steps {
-               configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]){   
-                   sh 'mvn -s $MAVEN_SETTINGS test'
-               }
-            }
-        }
-        stage('Deploy') {
-            when {
-                anyOf{
-                    branch 'develop';
-                    branch 'master';
+        stage('Build and verify') {
+            when{
+                not{
+                    branch 'master'
                 }
             }
             steps {
                 configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]){ 
-                    sh 'mvn -s $MAVEN_SETTINGS -DskipTests=true deploy'
+                    sh 'mvn -B -s $MAVEN_SETTINGS clean verify'
+                }
+            }
+        }
+        stage('Build, verify and deploy') {
+            when{
+                 branch 'master'
+            }
+            steps {
+                configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]){
+                    sh 'mvn -B -s $MAVEN_SETTINGS clean deploy'
                 }
             }
         }
@@ -76,10 +76,15 @@ pipeline {
     post {
         always {// We ESPECIALLY want the reports on failure
             script {
-                def spotbugs = scanForIssues tool: [$class: 'SpotBugs'], pattern: 'target/spotbugsXml.xml'
-                publishIssues issues:[spotbugs]
+                recordIssues tools: [
+                	java(),
+                	javaDoc(),
+                	mavenConsole(),
+                	pmdParser(pattern: '**/target/pmd.xml'),
+					spotBugs(pattern: '**/target/spotbugsXml.xml')
+					]
             }
-            junit 'target/surefire-reports/**/*.xml' 
+            junit 'target/*-reports/**/TEST-*.xml'
         }
         success {
             archiveArtifacts artifacts: 'target/MC-math-*.jar', fingerprint: true
