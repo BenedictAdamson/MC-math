@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -27,6 +27,26 @@ import javax.annotation.Nonnull;
  * </p>
  */
 public interface Matrix {
+
+
+    /**
+     * Throw an IllegalArgumentException if two {@link Matrix} objects do not have equal {@linkplain #getRows() numbers of rows}
+     * and {@linkplain #getColumns() numbers of columns}.
+     */
+    static void requireConsistentDimensions(final Matrix m1, final Matrix m2) throws IllegalArgumentException {
+        var c1 = m1.getColumns();
+        var c2 = m2.getColumns();
+        if (c1 != c2) {
+            throw new IllegalArgumentException(
+                    "Inconsistent columns, " + c1 + ", " + c2);
+        }
+        var r1 = m1.getRows();
+        var r2 = m2.getRows();
+        if (r1 != r2) {
+            throw new IllegalArgumentException(
+                    "Inconsistent rows, " + r1 + ", " + r2);
+        }
+    }
 
     /**
      * <p>
@@ -82,6 +102,88 @@ public interface Matrix {
 
     /**
      * <p>
+     * Create the matrix that has all its components the unary minus of the corresponding components of this matrix.
+     * </p>
+     * <ul>
+     * <li>The minus matrix has the same {@linkplain #getColumns() number of columns}
+     * as this matrix.</li>
+     * <li>The minus matrix has the same {@linkplain #getRows()  number of rows}
+     * as this matrix.</li>
+     * <li>The {@linkplain #get(int, int)}  components} of the minus matrix are the
+     * negative of the corresponding component of this matrix.</li>
+     * </ul>
+     */
+    @Nonnull
+    Matrix minus();
+
+    /**
+     * <p>
+     * Create the matrix that is a given matrix subtracted from this matrix; the
+     * difference between this matrix and another.
+     * </p>
+     * <ul>
+     * <li>The difference matrix has the same {@linkplain #getRows() number of rows}
+     * as this matrix.</li>
+     * <li>The difference matrix has the same {@linkplain #getColumns() number of columns}
+     * as this matrix.</li>
+     * <li>The {@linkplain #get(int, int)  components} of the difference matrix are the
+     * difference of the corresponding components of this and that matrices.</li>
+     * </ul>
+     *
+     * @param that The other matrix
+     * @throws NullPointerException     If {@code that} is null.
+     * @throws IllegalArgumentException If the {@linkplain #getRows() number of rows} of {@code that} is
+     *                                  not equal to the number of rows of this.
+     *                                  If the {@linkplain #getColumns()  number of columns} of {@code that} is
+     *                                  not equal to the number of columns of this.
+     */
+    @Nonnull
+    Matrix minus(@Nonnull Matrix that);
+
+
+    /**
+     * <p>
+     * Create the matrix that is the sum of this matrix and a given matrix.
+     * </p>
+     * <ul>
+     * <li>The sum matrix has the same {@linkplain #getRows() number of rows}
+     * as this matrix.</li>
+     * <li>The sum matrix has the same {@linkplain #getColumns() number of columns}
+     * as this matrix.</li>
+     * <li>The {@linkplain #get(int, int)  components} of the sum matrix are the
+     * sum of the corresponding components of the matrices.</li>
+     * </ul>
+     *
+     * @param that The other matrix
+     * @throws NullPointerException     If {@code that} is null.
+     * @throws IllegalArgumentException If the {@linkplain #getRows() number of rows} of {@code that} is
+     *                                  not equal to the number of rows of this.
+     *                                  If the {@linkplain #getColumns()  number of columns} of {@code that} is
+     *                                  not equal to the number of columns of this.
+     */
+    @Nonnull
+    Matrix plus(@Nonnull Matrix that);
+
+    /**
+     * <p>
+     * Create a matrix that is this vector scaled by a given scalar.
+     * </p>
+     * <ul>
+     * <li>The {@linkplain #getRows()  number of rows} of the scaled
+     * matrix is equal to the number of rows of this matrix.</li>
+     * <li>The {@linkplain #getColumns() number of columns} of the scaled
+     * matrix is equal to the number of columns of this vector.</li>
+     * <li>Each {@linkplain #get(int, int) components} of the scaled
+     * matrix is equal to the scaled corresponding component of this matrix.</li>
+     * </ul>
+     *
+     * @param f the scalar
+     */
+    @Nonnull
+    Matrix scale(double f);
+
+    /**
+     * <p>
      * Calculate the result of multiplying a vector by this matrix.
      * </p>
      * <ul>
@@ -99,4 +201,25 @@ public interface Matrix {
     @Nonnull
     Vector multiply(@Nonnull Vector x);
 
+    /**
+     * <p>
+     * Create the matrix that is the mean of this matrix with another matrix.
+     * </p>
+     * <ul>
+     * <li>The {@linkplain #getRows()  number of rows} of the mean
+     * matrix is equal to the number of rows of this matrix.</li>
+     * <li>The {@linkplain #getColumns()} number of columns} of the mean
+     * matrix is equal to the number of columns of this matrix.</li>
+     * </ul>
+     *
+     * @param that The matrix to take the mean with
+     * @return the mean
+     * @throws NullPointerException     If {@code that} is null.
+     * @throws IllegalArgumentException If the {@linkplain #getRows() number of rows} of
+     *                                  {@code that} is not equal to the number of rows of this matrix.
+     *                                  If the {@linkplain #getColumns()  number of columns} of
+     *                                  {@code that} is not equal to the number of columns of this matrix.
+     */
+    @Nonnull
+    Matrix mean(@Nonnull Matrix that);
 }

@@ -27,17 +27,17 @@ import java.util.Objects;
 
 /**
  * <p>
- * A constant (immutable) mathematical vector or pseudo vector of any size.
+ * A mutable mathematical vector or pseudo vector of any constant size.
  * </p>
  * <ul>
- * <li>A vector is a {@linkplain ImmutableMatrixN matrix} that has only one
+ * <li>A vector is a {@linkplain MutableMatrixN matrix} that has only one
  * {@linkplain #getColumns() column}.</li>
  * </ul>
  */
 @Immutable
-public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
+public final class MutableVectorN extends MutableMatrixN implements Vector {
 
-    ImmutableVectorN(final double... x) {
+    MutableVectorN(final double... x) {
         super(x.length, 1, x);
     }
 
@@ -55,13 +55,13 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * @throws IllegalArgumentException If {@code x} is empty (length 0)
      */
     @Nonnull
-    public static ImmutableVectorN create(@Nonnull final double... x) {
+    public static MutableVectorN create(@Nonnull final double... x) {
         Objects.requireNonNull(x, "x");
         final int n = x.length;
         if (n == 0) {
             throw new IllegalArgumentException("x is empty");
         }
-        return new ImmutableVectorN(Arrays.copyOf(x, n));
+        return new MutableVectorN(Arrays.copyOf(x, n));
     }
 
     /**
@@ -78,11 +78,11 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * @throws IllegalArgumentException If {@code dimension} is not positive
      */
     @Nonnull
-    public static ImmutableVectorN create0(final int dimension) {
+    public static MutableVectorN create0(final int dimension) {
         if (dimension <= 0) {
             throw new IllegalArgumentException("dimension " + dimension);
         }
-        return new ImmutableVectorN(new double[dimension]);
+        return new MutableVectorN(new double[dimension]);
     }
 
     /**
@@ -99,48 +99,8 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * @see java.util.List#copyOf(Collection)
      */
     @Nonnull
-    public static ImmutableVectorN copyOf(@Nonnull Vector x) {
-        Objects.requireNonNull(x);
-        if (x instanceof ImmutableVectorN) {
-            return (ImmutableVectorN) x;
-        } else {
-            return new ImmutableVectorN(x.getComponentsAsArray());
-        }
-    }
-
-    /**
-     * <p>
-     * Create a vector that lies along a line given by an origin point and position
-     * vector.
-     * </p>
-     * <ul>
-     * <li>Always returns a (non null) vector.</li>
-     * <li>The {@linkplain ImmutableVectorN#getDimension() dimension} of the
-     * returned vector is equal to the dimension of the two input vectors.</li>
-     * <li>Returns the vector <code>x0 + w dx</code></li>
-     * </ul>
-     *
-     * @param x0 The original point
-     * @param dx The direction vector along the line
-     * @param w  Position parameter giving the position along the line.
-     * @throws NullPointerException     If {@code x0} is null. If {@code dx} is null.
-     * @throws IllegalArgumentException If {@code x0} and {@code dx} have different
-     *                                  {@linkplain ImmutableVectorN#getDimension() dimensions}.
-     */
-    public static @Nonnull ImmutableVectorN createOnLine(
-            @Nonnull final ImmutableVectorN x0,
-            @Nonnull final ImmutableVectorN dx,
-            final double w) {
-        Objects.requireNonNull(x0, "x0");
-        Objects.requireNonNull(dx, "dx");
-        Matrix.requireConsistentDimensions(x0, dx);
-
-        final int n = x0.getDimension();
-        final double[] x = new double[n];
-        for (int i = 0; i < n; i++) {
-            x[i] = x0.elements[i] + w * dx.elements[i];
-        }
-        return new ImmutableVectorN(x);
+    public static MutableVectorN copyOf(@Nonnull Vector x) {
+        return new MutableVectorN(x.getComponentsAsArray());
     }
 
     /**
@@ -159,8 +119,8 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      * @see #plus(Matrix)
      */
     @Nonnull
-    public static ImmutableVectorN sum(@Nonnull final ImmutableVectorN... x) {
-        return new ImmutableVectorN(Vector.sumAsArray(x));
+    public static MutableVectorN sum(@Nonnull final MutableVectorN... x) {
+        return new MutableVectorN(Vector.sumAsArray(x));
     }
 
     /**
@@ -180,10 +140,10 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
      *                                  {@linkplain #getDimension() dimension}.
      */
     @Nonnull
-    public static ImmutableVectorN weightedSum(
+    public static MutableVectorN weightedSum(
             @Nonnull final double[] weight,
-            @Nonnull final Vector[] x) {
-        return new ImmutableVectorN(Vector.weightedSumAsArray(weight, x));
+            @Nonnull final MutableVectorN[] x) {
+        return new MutableVectorN(Vector.weightedSumAsArray(weight, x));
     }
 
     @Override
@@ -238,34 +198,50 @@ public final class ImmutableVectorN extends ImmutableMatrixN implements Vector {
         return vectorMagnitude2();
     }
 
-    @Override
     @Nonnull
-    public ImmutableVectorN mean(@Nonnull final Matrix that) {
-        return new ImmutableVectorN(meanElements(that));
+    @Override
+    public MutableVectorN mean(@Nonnull final Matrix that) {
+        return new MutableVectorN(meanElements(that));
     }
 
     @Nonnull
     @Override
-    public ImmutableVectorN minus() {
-        return new ImmutableVectorN(minusElements());
+    public MutableVectorN minus() {
+        return new MutableVectorN(minusElements());
     }
 
     @Override
     @Nonnull
-    public ImmutableVectorN minus(@Nonnull final Matrix that) {
-        return new ImmutableVectorN(minusElements(that));
+    public MutableVectorN minus(@Nonnull final Matrix that) {
+        return new MutableVectorN(minusElements(that));
     }
 
     @Override
     @Nonnull
-    public ImmutableVectorN plus(@Nonnull final Matrix that) {
-        return new ImmutableVectorN(plusElements(that));
+    public MutableVectorN plus(@Nonnull final Matrix that) {
+        return new MutableVectorN(plusElements(that));
     }
 
     @Nonnull
     @Override
-    public ImmutableVectorN scale(final double f) {
-        return new ImmutableVectorN(scaleElements(f));
+    public MutableVectorN scale(final double f) {
+        return new MutableVectorN(scaleElements(f));
     }
 
+    /**
+     * <p>
+     * Change the value of an element of this vector.
+     * </p>
+     *
+     * @param i the cardinal number of the row of the element (0 for the first
+     *          row, 1 for the second row, and so on).
+     * @param x the new value for the element
+     * @throws IndexOutOfBoundsException If {@code i} is negative.
+     *                                   If {@code i} is greater than or equal to the number of
+     *                                   {@linkplain #getRows() rows} of this matrix.
+     */
+    public void set(@Nonnegative final int i, final double x) {
+        requireRowInBounds(i);
+        elements[i] = x;
+    }
 }

@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -22,7 +22,6 @@ import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * <p>
@@ -30,16 +29,10 @@ import java.util.Objects;
  * </p>
  */
 @Immutable
-public class ImmutableMatrixN implements Matrix {
-
-    protected final double[] elements;
-    private final int rows;
-    private final int columns;
+public class ImmutableMatrixN extends ArrayMatrix {
 
     ImmutableMatrixN(final int rows, final int columns, @Nonnull final double[] elements) {
-        this.rows = rows;
-        this.columns = columns;
-        this.elements = elements;
+        super(rows, columns, elements);
     }
 
     /**
@@ -62,17 +55,7 @@ public class ImmutableMatrixN implements Matrix {
     public static ImmutableMatrixN create(@Nonnegative final int rows,
                                           @Nonnegative final int columns,
                                           @Nonnull final double[] elements) {
-        Objects.requireNonNull(elements, "elements");
-        if (rows < 1) {
-            throw new IllegalArgumentException("rows " + rows);
-        }
-        if (columns < 1) {
-            throw new IllegalArgumentException("columns " + columns);
-        }
-        if (elements.length != rows * columns) {
-            throw new IllegalArgumentException(
-                    "Inconsistent rows " + rows + " columns " + columns + " elements.length " + elements.length);
-        }
+        requireValidCreationArguments(rows, columns, elements);
         if (columns == 1) {
             return ImmutableVectorN.create(elements);
         } else {
@@ -80,89 +63,34 @@ public class ImmutableMatrixN implements Matrix {
         }
     }
 
+    @Nonnull
     @Override
-    public final boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        } else if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof final ImmutableMatrixN other)) {
-            return false;
-        }
-        return rows == other.rows && Arrays.equals(elements, other.elements);
+    public ImmutableMatrixN minus() {
+        return new ImmutableMatrixN(rows, columns, minusElements());
     }
 
     @Override
     @Nonnull
-    public String toString() {
-        final var str = new StringBuilder("(");
-        for (int i = 0; i < getRows(); ++i) {
-            if (0 < i) {
-                str.append('\n');
-            }
-            for (int j = 0; j < getColumns(); ++j) {
-                str.append(get(i, j));
-                if (i < getRows() - 1 || j < getColumns() - 1) {
-                    str.append(',');
-                }
-            }
-        }
-        str.append(')');
-        return str.toString();
+    public ImmutableMatrixN minus(@Nonnull final Matrix that) {
+        return new ImmutableMatrixN(rows, columns, minusElements(that));
     }
 
     @Override
-    @Nonnegative
-    public final int getColumns() {
-        return columns;
-    }
-
-    @Override
-    public final double get(@Nonnegative final int i, @Nonnegative final int j) {
-        if (i < 0 || rows <= i) {
-            throw new IndexOutOfBoundsException("i " + i);
-        }
-        if (j < 0 || columns <= j) {
-            throw new IndexOutOfBoundsException("j " + j);
-        }
-        return elements[i * columns + j];
-    }
-
-    @Override
-    @Nonnegative
-    public final int getRows() {
-        return rows;
-    }
-
-    @Override
-    public final int hashCode() {
-        final int prime = 37;
-        int result = columns;
-        result = prime * result + rows;
-        result = prime * result + Arrays.hashCode(elements);
-        return result;
+    @Nonnull
+    public ImmutableMatrixN plus(@Nonnull final Matrix that) {
+        return new ImmutableMatrixN(rows, columns, plusElements(that));
     }
 
     @Nonnull
     @Override
-    public final ImmutableVectorN multiply(@Nonnull final Vector x) {
-        Objects.requireNonNull(x, "x");
-        final int columns = getColumns();
-        if (columns != x.getRows()) {
-            throw new IllegalArgumentException("Inconsistent numbers of columns and rows");
-        }
-        final int n = getRows();
-        final double[] ax = new double[n];
-        for (int i = 0; i < n; ++i) {
-            double dot = 0.0;
-            final int j0 = i * columns;
-            for (int j = 0; j < columns; ++j) {
-                dot += elements[j0 + j] * x.get(j);
-            }
-            ax[i] = dot;
-        }
-        return new ImmutableVectorN(ax);
+    public ImmutableMatrixN scale(double f) {
+        return new ImmutableMatrixN(rows, columns, scaleElements(f));
+    }
+
+    @Nonnull
+    @Override
+    public ImmutableMatrixN mean(@Nonnull final Matrix that) {
+        return new ImmutableMatrixN(rows, columns, meanElements(that));
     }
 
 }

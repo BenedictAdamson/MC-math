@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -88,7 +88,7 @@ public final class OrientationVectors3 {
      *                                  If {@code e3} is not 3
      *                                  {@linkplain ImmutableVectorN#getDimension() dimensional}.
      *                                  If {@code e1} and {@code e2} do not have a zero
-     *                                  {@linkplain ImmutableVectorN#dot(ImmutableVectorN) dot
+     *                                  {@linkplain ImmutableVectorN#dot(Vector) dot
      *                                  product}.
      *                                  If {@code e1} and {@code e3} do not have a zero dot
      *                                  product.
@@ -144,7 +144,7 @@ public final class OrientationVectors3 {
      * <li>The e1 vector has unit {@linkplain ImmutableVectorN#magnitude()
      * magnitude}</li>
      * <li>The e1 vector is orthogonal to (has zero
-     * {@linkplain ImmutableVectorN#dot(ImmutableVectorN) dot product with}) vector
+     * {@linkplain ImmutableVectorN#dot(Vector) dot product with}) vector
      * {@linkplain #getE2() e2}.</li>
      * </ul>
      */
@@ -165,7 +165,7 @@ public final class OrientationVectors3 {
      * <li>The e2 vector has unit {@linkplain ImmutableVectorN#magnitude()
      * magnitude}</li>
      * <li>The e2 vector is orthogonal to (has zero
-     * {@linkplain ImmutableVectorN#dot(ImmutableVectorN) dot product with}) vector
+     * {@linkplain ImmutableVectorN#dot(Vector) dot product with}) vector
      * {@linkplain #getE3() e3}.</li>
      * </ul>
      */

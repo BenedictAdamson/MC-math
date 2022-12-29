@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -37,6 +37,97 @@ public interface Vector extends Matrix {
         if (weight.length != x.length) {
             throw new IllegalArgumentException("Inconsistent lengths weight.length " + weight.length + " x.length " + x.length);
         }
+    }
+
+    /**
+     * <p>
+     * Calculate the sum of several vectors that have the same
+     * {@linkplain #getDimension() dimension}, provide the result as an array of components.
+     * </p>
+     * <ul>
+     * <li>The length of the returned array equals the dimension of the summed vectors.</li>
+     * <li>Element i of the returned array is the ith element of the sum vector</li>
+     * </ul>
+     *
+     * @param x The vectors to sum
+     * @throws NullPointerException     If {@code x} is null. If {@code x} has any null elements.
+     * @throws IllegalArgumentException If the elements of {@code x} do not have the same
+     *                                  {@linkplain #getDimension() dimension}.
+     */
+    @Nonnull
+    static double[] sumAsArray(@Nonnull final Vector... x) {
+        Objects.requireNonNull(x, "x");
+        final int n = x.length;
+        if (n == 0) {
+            throw new IllegalArgumentException("Number of vector arguments");
+        }
+        Objects.requireNonNull(x[0], "x[0]");
+
+        final int d = x[0].getDimension();
+        final double[] sum = new double[d];
+        for (final Vector xj : x) {
+            Objects.requireNonNull(xj, "x[j]");
+            if (xj.getDimension() != d) {
+                throw new IllegalArgumentException("Inconsistent dimension " + d + ", " + xj.getDimension());
+            }
+
+            for (int i = 0; i < d; ++i) {
+                sum[i] += xj.get(i);
+            }
+        }
+
+        return sum;
+    }
+
+
+    /**
+     * <p>
+     * Calculate the weighted sum of several vectors that have the same
+     * {@linkplain #getDimension() dimension}, returning the result as an array of the vector component.
+     * </p>
+     * <ul>
+     * <li>The length of the returned array equals the dimension of the summed vectors.</li>
+     * <li>Element i of the returned array is the ith element of the sum vector</li>
+     * </ul>
+     *
+     * @param weight The weights to apply; {@code weight[i]} is the weight for vector
+     *               {@code x[i]}.
+     * @param x      The vectors to sum
+     * @throws NullPointerException     If {@code weight} is null. If {@code x} is null. If {@code x} has any null elements.
+     * @throws IllegalArgumentException If {@code weight} has a length of 0. If {@code weight} and {@code x} have different lengths. If the elements of {@code x} do not have the same
+     *                                  {@linkplain #getDimension() dimension}.
+     */
+    @Nonnull
+    static double[] weightedSumAsArray(
+            @Nonnull final double[] weight,
+            @Nonnull final Vector[] x) {
+        Objects.requireNonNull(weight, "weight");
+        Objects.requireNonNull(x, "x");
+        final int n = weight.length;
+        if (n == 0) {
+            throw new IllegalArgumentException("weight.length " + n);
+        }
+        if (n != x.length) {
+            throw new IllegalArgumentException("Inconsistent lengths weight.length " + n + " x.length " + x.length);
+        }
+        Objects.requireNonNull(x[0], "x[0]");
+
+        final int d = x[0].getDimension();
+        final double[] sum = new double[d];
+        for (int j = 0; j < n; ++j) {
+            final double wj = weight[j];
+            final Vector xj = x[j];
+            Objects.requireNonNull(xj, "x[j]");
+            if (xj.getDimension() != d) {
+                throw new IllegalArgumentException("Inconsistent dimension " + d + ", " + xj.getDimension());
+            }
+
+            for (int i = 0; i < d; ++i) {
+                sum[i] += wj * xj.get(i);
+            }
+        }
+
+        return sum;
     }
 
     /**
@@ -131,21 +222,6 @@ public interface Vector extends Matrix {
 
     /**
      * <p>
-     * Create the vector that is the mean of this vector with another vector.
-     * </p>
-     * <p>The {@linkplain #getDimension() dimension} of the mean vector is equal to
-     * the dimension of this vector.</p>
-     *
-     * @param that The vector to take the mean with
-     * @throws NullPointerException     If {@code that} is null.
-     * @throws IllegalArgumentException If the {@linkplain ImmutableVector3#getDimension() dimension} of
-     *                                  }@code that} is not equal to the dimension of this vector.
-     */
-    @Nonnull
-    Vector mean(@Nonnull Vector that);
-
-    /**
-     * <p>
      * Create the vector that is opposite in direction of this vector.
      * </p>
      * <ul>
@@ -155,59 +231,19 @@ public interface Vector extends Matrix {
      * negative of the corresponding component of this vector.</li>
      * </ul>
      */
+    @Override
     @Nonnull
     Vector minus();
 
-    /**
-     * <p>
-     * Create the vector that is a given vector subtracted from this vector; the
-     * difference between this vector and another.
-     * </p>
-     * <ul>
-     * <li>The difference vector has the same {@linkplain #getDimension() dimension}
-     * as this vector.</li>
-     * <li>The {@linkplain #get(int) components} of the difference vector are the
-     * difference of the corresponding component of this vector.</li>
-     * </ul>
-     *
-     * @param that The other vector
-     * @throws NullPointerException     If {@code that} is null.
-     * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
-     *                                  not equal to the dimension of this.
-     */
+    @Override
     @Nonnull
-    Vector minus(@Nonnull Vector that);
+    Vector minus(@Nonnull Matrix that);
 
-    /**
-     * <p>
-     * Create the vector that is a given vector added to this vector; the sum of
-     * this vector and another.
-     * </p>
-     * <ul>
-     * <li>The sum vector has the same {@linkplain #getDimension() dimension} as
-     * this vector.</li>
-     * <li>The {@linkplain #get(int) components} of the sum vector are the sum with
-     * the corresponding component of this vector.</li>
-     * </ul>
-     *
-     * @param that The other vector
-     * @throws NullPointerException     If {@code that} is null.
-     * @throws IllegalArgumentException If the {@linkplain #getDimension() dimension} of {@code that} is
-     *                                  not equal to the dimension of this.
-     */
+    @Override
     @Nonnull
-    Vector plus(@Nonnull Vector that);
+    Vector plus(@Nonnull Matrix that);
 
-    /**
-     * <p>
-     * Create a vector that is this vector scaled by a given scalar.
-     * </p>
-     * <p>The {@linkplain ImmutableVector3#getDimension() dimension} of the scaled
-     * vector is equal to the dimension of this vector.</p>
-     *
-     * @param f the scalar
-     */
     @Nonnull
+    @Override
     Vector scale(double f);
-
 }

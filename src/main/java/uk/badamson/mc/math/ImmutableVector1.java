@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -81,7 +81,7 @@ public final class ImmutableVector1 implements Vector {
      *
      * @param x The vectors to sum
      * @return The sum; not null
-     * @throws NullPointerException   If {@code x} is null. If {@code x} has any null elements.
+     * @throws NullPointerException     If {@code x} is null. If {@code x} has any null elements.
      * @throws IllegalArgumentException If the elements of {@code x} do not have the same
      *                                  {@linkplain #getDimension() dimension}.
      * @see #plus(ImmutableVector1)
@@ -109,14 +109,14 @@ public final class ImmutableVector1 implements Vector {
      * @param x      The vectors to sum
      * @return The weighted sum; not null
      * @throws NullPointerException     <ul>
-     *                                              <li>If {@code weight} is null.</li>
-     *                                              <li>If {@code x} is null.</li>
-     *                                              <li>If {@code x} has any null elements.</li>
-     *                                              </ul>
+     *                                  <li>If {@code weight} is null.</li>
+     *                                  <li>If {@code x} is null.</li>
+     *                                  <li>If {@code x} has any null elements.</li>
+     *                                  </ul>
      * @throws IllegalArgumentException <ul>
-     *                                              <li>If {@code weight} has a length of 0.</li>
-     *                                              <li>If {@code weight} and {@code x} have different lengths.</li>
-     *                                              </ul>
+     *                                  <li>If {@code weight} has a length of 0.</li>
+     *                                  <li>If {@code weight} and {@code x} have different lengths.</li>
+     *                                  </ul>
      */
     @Nonnull
     public static ImmutableVector1 weightedSum(
@@ -145,7 +145,7 @@ public final class ImmutableVector1 implements Vector {
      *
      * @param that The other vector
      * @return the product
-     * @throws NullPointerException     If {@code that} is null.
+     * @throws NullPointerException If {@code that} is null.
      */
     public double dot(@Nonnull final ImmutableVector1 that) {
         return x * that.x;
@@ -233,6 +233,14 @@ public final class ImmutableVector1 implements Vector {
         return Double.hashCode(x);
     }
 
+    @Nonnull
+    @Override
+    public ImmutableVector1 mean(@Nonnull Matrix that) {
+        Objects.requireNonNull(that);
+        Matrix.requireConsistentDimensions(this, that);
+        return new ImmutableVector1(0.5 * (x + that.get(0, 0)));
+    }
+
     @Override
     public double magnitude() {
         return Math.abs(x);
@@ -257,24 +265,12 @@ public final class ImmutableVector1 implements Vector {
      * @return the mean vector
      * @throws NullPointerException     If {@code that} is null.
      * @throws IllegalArgumentException If the {@linkplain ImmutableVector1#getDimension() dimension} of
-     *                                  }@code that} is not equal to the dimension of this vector.
+     *                                  {@code that} is not equal to the dimension of this vector.
      */
     @Nonnull
     public ImmutableVector1 mean(@Nonnull final ImmutableVector1 that) {
         Objects.requireNonNull(that, "that");
         return new ImmutableVector1(0.5 * (x + that.x));
-    }
-
-    @Override
-    @Nonnull
-    public ImmutableVector1 mean(@Nonnull final Vector that) {
-        if (that instanceof ImmutableVector1) {
-            return mean((ImmutableVector1) that);
-        } else {
-            Objects.requireNonNull(that, "that");
-            requireDimension1(that);
-            return new ImmutableVector1(0.5 * (x + that.get(0)));
-        }
     }
 
     @Override
@@ -309,28 +305,26 @@ public final class ImmutableVector1 implements Vector {
 
     @Override
     @Nonnull
-    public ImmutableVector1 minus(@Nonnull final Vector that) {
+    public ImmutableVector1 minus(@Nonnull final Matrix that) {
         if (that instanceof ImmutableVector1) {
             return minus((ImmutableVector1) that);
         } else {
             Objects.requireNonNull(that, "that");
-            requireDimension1(that);
-            return new ImmutableVector1(x - that.get(0));
+            Matrix.requireConsistentDimensions(this, that);
+            return new ImmutableVector1(x - that.get(0, 0));
         }
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws NullPointerException     If {@code x} is null.
-     * @throws IllegalArgumentException If {@code x} is not null, because a 3 dimensional vector can not
-     *                                  be used to matrix-multiply a vector.
-     */
-    @Nonnull
     @Override
-    public Vector multiply(@Nonnull final Vector x) {
-        Objects.requireNonNull(x, "x");
-        throw new IllegalArgumentException("Can not use a 1 dimensional vector to matrix-multiply a vector");
+    @Nonnull
+    public ImmutableVector1 plus(@Nonnull final Matrix that) {
+        if (that instanceof ImmutableVector1) {
+            return plus((ImmutableVector1) that);
+        } else {
+            Objects.requireNonNull(that, "that");
+            Matrix.requireConsistentDimensions(this, that);
+            return new ImmutableVector1(x + that.get(0, 0));
+        }
     }
 
     /**
@@ -359,16 +353,18 @@ public final class ImmutableVector1 implements Vector {
         return new ImmutableVector1(x + that.x);
     }
 
-    @Override
+    /**
+     * {@inheritDoc}
+     *
+     * @throws NullPointerException     If {@code x} is null.
+     * @throws IllegalArgumentException If {@code x} is not null, because a 3 dimensional vector can not
+     *                                  be used to matrix-multiply a vector.
+     */
     @Nonnull
-    public ImmutableVector1 plus(@Nonnull final Vector that) {
-        if (that instanceof ImmutableVector1) {
-            return plus((ImmutableVector1) that);
-        } else {
-            Objects.requireNonNull(that, "that");
-            requireDimension1(that);
-            return new ImmutableVector1(x + that.get(0));
-        }
+    @Override
+    public Vector multiply(@Nonnull final Vector x) {
+        Objects.requireNonNull(x, "x");
+        throw new IllegalArgumentException("Can not use a 1 dimensional vector to matrix-multiply a vector");
     }
 
     @Nonnull

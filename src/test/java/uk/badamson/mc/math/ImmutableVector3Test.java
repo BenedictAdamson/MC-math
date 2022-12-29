@@ -116,7 +116,7 @@ public class ImmutableVector3Test {
     }
 
     private static ImmutableVector3 mean(final ImmutableVector3 x, final ImmutableVector3 that) {
-        final ImmutableVector3 mean = (ImmutableVector3) VectorTest.mean(x, that);// inherited
+        final ImmutableVector3 mean = (ImmutableVector3) MatrixTest.mean(x, that);// inherited
 
         assertInvariants(mean);
         assertInvariants(x, mean);
@@ -126,7 +126,7 @@ public class ImmutableVector3Test {
     }
 
     public static ImmutableVector3 mean(final ImmutableVector3 x, final Vector that) {
-        final ImmutableVector3 mean = (ImmutableVector3) VectorTest.mean(x, that);// inherited
+        final ImmutableVector3 mean = (ImmutableVector3) MatrixTest.mean(x, that);// inherited
 
         assertInvariants(mean);
         assertInvariants(x, mean);

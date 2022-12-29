@@ -83,18 +83,6 @@ public class VectorTest {
         return new IsCloseTo(operand, tolerance);
     }
 
-    public static Vector mean(final Vector x, final Vector that) {
-        final Vector mean = x.mean(that);
-
-        assertNotNull(mean, "Not null, mean");// guard
-        assertInvariants(mean);
-        assertInvariants(x, mean);
-        assertInvariants(that, mean);
-        assertEquals(x.getDimension(), mean.getDimension(), "dimension");
-
-        return mean;
-    }
-
     public static Vector minus(final Vector x) {
         final Vector minus = x.minus();
 

@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018.
+ * © Copyright Benedict Adamson 2018,22.
  *
  * This file is part of MC-math.
  *
@@ -18,15 +18,10 @@ package uk.badamson.mc.math;
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * <p>
- * Unit tests of classes that implement the {@link Matrix} interface.
- * </p>
- */
 public class MatrixTest {
 
     public static void assertInvariants(final Matrix matrix) {
@@ -61,5 +56,19 @@ public class MatrixTest {
                 "The number of rows of the product is equal to the number of rows of this matrix.");
 
         return ax;
+    }
+
+    public static Matrix mean(final Matrix x, final Matrix that) {
+        final var mean = x.mean(that);
+
+        assertThat(mean, notNullValue());
+        assertInvariants(mean);
+        assertInvariants(x, mean);
+        assertInvariants(that, mean);
+        assertAll(
+                () -> assertThat("rows", mean.getRows(), is(x.getRows())),
+                () -> assertThat("columns", mean.getColumns(), is(x.getColumns())));
+
+        return mean;
     }
 }

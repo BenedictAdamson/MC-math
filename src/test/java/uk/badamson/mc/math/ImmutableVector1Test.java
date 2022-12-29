@@ -64,7 +64,7 @@ public class ImmutableVector1Test {
     }
 
     private static ImmutableVector1 mean(final ImmutableVector1 x, final ImmutableVector1 that) {
-        final ImmutableVector1 mean = (ImmutableVector1) VectorTest.mean(x, that);// inherited
+        final ImmutableVector1 mean = (ImmutableVector1) MatrixTest.mean(x, that);// inherited
 
         assertInvariants(mean);
         assertInvariants(x, mean);
@@ -74,7 +74,7 @@ public class ImmutableVector1Test {
     }
 
     public static ImmutableVector1 mean(final ImmutableVector1 x, final Vector that) {
-        final ImmutableVector1 mean = (ImmutableVector1) VectorTest.mean(x, that);// inherited
+        final ImmutableVector1 mean = (ImmutableVector1) MatrixTest.mean(x, that);// inherited
 
         assertInvariants(mean);
         assertInvariants(x, mean);

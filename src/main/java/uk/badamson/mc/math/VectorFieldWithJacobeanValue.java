@@ -156,7 +156,7 @@ public final class VectorFieldWithJacobeanValue {
      * Jacobean is equal to the {@linkplain Vector#getDimension()  dimension} of the {@linkplain #getF() field value}.</li>
      * <li>The {@linkplain ImmutableMatrixN#getColumns()  number of columns} of the
      * Jacobean is equal to the {@linkplain Vector#getDimension()  dimension} of the {@linkplain #getX() position vector]}.</li>
-     * <li>Value {@linkplain Matrix#get(int, int) (i,j)} of the Jacobean matrix is the rate of change of the <var>i</var> component of the (vector) field value in the </var>j</var> direction, &part; f<sub>i</sub> / &part; x<sub>j</sub>.</li>
+     * <li>Value {@linkplain Matrix#get(int, int) (i,j)} of the Jacobean matrix is the rate of change of the <var>i</var> component of the (vector) field value in the <var>j</var> direction, &part; f<sub>i</sub> / &part; x<sub>j</sub>.</li>
      * </ul>
      */
     public @Nonnull ImmutableMatrixN getJ() {

@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -305,15 +305,15 @@ public final class ImmutableVector3 implements Vector {
         return new ImmutableVector3(0.5 * (x + that.x), 0.5 * (y + that.y), 0.5 * (z + that.z));
     }
 
-    @Override
     @Nonnull
-    public ImmutableVector3 mean(@Nonnull final Vector that) {
+    @Override
+    public ImmutableVector3 mean(@Nonnull final Matrix that) {
         if (that instanceof ImmutableVector3) {
             return mean((ImmutableVector3) that);
         } else {
-            Objects.requireNonNull(that);
-            requireDimension3(that);
-            return new ImmutableVector3(0.5 * (x + that.get(0)), 0.5 * (y + that.get(1)), 0.5 * (z + that.get(2)));
+            Objects.requireNonNull(that, "that");
+            Matrix.requireConsistentDimensions(this, that);
+            return new ImmutableVector3(0.5 * (x + that.get(0, 0)), 0.5 * (x + that.get(1, 0)), 0.5 * (x + that.get(2, 0)));
         }
     }
 
@@ -346,13 +346,13 @@ public final class ImmutableVector3 implements Vector {
     }
 
     @Override
-    public @Nonnull ImmutableVector3 minus(@Nonnull final Vector that) {
+    public @Nonnull ImmutableVector3 minus(@Nonnull final Matrix that) {
         if (that instanceof ImmutableVector3) {
             return minus((ImmutableVector3) that);
         } else {
             Objects.requireNonNull(that);
-            requireDimension3(that);
-            return new ImmutableVector3(x - that.get(0), y - that.get(1), z - that.get(2));
+            Matrix.requireConsistentDimensions(this, that);
+            return new ImmutableVector3(x - that.get(0, 0), y - that.get(1, 0), z - that.get(2, 0));
         }
     }
 
@@ -394,13 +394,13 @@ public final class ImmutableVector3 implements Vector {
 
     @Override
     @Nonnull
-    public ImmutableVector3 plus(@Nonnull final Vector that) {
+    public ImmutableVector3 plus(@Nonnull final Matrix that) {
         if (that instanceof ImmutableVector3) {
             return plus((ImmutableVector3) that);
         } else {
             Objects.requireNonNull(that);
-            requireDimension3(that);
-            return new ImmutableVector3(x + that.get(0), y + that.get(1), z + that.get(2));
+            Matrix.requireConsistentDimensions(this, that);
+            return new ImmutableVector3(x + that.get(0, 0), y + that.get(1, 0), z + that.get(2, 0));
         }
     }
 

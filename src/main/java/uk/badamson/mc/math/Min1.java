@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -112,10 +112,10 @@ public final class Min1 {
      * @throws NullPointerException               If {@code f} is null.
      * @throws IllegalArgumentException           If {@code x1} equals {@code x2}.
      *                                            If {@code x1} is {@linkplain Double#isNaN(double) is not a number}.
-     *                                            If {@code x2} is is not a number.
+     *                                            If {@code x2} is not a number.
      * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum.
      *                                            If {@code f} has a minimum, but it is impossible to find a
-     *                                            bracket for @code f} using {@code x1} and {@code x2} because the
+     *                                            bracket for {@code f} using {@code x1} and {@code x2} because the
      *                                            function has an odd-powered high order term that causes the
      *                                            iterative procedure to diverge.
      */
@@ -397,14 +397,14 @@ public final class Min1 {
      *                  {@linkplain #TOLERANCE recommended minimum tolerance}.
      * @return a minimum of the function.
      * @throws NullPointerException     <ul>
-     *                                                                                                                <li>If {@code f} is null.</li>
-     *                                                                                                                <li>If {@code bracket} is null.</li>
-     *                                                                                                                </ul>
+     *                                                                                                                                                 <li>If {@code f} is null.</li>
+     *                                                                                                                                                 <li>If {@code bracket} is null.</li>
+     *                                                                                                                                                 </ul>
      * @throws IllegalArgumentException <ul>
-     *                                                                                                                <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
-     *                                                                                                                <li>(Optional) if {@code bracket} is not consistent with
-     *                                                                                                                {@code f}.</li>
-     *                                                                                                                </ul>
+     *                                                                                                                                                 <li>If {@code tolerance} is not in the range (0.0, 1.0).</li>
+     *                                                                                                                                                 <li>(Optional) if {@code bracket} is not consistent with
+     *                                                                                                                                                 {@code f}.</li>
+     *                                                                                                                                                 </ul>
      */
     @Nonnull
     public static Function1WithGradientValue findBrent(
