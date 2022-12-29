@@ -53,12 +53,10 @@ public class ImmutableMatrixN implements Matrix {
      *                 <i>row-major</i> order, so {@code element[i*columns + j]} is the
      *                 value of cardinal row <var>i</var>, cardinal column <var>j</var>.
      * @throws NullPointerException     If {@code elements} is null.
-     * @throws IllegalArgumentException <ul>
-     *                                              <li>If {@code rows} is not positive.</li>
-     *                                              <li>If {@code columns} is not positive.</li>
-     *                                              <li>If the length of {@code elements} is not equal to
-     *                                              {@code rows} multiplied by {@code columns}.</li>
-     *                                              </ul>
+     * @throws IllegalArgumentException If {@code rows} is not positive.
+     *                                  If {@code columns} is not positive.
+     *                                  If the length of {@code elements} is not equal to
+     *                                  {@code rows} multiplied by {@code columns}.
      */
     @Nonnull
     public static ImmutableMatrixN create(@Nonnegative final int rows,
@@ -93,6 +91,25 @@ public class ImmutableMatrixN implements Matrix {
             return false;
         }
         return rows == other.rows && Arrays.equals(elements, other.elements);
+    }
+
+    @Override
+    @Nonnull
+    public String toString() {
+        final var str = new StringBuilder("(");
+        for (int i = 0; i < getRows(); ++i) {
+            if (0 < i) {
+                str.append('\n');
+            }
+            for (int j = 0; j < getColumns(); ++j) {
+                str.append(get(i, j));
+                if (i < getRows() - 1 || j < getColumns() - 1) {
+                    str.append(',');
+                }
+            }
+        }
+        str.append(')');
+        return str.toString();
     }
 
     @Override

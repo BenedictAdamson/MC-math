@@ -31,6 +31,8 @@ import java.util.Objects;
 @Immutable
 public final class VectorFieldWithJacobeanValue {
 
+    private static final double FINITE_DIFFERENCE_TOLERANCE = Math.sqrt(Math.nextUp(1.0) - 1.0);
+
     @Nonnull
     private final ImmutableVectorN x;
     @Nonnull
@@ -72,6 +74,51 @@ public final class VectorFieldWithJacobeanValue {
         this.x = x;
         this.f = f;
         this.j = j;
+    }
+
+    /**
+     * <p>
+     * Compute the value of a field at a given point,
+     * with an approximation of the {@linkplain #getJ() Jacobean}
+     * </p>
+     * <p>
+     * The Jacobean is computed using a finite-difference approximation.
+     * </p>
+     *
+     * @param field The field for which to compute the approximation.
+     * @param x     the point at which to compute the approximation
+     * @throws NullPointerException If any parameters are null
+     */
+    @Nonnull
+    public static VectorFieldWithJacobeanValue approximateAt(
+            @Nonnull VectorField field,
+            @Nonnull Vector x
+    ) {
+        Objects.requireNonNull(field);
+        Objects.requireNonNull(x);
+
+        final var r = field.getValueDimension();
+        final var c = field.getSpaceDimension();
+        final var f = ImmutableVectorN.copyOf(field.value(x));
+        final var x1 = x.getComponentsAsArray();
+        final var jComponents = new double[r * c];
+        for (int j = 0; j < c; ++j) {
+            final var xj = x1[j];
+            var h = FINITE_DIFFERENCE_TOLERANCE * xj;
+            if (h == 0.0) {
+                h = FINITE_DIFFERENCE_TOLERANCE;
+            }
+            x1[j] = xj + h;
+            h = x1[j] - xj;// eliminate precision error
+            final var f1 = field.value(ImmutableVectorN.create(x1));
+            for (int i = 0; i < r; ++i) {
+                jComponents[i * c + j] = (f1.get(i) - f.get(i)) / h;
+            }
+            x1[j] = xj;// reset
+        }
+        final var j = ImmutableMatrixN.create(r, c, jComponents);
+
+        return new VectorFieldWithJacobeanValue(ImmutableVectorN.copyOf(x), f, j);
     }
 
     /**

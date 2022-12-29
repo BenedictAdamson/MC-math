@@ -84,6 +84,25 @@ public class VectorFieldWithJacobeanValueTest {
         );
     }
 
+    @Nonnull
+    private static VectorFieldWithJacobeanValue approximateAt(
+            @Nonnull VectorField field,
+            @Nonnull Vector x
+    ) {
+        final var expectedValue = field.value(x);
+        final var tolerance = Math.max(expectedValue.magnitude(), 1.0) * Double.MIN_NORMAL;
+
+        final var result = VectorFieldWithJacobeanValue.approximateAt(field, x);
+
+        VectorFieldTest.assertInvariants(field);
+        VectorTest.assertInvariants(x);
+        assertThat(result, notNullValue());
+        assertThat("x", result.getX(), is(ImmutableVectorN.copyOf(x)));
+        assertThat("f", result.getF(), VectorTest.closeToVector(expectedValue, tolerance));
+
+        return result;
+    }
+
     @Nested
     public class Constructor {
 
@@ -158,6 +177,199 @@ public class VectorFieldWithJacobeanValueTest {
                 assertThat(v1, not(v2));
             }
 
+        }
+    }
+
+    @Nested
+    public class ApproximateAt {
+
+        @Nested
+        public class Constant {
+            @Nested
+            public class OneDimensionalScalarField {
+
+                @Test
+                public void a() {
+                    test(0.0, 0.0);
+                }
+
+                @Test
+                public void b() {
+                    test(1.0, 2.0);
+                }
+
+                private void test(double value, double x) {
+                    final var valueVector = ImmutableVector1.create(value);
+                    final var positionVector = ImmutableVector1.create(x);
+                    final var expectedJacobean = ImmutableMatrixN.create(1, 1, new double[]{0});
+
+                    final VectorField field = new VectorField() {
+                        @Override
+                        public int getSpaceDimension() {
+                            return 1;
+                        }
+
+                        @Override
+                        public int getValueDimension() {
+                            return 1;
+                        }
+
+                        @Nonnull
+                        @Override
+                        public Vector value(@Nonnull Vector x) {
+                            return valueVector;
+                        }
+                    };
+
+                    final var result = approximateAt(field, positionVector);
+
+                    assertThat("j", result.getJ(), is(expectedJacobean));
+                }
+            }
+
+            @Nested
+            public class TwoDimensionalScalarField {
+                @Test
+                public void a() {
+                    test(0.0, 0.0, 0.0);
+                }
+
+                @Test
+                public void b() {
+                    test(1.0, 2.0, 3.0);
+                }
+
+                private void test(double value, double x, double y) {
+                    final var valueVector = ImmutableVector1.create(value);
+                    final var positionVector = ImmutableVectorN.create(x, y);
+                    final var expectedJacobean = ImmutableMatrixN.create(1, 2, new double[]{0, 0});
+
+                    final VectorField field = new VectorField() {
+                        @Override
+                        public int getSpaceDimension() {
+                            return 2;
+                        }
+
+                        @Override
+                        public int getValueDimension() {
+                            return 1;
+                        }
+
+                        @Nonnull
+                        @Override
+                        public Vector value(@Nonnull Vector x) {
+                            return valueVector;
+                        }
+                    };
+
+                    final var result = approximateAt(field, positionVector);
+
+                    assertThat("j", result.getJ(), is(expectedJacobean));
+                }
+            }
+
+
+            @Nested
+            public class TwoDimensionalVectorField {
+                @Test
+                public void a() {
+                    test(0.0, 0.0, 0.0, 0.0);
+                }
+
+                @Test
+                public void b() {
+                    test(1.0, 2.0, 3.0, 4.0);
+                }
+
+                private void test(double vx, double vy, double x, double y) {
+                    final var valueVector = ImmutableVectorN.create(vx, vy);
+                    final var positionVector = ImmutableVectorN.create(x, y);
+                    final var expectedJacobean = ImmutableMatrixN.create(2, 2, new double[]{0, 0, 0, 0});
+
+                    final VectorField field = new VectorField() {
+                        @Override
+                        public int getSpaceDimension() {
+                            return 2;
+                        }
+
+                        @Override
+                        public int getValueDimension() {
+                            return 2;
+                        }
+
+                        @Nonnull
+                        @Override
+                        public Vector value(@Nonnull Vector x) {
+                            return valueVector;
+                        }
+                    };
+
+                    final var result = approximateAt(field, positionVector);
+
+                    assertThat("j", result.getJ(), is(expectedJacobean));
+                }
+            }
+        }
+
+        @Nested
+        public class LinearTwoDimensionalScalar {
+
+            @Test
+            public void variesOnlyWithXA() {
+                test(0, 1, 0, 0, 0);
+            }
+
+            @Test
+            public void variesOnlyWithXB() {
+                test(0, 1, 0, 1, 2);
+            }
+
+            @Test
+            public void variesOnlyWithXC() {
+                test(0, 1, 0, 2, 0);
+            }
+
+            @Test
+            public void variesOnlyWithXD() {
+                test(0, 2, 0, 0, 0);
+            }
+
+            @Test
+            public void variesOnlyWithXE() {
+                test(1, 2, 0, 0, 0);
+            }
+
+            @Test
+            public void variesOnlyWithY() {
+                test(0, 0, 1, 0, 0);
+            }
+
+            private void test(final double v0, final double dvdx, final double dvdy, final double x, final double y) {
+                final var positionVector = ImmutableVectorN.create(x, y);
+                final var expectedJacobean = ImmutableMatrixN.create(1, 2, new double[]{dvdx, dvdy});
+
+                final VectorField field = new VectorField() {
+                    @Override
+                    public int getSpaceDimension() {
+                        return 2;
+                    }
+
+                    @Override
+                    public int getValueDimension() {
+                        return 1;
+                    }
+
+                    @Nonnull
+                    @Override
+                    public Vector value(@Nonnull Vector x) {
+                        return ImmutableVector1.create(v0 + dvdx * x.get(0) + dvdy * x.get(1));
+                    }
+                };
+
+                final var result = approximateAt(field, positionVector);
+
+                assertThat("j", result.getJ(), is(expectedJacobean));
+            }
         }
     }
 }
