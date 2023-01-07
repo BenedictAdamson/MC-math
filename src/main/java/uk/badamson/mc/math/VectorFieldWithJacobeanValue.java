@@ -100,21 +100,22 @@ public final class VectorFieldWithJacobeanValue {
         final var r = field.getValueDimension();
         final var c = field.getSpaceDimension();
         final var f = ImmutableVectorN.copyOf(field.value(x));
-        final var x1 = x.getComponentsAsArray();
+        final var x1 = MutableVectorN.copyOf(x);
         final var jComponents = new double[r * c];
         for (int j = 0; j < c; ++j) {
-            final var xj = x1[j];
+            final var xj = x1.get(j);
             var h = FINITE_DIFFERENCE_TOLERANCE * xj;
             if (h == 0.0) {
                 h = FINITE_DIFFERENCE_TOLERANCE;
             }
-            x1[j] = xj + h;
-            h = x1[j] - xj;// eliminate precision error
-            final var f1 = field.value(ImmutableVectorN.create(x1));
+            final var xj1 = xj + h;
+            x1.set(j, xj1);
+            h = xj1 - xj;// eliminate precision error
+            final var f1 = field.value(x1);
             for (int i = 0; i < r; ++i) {
                 jComponents[i * c + j] = (f1.get(i) - f.get(i)) / h;
             }
-            x1[j] = xj;// reset
+            x1.set(j, xj);// reset
         }
         final var j = ImmutableMatrixN.create(r, c, jComponents);
 
