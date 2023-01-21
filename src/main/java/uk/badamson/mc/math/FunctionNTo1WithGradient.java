@@ -29,7 +29,7 @@ import java.util.function.Function;
  * </p>
  */
 @Immutable
-public interface FunctionNTo1WithGradient extends Function<ImmutableVectorN, FunctionNWithGradientValue> {
+public interface FunctionNTo1WithGradient extends Function<ImmutableVectorN, FunctionNTo1WithGradientValue> {
 
     /**
      * <p>
@@ -63,11 +63,11 @@ public interface FunctionNTo1WithGradient extends Function<ImmutableVectorN, Fun
      *                                  dimension} of this functor.
      */
     @Nonnull
-    FunctionNWithGradientValue value(@Nonnull ImmutableVectorN x);
+    FunctionNTo1WithGradientValue value(@Nonnull ImmutableVectorN x);
 
     @Override
     @Nonnull
-    default FunctionNWithGradientValue apply(@Nonnull ImmutableVectorN x) {
+    default FunctionNTo1WithGradientValue apply(@Nonnull ImmutableVectorN x) {
         return value(x);
     }
 }

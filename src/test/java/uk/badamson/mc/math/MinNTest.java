@@ -83,10 +83,10 @@ public class MinNTest {
 
         @Nonnull
         @Override
-        public FunctionNWithGradientValue value(@Nonnull final ImmutableVectorN x) {
+        public FunctionNTo1WithGradientValue value(@Nonnull final ImmutableVectorN x) {
             final double x0 = x.get(0);
             final double x1 = x.get(1);
-            return new FunctionNWithGradientValue(x, x0 * x0 + x1 * x1, ImmutableVectorN.create(2.0 * x0, 2.0 * x1));
+            return new FunctionNTo1WithGradientValue(x, x0 * x0 + x1 * x1, ImmutableVectorN.create(2.0 * x0, 2.0 * x1));
         }
     };
 
@@ -127,9 +127,9 @@ public class MinNTest {
         assertEquals(expectedDfDw, fw.dfdx(), toleranceDfDw, "dfdw(" + w + ")");
     }
 
-    private static FunctionNWithGradientValue findFletcherReevesPolakRibere(final FunctionNTo1WithGradient f,
-            final ImmutableVectorN x, final double tolerance) throws PoorlyConditionedFunctionException {
-        final FunctionNWithGradientValue min = MinN.findFletcherReevesPolakRibere(f, x, tolerance);
+    private static FunctionNTo1WithGradientValue findFletcherReevesPolakRibere(final FunctionNTo1WithGradient f,
+                                                                               final ImmutableVectorN x, final double tolerance) throws PoorlyConditionedFunctionException {
+        final FunctionNTo1WithGradientValue min = MinN.findFletcherReevesPolakRibere(f, x, tolerance);
 
         assertNotNull(min, "Not null, result");// guard
         FunctionNTo1WithGradientValueTest.assertInvariants(min);
@@ -142,7 +142,7 @@ public class MinNTest {
         final ImmutableVectorN x = ImmutableVectorN.create(x0, x1);
         final double precision = Math.sqrt(tolerance);
 
-        final FunctionNWithGradientValue min = findFletcherReevesPolakRibere(PARABOLOID_WITH_GRADIENT, x, tolerance);
+        final FunctionNTo1WithGradientValue min = findFletcherReevesPolakRibere(PARABOLOID_WITH_GRADIENT, x, tolerance);
 
         final ImmutableVectorN minX = min.getX();
         assertEquals(0.0, minX.get(0), precision, "x[0]");
@@ -193,9 +193,9 @@ public class MinNTest {
         return min;
     }
 
-    private static FunctionNWithGradientValue minimiseAlongLine(final FunctionNTo1WithGradient f, final ImmutableVectorN x,
-                                                                final ImmutableVectorN dx) {
-        final FunctionNWithGradientValue min = MinN.minimiseAlongLine(f, x, dx);
+    private static FunctionNTo1WithGradientValue minimiseAlongLine(final FunctionNTo1WithGradient f, final ImmutableVectorN x,
+                                                                   final ImmutableVectorN dx) {
+        final FunctionNTo1WithGradientValue min = MinN.minimiseAlongLine(f, x, dx);
 
         assertNotNull(min, "Not null, result");// guard
         FunctionNTo1WithGradientValueTest.assertInvariants(min);
@@ -229,7 +229,7 @@ public class MinNTest {
         final ImmutableVectorN dx = ImmutableVectorN.create(dx0, dx1);
         final double precision = adjacentPrecision(dx.magnitude());
 
-        final FunctionNWithGradientValue min = minimiseAlongLine(PARABOLOID_WITH_GRADIENT, x, dx);
+        final FunctionNTo1WithGradientValue min = minimiseAlongLine(PARABOLOID_WITH_GRADIENT, x, dx);
 
         final ImmutableVectorN xMin = min.getX();
         assertEquals(expectedXMin0, xMin.get(0), precision, "xMin[0]");

@@ -192,14 +192,14 @@ public final class MinN {
             @Nonnull
             public Function1To1WithGradientValue value(final double w) {
                 final ImmutableVectorN x = ImmutableVectorN.createOnLine(x0, dx, w);
-                final FunctionNWithGradientValue v = f.value(x);
+                final FunctionNTo1WithGradientValue v = f.value(x);
                 return new Function1To1WithGradientValue(w, v.getF(), v.getDfDx().dot(dx));
             }
         };
     }
 
     @Nonnull
-    private static ImmutableVectorN downSlope(@Nonnull final FunctionNWithGradientValue fx) {
+    private static ImmutableVectorN downSlope(@Nonnull final FunctionNTo1WithGradientValue fx) {
         final ImmutableVectorN dfDx = fx.getDfDx();
         if (dfDx.magnitude2() < Double.MIN_NORMAL) {
             /* Avoid division by zero when close to a minimum */
@@ -222,7 +222,7 @@ public final class MinN {
      * @param x0        A point at which to start the search.
      * @param tolerance The convergence tolerance; the dimensionless measure of the
      *                  maximum error of the position of the minimum (the returned
-     *                  {@linkplain FunctionNWithGradientValue#getX() x} value).
+     *                  {@linkplain FunctionNTo1WithGradientValue#getX() x} value).
      * @throws NullPointerException               If {@code f} is null.
      *                                            If {@code x0} is null.
      * @throws IllegalArgumentException           If the {@linkplain ImmutableVectorN#getDimension() dimension}
@@ -236,7 +236,7 @@ public final class MinN {
      *                                            order term that causes the iterative procedure to diverge.
      */
     @Nonnull
-    public static FunctionNWithGradientValue findFletcherReevesPolakRibere(
+    public static FunctionNTo1WithGradientValue findFletcherReevesPolakRibere(
             @Nonnull final FunctionNTo1WithGradient f,
             @Nonnull final ImmutableVectorN x0,
             @Nonnegative final double tolerance
@@ -250,7 +250,7 @@ public final class MinN {
             throw new IllegalArgumentException("Inconsistent dimensions f <" + n + "> x <" + x0.getDimension() + ">");
         }
 
-        FunctionNWithGradientValue fx = f.value(x0);
+        FunctionNTo1WithGradientValue fx = f.value(x0);
         ImmutableVectorN g = downSlope(fx);
         ImmutableVectorN dx = g;
         ImmutableVectorN h = g;
@@ -258,7 +258,7 @@ public final class MinN {
 
         while (true) {
             final ImmutableVectorN x = fx.getX();
-            FunctionNWithGradientValue fXNew;
+            FunctionNTo1WithGradientValue fXNew;
             try {
                 fXNew = minimiseAlongLine(f, x, dx);
             } catch (final PoorlyConditionedFunctionException e) {
@@ -453,7 +453,7 @@ public final class MinN {
      *                                            The magnitude of {@code dx} is zero (or very small).
      */
     @Nonnull
-    static FunctionNWithGradientValue minimiseAlongLine(
+    static FunctionNTo1WithGradientValue minimiseAlongLine(
             @Nonnull final FunctionNTo1WithGradient f,
             @Nonnull final ImmutableVectorN x,
             @Nonnull final ImmutableVectorN dx

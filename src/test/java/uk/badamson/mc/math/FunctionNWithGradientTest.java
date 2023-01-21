@@ -35,8 +35,8 @@ public class FunctionNWithGradientTest {
     }
 
     @SuppressWarnings("unused")
-    public static FunctionNWithGradientValue value(final FunctionNTo1WithGradient f, final ImmutableVectorN x) {
-        final FunctionNWithGradientValue v = f.value(x);
+    public static FunctionNTo1WithGradientValue value(final FunctionNTo1WithGradient f, final ImmutableVectorN x) {
+        final FunctionNTo1WithGradientValue v = f.value(x);
 
         assertNotNull(v, "Not null, result");// guard
         FunctionNTo1WithGradientValueTest.assertInvariants(v);

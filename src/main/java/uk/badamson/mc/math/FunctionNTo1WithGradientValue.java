@@ -31,7 +31,7 @@ import java.util.Objects;
  * </p>
  */
 @Immutable
-public final class FunctionNWithGradientValue {
+public final class FunctionNTo1WithGradientValue {
 
     private final double f;
     private final ImmutableVectorN x;
@@ -52,9 +52,9 @@ public final class FunctionNWithGradientValue {
      * @throws IllegalArgumentException If {@code x} and {@code dfdx} have different
      *                                  {@linkplain ImmutableVectorN#getDimension() dimensions}.
      */
-    public FunctionNWithGradientValue(@Nonnull final ImmutableVectorN x,
-                                      final double f,
-                                      @Nonnull final ImmutableVectorN dfdx) {
+    public FunctionNTo1WithGradientValue(@Nonnull final ImmutableVectorN x,
+                                         final double f,
+                                         @Nonnull final ImmutableVectorN dfdx) {
         Objects.requireNonNull(x, "x");
         Objects.requireNonNull(dfdx, "dfdx");
         if (x.getDimension() != dfdx.getDimension()) {
@@ -72,9 +72,9 @@ public final class FunctionNWithGradientValue {
      * Whether this object is <dfn>equivalent</dfn> another object.
      * </p>
      * <p>
-     * The {@link FunctionNWithGradientValue} class has <i>value semantics</i>: this
+     * The {@link FunctionNTo1WithGradientValue} class has <i>value semantics</i>: this
      * object is equivalent to another object if, and only if, the other object is
-     * also a {@link FunctionNWithGradientValue} object, and the two objects have
+     * also a {@link FunctionNTo1WithGradientValue} object, and the two objects have
      * equivalent attributes.
      * </p>
      */
@@ -89,7 +89,7 @@ public final class FunctionNWithGradientValue {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final FunctionNWithGradientValue other = (FunctionNWithGradientValue) obj;
+        final FunctionNTo1WithGradientValue other = (FunctionNTo1WithGradientValue) obj;
         return Double.doubleToLongBits(f) == Double.doubleToLongBits(other.f) && x.equals(other.x)
                 && dfdx.equals(other.dfdx);
     }
