@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
 @SuppressWarnings({"UnnecessaryLocalVariable", "UnusedReturnValue", "SameParameterValue"})
 public class MinNTest {
 
-    private static final FunctionN CONSTANT_1 = new FunctionN() {
+    private static final FunctionNTo1 CONSTANT_1 = new FunctionNTo1() {
 
         @Override
         public int getDimension() {
@@ -48,7 +48,7 @@ public class MinNTest {
         }
     };
 
-    private static final FunctionN BILINEANR_1 = new FunctionN() {
+    private static final FunctionNTo1 BILINEANR_1 = new FunctionNTo1() {
 
         @Override
         public int getDimension() {
@@ -61,7 +61,7 @@ public class MinNTest {
         }
     };
 
-    private static final FunctionN PARABOLOID = new FunctionN() {
+    private static final FunctionNTo1 PARABOLOID = new FunctionNTo1() {
 
         @Override
         public int getDimension() {
@@ -97,7 +97,7 @@ public class MinNTest {
         return precision;
     }
 
-    private static Function1To1 createLineFunction(final FunctionN f, final double[] x0, final double[] dx) {
+    private static Function1To1 createLineFunction(final FunctionNTo1 f, final double[] x0, final double[] dx) {
         final Function1To1 lineFunction = MinN.createLineFunction(f, x0, dx);
 
         assertNotNull(lineFunction, "Not null, result");
@@ -132,7 +132,7 @@ public class MinNTest {
         final FunctionNWithGradientValue min = MinN.findFletcherReevesPolakRibere(f, x, tolerance);
 
         assertNotNull(min, "Not null, result");// guard
-        FunctionNWithGradientValueTest.assertInvariants(min);
+        FunctionNTo1WithGradientValueTest.assertInvariants(min);
 
         return min;
     }
@@ -149,7 +149,7 @@ public class MinNTest {
         assertEquals(0.0, min.getX().get(1), precision, "x[1]");
     }
 
-    private static double findPowell(final FunctionN f, final double[] x, final double tolerance) {
+    private static double findPowell(final FunctionNTo1 f, final double[] x, final double tolerance) {
         final double min = MinN.findPowell(f, x, tolerance);
 
         assertEquals(f.value(x), min, adjacentPrecision(min), "Minimum value");
@@ -175,7 +175,7 @@ public class MinNTest {
         return Math.sqrt(m2);
     }
 
-    private static double minimiseAlongLine(final FunctionN f, final double[] x, final double[] dx) {
+    private static double minimiseAlongLine(final FunctionNTo1 f, final double[] x, final double[] dx) {
         final int n = x.length;
         final double[] x0 = Arrays.copyOf(x, n);
         final double[] e0 = normalized(dx);
@@ -198,7 +198,7 @@ public class MinNTest {
         final FunctionNWithGradientValue min = MinN.minimiseAlongLine(f, x, dx);
 
         assertNotNull(min, "Not null, result");// guard
-        FunctionNWithGradientValueTest.assertInvariants(min);
+        FunctionNTo1WithGradientValueTest.assertInvariants(min);
 
         return min;
     }

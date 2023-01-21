@@ -31,7 +31,7 @@ import java.util.function.ToDoubleFunction;
  */
 @Immutable
 @NotThreadSafe
-public interface FunctionN extends ToDoubleFunction<double[]> {
+public interface FunctionNTo1 extends ToDoubleFunction<double[]> {
 
     /**
      * <p>

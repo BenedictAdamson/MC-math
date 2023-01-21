@@ -39,7 +39,7 @@ public class FunctionNWithGradientTest {
         final FunctionNWithGradientValue v = f.value(x);
 
         assertNotNull(v, "Not null, result");// guard
-        FunctionNWithGradientValueTest.assertInvariants(v);
+        FunctionNTo1WithGradientValueTest.assertInvariants(v);
         assertTrue(x.minus(v.getX()).magnitude2() <= Double.MIN_NORMAL,
                 "x <expected " + x + ", actual " + v.getX() + ">");
 

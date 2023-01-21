@@ -24,7 +24,7 @@ import java.util.Objects;
 
 /**
  * <p>
- * Functions and auxiliary classes for minimization of a {@linkplain FunctionN
+ * Functions and auxiliary classes for minimization of a {@linkplain FunctionNTo1
  * multidimensional function}.
  * </p>
  */
@@ -36,7 +36,7 @@ public final class MinN {
 
     @SuppressWarnings("SuspiciousNameCombination")
     private static double basicPowell(
-            @Nonnull final FunctionN f,
+            @Nonnull final FunctionNTo1 f,
             @Nonnull final double[] x0,
             @Nonnull final double[] dx0,
             @Nonnull final double[] x,
@@ -81,7 +81,7 @@ public final class MinN {
     /**
      * <p>
      * Create a {@linkplain Function1To1 functor for a one-dimensional function of a
-     * continuous variable} that is the evaluation of a {@linkplain FunctionN
+     * continuous variable} that is the evaluation of a {@linkplain FunctionNTo1
      * functor for a multi-dimensional function of continuous variables} along a
      * given line.
      * </p>
@@ -104,11 +104,11 @@ public final class MinN {
      *                                  If the length of {code x0} is different from the length of
      *                                  {@code dx}.
      *                                  If the length of {code x0} is different from the
-     *                                  {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                  {@linkplain FunctionNTo1#getDimension() number of dimensions} of
      *                                  {@code f}.
      */
     static @Nonnull Function1To1 createLineFunction(
-            @Nonnull final FunctionN f,
+            @Nonnull final FunctionNTo1 f,
             @Nonnull final double[] x0,
             @Nonnull final double[] dx
     ) {
@@ -136,7 +136,7 @@ public final class MinN {
     /**
      * <p>
      * Create a {@linkplain Function1To1 functor for a one-dimensional function of a
-     * continuous variable} that is the evaluation of a {@linkplain FunctionN
+     * continuous variable} that is the evaluation of a {@linkplain FunctionNTo1
      * functor for a multi-dimensional function of continuous variables} along a
      * given line.
      * </p>
@@ -159,7 +159,7 @@ public final class MinN {
      *                                  of {code x0} is different from the dimension of
      *                                  {@code dx}.
      *                                  If the dimension of {code x0} is different from the
-     *                                  {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                  {@linkplain FunctionNTo1#getDimension() number of dimensions} of
      *                                  {@code f}.
      */
     @Nonnull
@@ -227,7 +227,7 @@ public final class MinN {
      *                                            If {@code x0} is null.
      * @throws IllegalArgumentException           If the {@linkplain ImmutableVectorN#getDimension() dimension}
      *                                            of {code x0} is different from the
-     *                                            {@linkplain FunctionN#getDimension() dimension} of
+     *                                            {@linkplain FunctionNTo1#getDimension() dimension} of
      *                                            {@code f}.
      *                                            If {@code tolerance} is not in the range (0.0, 1.0).
      * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum
@@ -301,7 +301,7 @@ public final class MinN {
 
     /**
      * <p>
-     * Find a minimum of a {@linkplain FunctionN multidimensional function} using
+     * Find a minimum of a {@linkplain FunctionNTo1 multidimensional function} using
      * <i>basic Powell's method</i> with periodic resetting of the search
      * directions.
      * </p>
@@ -319,7 +319,7 @@ public final class MinN {
      * @throws NullPointerException               If {@code f} is null.
      *                                            If {@code x} is null.
      * @throws IllegalArgumentException           If the length of {code x} is different from the
-     *                                            {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                            {@linkplain FunctionNTo1#getDimension() number of dimensions} of
      *                                            {@code f}.
      *                                            If {@code tolerance} is not in the range (0.0, 1.0).
      * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum.
@@ -328,7 +328,7 @@ public final class MinN {
      *                                            order term that causes the iterative procedure to diverge.
      */
     public static double findPowell(
-            @Nonnull final FunctionN f,
+            @Nonnull final FunctionNTo1 f,
             @Nonnull final double[] x,
             @Nonnegative final double tolerance
     )
@@ -374,7 +374,7 @@ public final class MinN {
 
     /**
      * <p>
-     * Perform <i>line minimisation</i> of a {@linkplain FunctionN multidimensional
+     * Perform <i>line minimisation</i> of a {@linkplain FunctionNTo1 multidimensional
      * function}.
      * </p>
      * <p>
@@ -397,7 +397,7 @@ public final class MinN {
      *                                            If the length of {code x} is different from the length of
      *                                            {@code dx}.
      *                                            If the length of {code x} is different from the
-     *                                            {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                            {@linkplain FunctionNTo1#getDimension() number of dimensions} of
      *                                            {@code f}.
      * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum.
      *                                            If {@code f} has a minimum, but it is impossible to find a
@@ -407,7 +407,7 @@ public final class MinN {
      *                                            The magnitude of {@code dx} is zero (or very small).
      */
     static double minimiseAlongLine(
-            @Nonnull final FunctionN f,
+            @Nonnull final FunctionNTo1 f,
             @Nonnull final double[] x,
             @Nonnull final double[] dx
     )
@@ -443,7 +443,7 @@ public final class MinN {
      *                                            If the length of {code x} is different from the length of
      *                                            {@code dx}.
      *                                            If the length of {code x} is different from the
-     *                                            {@linkplain FunctionN#getDimension() number of dimensions} of
+     *                                            {@linkplain FunctionNTo1#getDimension() number of dimensions} of
      *                                            {@code f}.
      * @throws PoorlyConditionedFunctionException If {@code f} does not have a minimum.
      *                                            If {@code f} has a minimum, but it is impossible to find a

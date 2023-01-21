@@ -33,7 +33,7 @@ import uk.badamson.dbc.assertions.ObjectVerifier;
  * </p>
  */
 @SuppressWarnings("UnusedReturnValue")
-public class FunctionNWithGradientValueTest {
+public class FunctionNTo1WithGradientValueTest {
 
     public static void assertInvariants(final FunctionNWithGradientValue f) {
         ObjectVerifier.assertInvariants(f);
