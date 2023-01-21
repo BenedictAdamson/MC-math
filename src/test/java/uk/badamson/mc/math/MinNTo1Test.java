@@ -29,11 +29,11 @@ import javax.annotation.Nonnull;
 
 /**
  * <p>
- * Unit tests of the {@link MinN} class.
+ * Unit tests of the {@link MinNTo1} class.
  * </p>
  */
 @SuppressWarnings({"UnnecessaryLocalVariable", "UnusedReturnValue", "SameParameterValue"})
-public class MinNTest {
+public class MinNTo1Test {
 
     private static final FunctionNTo1 CONSTANT_1 = new FunctionNTo1() {
 
@@ -98,7 +98,7 @@ public class MinNTest {
     }
 
     private static Function1To1 createLineFunction(final FunctionNTo1 f, final double[] x0, final double[] dx) {
-        final Function1To1 lineFunction = MinN.createLineFunction(f, x0, dx);
+        final Function1To1 lineFunction = MinNTo1.createLineFunction(f, x0, dx);
 
         assertNotNull(lineFunction, "Not null, result");
 
@@ -107,7 +107,7 @@ public class MinNTest {
 
     private static Function1To1WithGradient createLineFunction(final FunctionNTo1WithGradient f, final ImmutableVectorN x0,
                                                                final ImmutableVectorN dx) {
-        final Function1To1WithGradient lineFunction = MinN.createLineFunction(f, x0, dx);
+        final Function1To1WithGradient lineFunction = MinNTo1.createLineFunction(f, x0, dx);
 
         assertNotNull(lineFunction, "Not null, result");
 
@@ -129,7 +129,7 @@ public class MinNTest {
 
     private static FunctionNTo1WithGradientValue findFletcherReevesPolakRibere(final FunctionNTo1WithGradient f,
                                                                                final ImmutableVectorN x, final double tolerance) throws PoorlyConditionedFunctionException {
-        final FunctionNTo1WithGradientValue min = MinN.findFletcherReevesPolakRibere(f, x, tolerance);
+        final FunctionNTo1WithGradientValue min = MinNTo1.findFletcherReevesPolakRibere(f, x, tolerance);
 
         assertNotNull(min, "Not null, result");// guard
         FunctionNTo1WithGradientValueTest.assertInvariants(min);
@@ -150,7 +150,7 @@ public class MinNTest {
     }
 
     private static double findPowell(final FunctionNTo1 f, final double[] x, final double tolerance) {
-        final double min = MinN.findPowell(f, x, tolerance);
+        final double min = MinNTo1.findPowell(f, x, tolerance);
 
         assertEquals(f.value(x), min, adjacentPrecision(min), "Minimum value");
 
@@ -180,7 +180,7 @@ public class MinNTest {
         final double[] x0 = Arrays.copyOf(x, n);
         final double[] e0 = normalized(dx);
 
-        final double min = MinN.minimiseAlongLine(f, x, dx);
+        final double min = MinNTo1.minimiseAlongLine(f, x, dx);
 
         final double[] e = normalized(dx);
         final double em = magnitude(e);
@@ -195,7 +195,7 @@ public class MinNTest {
 
     private static FunctionNTo1WithGradientValue minimiseAlongLine(final FunctionNTo1WithGradient f, final ImmutableVectorN x,
                                                                    final ImmutableVectorN dx) {
-        final FunctionNTo1WithGradientValue min = MinN.minimiseAlongLine(f, x, dx);
+        final FunctionNTo1WithGradientValue min = MinNTo1.minimiseAlongLine(f, x, dx);
 
         assertNotNull(min, "Not null, result");// guard
         FunctionNTo1WithGradientValueTest.assertInvariants(min);

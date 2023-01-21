@@ -28,9 +28,9 @@ import java.util.Objects;
  * multidimensional function}.
  * </p>
  */
-public final class MinN {
+public final class MinNTo1 {
 
-    private MinN() {
+    private MinNTo1() {
         throw new AssertionError("Class should not be instantiated");
     }
 
