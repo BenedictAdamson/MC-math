@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -79,6 +79,18 @@ public class ImmutableVectorNTest {
         assertEquals(x0.getDimension(), x.getDimension(), "dimension");
 
         return x;
+    }
+
+    private static double dot(@Nonnull ImmutableVectorN x, @Nonnull Vector that) {
+        final double result = VectorTest.dot(x, that);
+        assertInvariants(x);
+        return result;
+    }
+
+    private static double magnitude2(@Nonnull ImmutableVectorN x) {
+        final double result = VectorTest.magnitude2(x);
+        assertInvariants(x);
+        return result;
     }
 
     private static ImmutableVectorN mean(final ImmutableVectorN x, final ImmutableVectorN that) {
@@ -216,7 +228,7 @@ public class ImmutableVectorNTest {
         public void zero() {
             final ImmutableVectorN x = create(0.0);
 
-            assertEquals(0.0, x.magnitude2(), Double.MIN_NORMAL, "magnitude^2");
+            assertEquals(0.0, magnitude2(x), Double.MIN_NORMAL, "magnitude^2");
             assertEquals(0.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
         }
 
@@ -224,7 +236,7 @@ public class ImmutableVectorNTest {
         public void minusOne() {
             final ImmutableVectorN x = create(-1.0);
 
-            assertEquals(1.0, x.magnitude2(), Double.MIN_NORMAL, "magnitude^2");
+            assertEquals(1.0, magnitude2(x), Double.MIN_NORMAL, "magnitude^2");
             assertEquals(1.0, x.magnitude(), Double.MIN_NORMAL, "magnitude");
         }
 
@@ -240,7 +252,7 @@ public class ImmutableVectorNTest {
         public void nan() {
             final ImmutableVectorN x = create(Double.POSITIVE_INFINITY);
 
-            final double magnitude2 = x.magnitude2();
+            final double magnitude2 = magnitude2(x);
             final double magnitude = x.magnitude();
             assertEquals(Double.doubleToLongBits(magnitude2), Double.doubleToLongBits(Double.POSITIVE_INFINITY),
                     "magnitude^2 <" + magnitude2 + "> (bits)");
@@ -399,31 +411,31 @@ public class ImmutableVectorNTest {
 
         @Test
         public void a() {
-            final double d = ImmutableVectorN.create(1.0).dot(ImmutableVectorN.create(1.0));
+            final double d = dot(ImmutableVectorN.create(1.0), ImmutableVectorN.create(1.0));
             assertEquals(1.0, d, Double.MIN_NORMAL, "dot product");
         }
 
         @Test
         public void b() {
-            final double d = ImmutableVectorN.create(2.0).dot(ImmutableVectorN.create(1.0));
+            final double d = dot(ImmutableVectorN.create(2.0), ImmutableVectorN.create(1.0));
             assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
         }
 
         @Test
         public void c() {
-            final double d = ImmutableVectorN.create(1.0).dot(ImmutableVectorN.create(2.0));
+            final double d = dot(ImmutableVectorN.create(1.0), ImmutableVectorN.create(2.0));
             assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
         }
 
         @Test
         public void d() {
-            final double d = ImmutableVectorN.create(2.0).dot(ImmutableVectorN.create(2.0));
+            final double d = dot(ImmutableVectorN.create(2.0), ImmutableVectorN.create(2.0));
             assertEquals(4.0, d, Double.MIN_NORMAL, "dot product");
         }
 
         @Test
         public void e() {
-            final double d = ImmutableVectorN.create(1.0, 1.0).dot(ImmutableVectorN.create(1.0, 1.0));
+            final double d = dot(ImmutableVectorN.create(1.0, 1.0), ImmutableVectorN.create(1.0, 1.0));
             assertEquals(2.0, d, Double.MIN_NORMAL, "dot product");
         }
     }

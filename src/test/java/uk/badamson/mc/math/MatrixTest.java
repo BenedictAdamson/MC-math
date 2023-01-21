@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -17,6 +17,8 @@ package uk.badamson.mc.math;
  * You should have received a copy of the GNU General Public License
  * along with MC-math.  If not, see <https://www.gnu.org/licenses/>.
  */
+
+import javax.annotation.Nonnull;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -44,7 +46,52 @@ public class MatrixTest {
         }
     }
 
-    public static Vector multiply(final Matrix a, final Vector x) {
+    @Nonnull
+    public static Matrix minus(@Nonnull final Matrix m) {
+        final Matrix minus = m.minus();
+
+        assertThat(minus, notNullValue());
+        assertInvariants(minus);
+        assertInvariants(m, minus);
+
+        final var rows = m.getRows();
+        final var columns = m.getColumns();
+        assertAll(
+                () -> assertThat("rows", minus.getRows(), is(rows)),
+                () -> assertThat("columns", minus.getColumns(), is(columns)));
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                assertThat("[" + i + ',' + j + ']', minus.get(i, j), is(-m.get(i, j)));
+            }
+        }
+
+        return minus;
+    }
+
+    @Nonnull
+    public static Matrix scale(@Nonnull final Matrix m, double f) {
+        final Matrix scaled = m.scale(f);
+
+        assertThat(scaled, notNullValue());
+        assertInvariants(scaled);
+        assertInvariants(m, scaled);
+
+        final var rows = m.getRows();
+        final var columns = m.getColumns();
+        assertAll(
+                () -> assertThat("rows", scaled.getRows(), is(rows)),
+                () -> assertThat("columns", scaled.getColumns(), is(columns)));
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                assertThat("[" + i + ',' + j + ']', scaled.get(i, j), is(f * m.get(i, j)));
+            }
+        }
+
+        return scaled;
+    }
+
+    @Nonnull
+    public static Vector multiply(@Nonnull final Matrix a, @Nonnull final Vector x) {
         final Vector ax = a.multiply(x);
 
         assertNotNull(ax, "Not null, result");// guard
@@ -70,5 +117,53 @@ public class MatrixTest {
                 () -> assertThat("columns", mean.getColumns(), is(x.getColumns())));
 
         return mean;
+    }
+
+    @Nonnull
+    public static Matrix minus(@Nonnull Matrix m, @Nonnull Matrix that) {
+        final Matrix result = m.minus(that);
+
+        assertThat(result, notNullValue());
+        assertInvariants(m);
+        assertInvariants(m, that);
+        assertInvariants(m, result);
+        assertInvariants(that, result);
+
+        final var rows = m.getRows();
+        final var columns = m.getColumns();
+        assertAll(
+                () -> assertThat("rows", result.getRows(), is(rows)),
+                () -> assertThat("columns", result.getColumns(), is(columns)));
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                assertThat("[" + i + ',' + j + ']', result.get(i, j), is(m.get(i, j) - that.get(i, j)));
+            }
+        }
+
+        return result;
+    }
+
+    @Nonnull
+    public static Matrix plus(@Nonnull Matrix m, @Nonnull Matrix that) {
+        final Matrix result = m.plus(that);
+
+        assertThat(result, notNullValue());
+        assertInvariants(m);
+        assertInvariants(m, that);
+        assertInvariants(m, result);
+        assertInvariants(that, result);
+
+        final var rows = m.getRows();
+        final var columns = m.getColumns();
+        assertAll(
+                () -> assertThat("rows", result.getRows(), is(rows)),
+                () -> assertThat("columns", result.getColumns(), is(columns)));
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                assertThat("[" + i + ',' + j + ']', result.get(i, j), is(m.get(i, j) + that.get(i, j)));
+            }
+        }
+
+        return result;
     }
 }

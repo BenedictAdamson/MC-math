@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -38,37 +38,6 @@ import javax.annotation.Nonnull;
 @SuppressWarnings("unused")
 public class VectorTest {
 
-    private static class IsCloseTo extends TypeSafeMatcher<Vector> {
-        private final double tolerance;
-        private final Vector value;
-
-        private IsCloseTo(final Vector value, final double tolerance) {
-            this.tolerance = tolerance;
-            this.value = value;
-        }
-
-        @Override
-        public void describeMismatchSafely(final Vector item, final Description mismatchDescription) {
-            mismatchDescription.appendValue(item).appendText(" differed by ")
-                    .appendValue(distance(item));
-        }
-
-        @Override
-        public void describeTo(final Description description) {
-            description.appendText("a vector within ").appendValue(tolerance).appendText(" of ")
-                    .appendValue(value);
-        }
-
-        private double distance(final Vector item) {
-            return value.minus(item).magnitude();
-        }
-
-        @Override
-        public boolean matchesSafely(final Vector item) {
-            return distance(item) <= tolerance;
-        }
-    }
-
     public static void assertInvariants(final Vector vector) {
         MatrixTest.assertInvariants(vector);// inherited
         assertEquals(1, vector.getColumns(), "columns");
@@ -81,6 +50,20 @@ public class VectorTest {
 
     public static Matcher<Vector> closeToVector(final Vector operand, final double tolerance) {
         return new IsCloseTo(operand, tolerance);
+    }
+
+    public static double dot(@Nonnull Vector x, @Nonnull Vector that) {
+        final double result = x.dot(that);
+        assertInvariants(x);
+        assertInvariants(that);
+        assertInvariants(x, that);
+        return result;
+    }
+
+    public static double magnitude2(@Nonnull Vector x) {
+        final double result = x.magnitude2();
+        assertInvariants(x);
+        return result;
     }
 
     public static Vector minus(final Vector x) {
@@ -171,5 +154,36 @@ public class VectorTest {
         }
 
         return result;
+    }
+
+    private static class IsCloseTo extends TypeSafeMatcher<Vector> {
+        private final double tolerance;
+        private final Vector value;
+
+        private IsCloseTo(final Vector value, final double tolerance) {
+            this.tolerance = tolerance;
+            this.value = value;
+        }
+
+        @Override
+        public void describeMismatchSafely(final Vector item, final Description mismatchDescription) {
+            mismatchDescription.appendValue(item).appendText(" differed by ")
+                    .appendValue(distance(item));
+        }
+
+        @Override
+        public void describeTo(final Description description) {
+            description.appendText("a vector within ").appendValue(tolerance).appendText(" of ")
+                    .appendValue(value);
+        }
+
+        private double distance(final Vector item) {
+            return value.minus(item).magnitude();
+        }
+
+        @Override
+        public boolean matchesSafely(final Vector item) {
+            return distance(item) <= tolerance;
+        }
     }
 }
