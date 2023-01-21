@@ -164,7 +164,7 @@ public final class MinN {
      */
     @Nonnull
     public static Function1To1WithGradient createLineFunction(
-            @Nonnull final FunctionNWithGradient f,
+            @Nonnull final FunctionNTo1WithGradient f,
             @Nonnull final ImmutableVectorN x0,
             @Nonnull final ImmutableVectorN dx
     ) {
@@ -213,7 +213,7 @@ public final class MinN {
 
     /**
      * <p>
-     * Find a minimum of a {@linkplain FunctionNWithGradient scalar function of a
+     * Find a minimum of a {@linkplain FunctionNTo1WithGradient scalar function of a
      * vector that also has a computable gradient} using the Polak-Ribere's
      * modification of the Fletcher-Reeves conjugate gradient algorithm.
      * </p>
@@ -237,7 +237,7 @@ public final class MinN {
      */
     @Nonnull
     public static FunctionNWithGradientValue findFletcherReevesPolakRibere(
-            @Nonnull final FunctionNWithGradient f,
+            @Nonnull final FunctionNTo1WithGradient f,
             @Nonnull final ImmutableVectorN x0,
             @Nonnegative final double tolerance
     )
@@ -426,7 +426,7 @@ public final class MinN {
 
     /**
      * <p>
-     * Perform <i>line minimisation</i> of a {@linkplain FunctionNWithGradient
+     * Perform <i>line minimisation</i> of a {@linkplain FunctionNTo1WithGradient
      * scalar function of a vector that also has a computable gradient}.
      * </p>
      * <p>
@@ -454,7 +454,7 @@ public final class MinN {
      */
     @Nonnull
     static FunctionNWithGradientValue minimiseAlongLine(
-            @Nonnull final FunctionNWithGradient f,
+            @Nonnull final FunctionNTo1WithGradient f,
             @Nonnull final ImmutableVectorN x,
             @Nonnull final ImmutableVectorN dx
     )

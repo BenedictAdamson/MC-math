@@ -29,7 +29,7 @@ import java.util.function.Function;
  * </p>
  */
 @Immutable
-public interface FunctionNWithGradient extends Function<ImmutableVectorN, FunctionNWithGradientValue> {
+public interface FunctionNTo1WithGradient extends Function<ImmutableVectorN, FunctionNWithGradientValue> {
 
     /**
      * <p>

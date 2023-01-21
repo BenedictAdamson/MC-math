@@ -24,7 +24,7 @@ import java.util.Objects;
 
 /**
  * <p>
- * One vector from the domain of a {@linkplain FunctionNWithGradient scalar
+ * One vector from the domain of a {@linkplain FunctionNTo1WithGradient scalar
  * function of a vector that also has a computable gradient} to the
  * corresponding value in the codomain of the function and the gradient of the
  * function.

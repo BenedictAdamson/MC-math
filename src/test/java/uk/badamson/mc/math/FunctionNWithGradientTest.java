@@ -23,19 +23,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * <p>
- * Unit tests for classes that implement the {@link FunctionNWithGradient}
+ * Unit tests for classes that implement the {@link FunctionNTo1WithGradient}
  * interface.
  * </p>
  */
 public class FunctionNWithGradientTest {
 
     @SuppressWarnings({"EmptyMethod", "unused"})
-    public static void assertInvariants(final FunctionNWithGradient f) {
+    public static void assertInvariants(final FunctionNTo1WithGradient f) {
         // Do nothing
     }
 
     @SuppressWarnings("unused")
-    public static FunctionNWithGradientValue value(final FunctionNWithGradient f, final ImmutableVectorN x) {
+    public static FunctionNWithGradientValue value(final FunctionNTo1WithGradient f, final ImmutableVectorN x) {
         final FunctionNWithGradientValue v = f.value(x);
 
         assertNotNull(v, "Not null, result");// guard

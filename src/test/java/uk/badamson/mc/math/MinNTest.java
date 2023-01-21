@@ -74,7 +74,7 @@ public class MinNTest {
         }
     };
 
-    private static final FunctionNWithGradient PARABOLOID_WITH_GRADIENT = new FunctionNWithGradient() {
+    private static final FunctionNTo1WithGradient PARABOLOID_WITH_GRADIENT = new FunctionNTo1WithGradient() {
 
         @Override
         public int getDimension() {
@@ -105,7 +105,7 @@ public class MinNTest {
         return lineFunction;
     }
 
-    private static Function1To1WithGradient createLineFunction(final FunctionNWithGradient f, final ImmutableVectorN x0,
+    private static Function1To1WithGradient createLineFunction(final FunctionNTo1WithGradient f, final ImmutableVectorN x0,
                                                                final ImmutableVectorN dx) {
         final Function1To1WithGradient lineFunction = MinN.createLineFunction(f, x0, dx);
 
@@ -127,7 +127,7 @@ public class MinNTest {
         assertEquals(expectedDfDw, fw.dfdx(), toleranceDfDw, "dfdw(" + w + ")");
     }
 
-    private static FunctionNWithGradientValue findFletcherReevesPolakRibere(final FunctionNWithGradient f,
+    private static FunctionNWithGradientValue findFletcherReevesPolakRibere(final FunctionNTo1WithGradient f,
             final ImmutableVectorN x, final double tolerance) throws PoorlyConditionedFunctionException {
         final FunctionNWithGradientValue min = MinN.findFletcherReevesPolakRibere(f, x, tolerance);
 
@@ -193,8 +193,8 @@ public class MinNTest {
         return min;
     }
 
-    private static FunctionNWithGradientValue minimiseAlongLine(final FunctionNWithGradient f, final ImmutableVectorN x,
-            final ImmutableVectorN dx) {
+    private static FunctionNWithGradientValue minimiseAlongLine(final FunctionNTo1WithGradient f, final ImmutableVectorN x,
+                                                                final ImmutableVectorN dx) {
         final FunctionNWithGradientValue min = MinN.minimiseAlongLine(f, x, dx);
 
         assertNotNull(min, "Not null, result");// guard
