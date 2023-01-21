@@ -106,7 +106,7 @@ public class VectorTest {
     public static Vector multiply(final Vector a, final Vector x) {
         final Vector ax = MatrixTest.multiply(a, x);// inherited
 
-        assertInvariants(a);// check for side-efffects
+        assertInvariants(a);// check for side effects
         assertInvariants(a, ax);
 
         return ax;

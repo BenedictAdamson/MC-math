@@ -1,6 +1,6 @@
 package uk.badamson.mc.math;
 /*
- * © Copyright Benedict Adamson 2018,22.
+ * © Copyright Benedict Adamson 2018,22-23.
  *
  * This file is part of MC-math.
  *
@@ -176,9 +176,9 @@ public class QuaternionTest {
     private static double dot(final Quaternion q, final Quaternion that) {
         final double p = q.dot(that);
 
-        assertInvariants(q);// check for side-effects
-        assertInvariants(that);// check for side-effects
-        assertInvariants(q, that);// check for side-effects
+        assertInvariants(q);// check for side effects
+        assertInvariants(that);// check for side effects
+        assertInvariants(q, that);// check for side effects
 
         return p;
     }
@@ -187,7 +187,7 @@ public class QuaternionTest {
         final Quaternion eq = q.exp();
 
         assertNotNull(eq, "Not null, result");// guard
-        assertInvariants(q);// check for side-effects
+        assertInvariants(q);// check for side effects
         assertInvariants(eq);
         assertInvariants(eq, q);
 
@@ -226,7 +226,7 @@ public class QuaternionTest {
         final Quaternion log = q.log();
 
         assertNotNull(log, "Not null, result");// guard
-        assertInvariants(q);// check for side-effects
+        assertInvariants(q);// check for side effects
         assertInvariants(log);
         assertInvariants(log, q);
 
