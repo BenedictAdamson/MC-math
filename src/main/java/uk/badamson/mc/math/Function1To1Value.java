@@ -33,7 +33,7 @@ import javax.annotation.concurrent.Immutable;
  * </dl>
  */
 @Immutable
-public record Function1Value(
+public record Function1To1Value(
         double x,
         double f
 ) {
@@ -44,8 +44,8 @@ public record Function1Value(
     }
 
 
-    public static Function1Value createFor(final Function1To1 f, final double x) {
-        return new Function1Value(x, f.value(x));
+    public static Function1To1Value createFor(final Function1To1 f, final double x) {
+        return new Function1To1Value(x, f.value(x));
     }
 
 }

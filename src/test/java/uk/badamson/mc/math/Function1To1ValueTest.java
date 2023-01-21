@@ -29,17 +29,17 @@ import javax.annotation.Nonnull;
 
 /**
  * <p>
- * Unit tests for the class {@link Function1Value}.
+ * Unit tests for the class {@link Function1To1Value}.
  * </p>
  */
 @SuppressWarnings("UnusedReturnValue")
-public class Function1ValueTest {
+public class Function1To1ValueTest {
 
-    public static void assertInvariants(final Function1Value point) {
+    public static void assertInvariants(final Function1To1Value point) {
         ObjectVerifier.assertInvariants(point);// inherited
     }
 
-    public static void assertInvariants(final Function1Value point1, final Function1Value point2) {
+    public static void assertInvariants(final Function1To1Value point1, final Function1To1Value point2) {
         ObjectVerifier.assertInvariants(point1, point2);// inherited
 
         final boolean equals = point1.equals(point2);
@@ -50,8 +50,8 @@ public class Function1ValueTest {
     }
 
     @Nonnull
-    private static Function1Value constructor(final double x, final double f) {
-        final Function1Value point = new Function1Value(x, f);
+    private static Function1To1Value constructor(final double x, final double f) {
+        final Function1To1Value point = new Function1To1Value(x, f);
 
         assertInvariants(point);
         assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(point.x()), "x bits");
@@ -60,8 +60,8 @@ public class Function1ValueTest {
     }
 
     private static void equals_equivalent(final double x, final double f) {
-        final Function1Value point1 = new Function1Value(x, f);
-        final Function1Value point2 = new Function1Value(x, f);
+        final Function1To1Value point1 = new Function1To1Value(x, f);
+        final Function1To1Value point2 = new Function1To1Value(x, f);
 
         assertInvariants(point1, point2);
         assertEquals(point1, point2, "Equivalent");

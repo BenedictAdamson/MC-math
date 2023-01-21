@@ -414,7 +414,7 @@ public final class MinN {
             throws PoorlyConditionedFunctionException {
         final Function1To1 fLine = createLineFunction(f, x, dx);
         final Min1.Bracket bracket = Min1.findBracket(fLine, 0.0, 1.0);
-        final Function1Value p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
+        final Function1To1Value p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
         final double w = p.x();
         for (int i = 0, n = x.length; i < n; i++) {
             final double dxi = dx[i] * w;
