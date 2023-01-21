@@ -105,9 +105,9 @@ public class MinNTest {
         return lineFunction;
     }
 
-    private static Function1WithGradient createLineFunction(final FunctionNWithGradient f, final ImmutableVectorN x0,
-            final ImmutableVectorN dx) {
-        final Function1WithGradient lineFunction = MinN.createLineFunction(f, x0, dx);
+    private static Function1To1WithGradient createLineFunction(final FunctionNWithGradient f, final ImmutableVectorN x0,
+                                                               final ImmutableVectorN dx) {
+        final Function1To1WithGradient lineFunction = MinN.createLineFunction(f, x0, dx);
 
         assertNotNull(lineFunction, "Not null, result");
 
@@ -120,7 +120,7 @@ public class MinNTest {
         final ImmutableVectorN x = ImmutableVectorN.create(x00, x01);
         final ImmutableVectorN dx = ImmutableVectorN.create(dx0, dx1);
 
-        final Function1WithGradient f = createLineFunction(PARABOLOID_WITH_GRADIENT, x, dx);
+        final Function1To1WithGradient f = createLineFunction(PARABOLOID_WITH_GRADIENT, x, dx);
 
         final Function1WithGradientValue fw = Function1WithGradientTest.value(f, w);
         assertEquals(expectedF, fw.f(), toleranceF, "f(" + w + ")");

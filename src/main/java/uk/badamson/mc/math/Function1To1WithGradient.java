@@ -31,7 +31,7 @@ import java.util.function.DoubleFunction;
  */
 @FunctionalInterface
 @Immutable
-public interface Function1WithGradient extends DoubleFunction<Function1WithGradientValue> {
+public interface Function1To1WithGradient extends DoubleFunction<Function1WithGradientValue> {
 
     /**
      * <p>

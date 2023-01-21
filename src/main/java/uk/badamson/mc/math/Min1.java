@@ -381,7 +381,7 @@ public final class Min1 {
 
     /**
      * <p>
-     * Find a minimum of a {@linkplain Function1WithGradient one dimensional
+     * Find a minimum of a {@linkplain Function1To1WithGradient one dimensional
      * function that also has a computable gradient}, using <i>Brent's method</i>.
      * </p>
      * <ul>
@@ -408,7 +408,7 @@ public final class Min1 {
      */
     @Nonnull
     public static Function1WithGradientValue findBrent(
-            @Nonnull final Function1WithGradient f,
+            @Nonnull final Function1To1WithGradient f,
             @Nonnull final Bracket bracket,
             @Nonnegative final double tolerance) {
         Objects.requireNonNull(f, "f");

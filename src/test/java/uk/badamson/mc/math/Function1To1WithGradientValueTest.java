@@ -31,7 +31,7 @@ import uk.badamson.dbc.assertions.ObjectVerifier;
  * </p>
  */
 @SuppressWarnings("UnusedReturnValue")
-public class Function1WithGradientValueTest {
+public class Function1To1WithGradientValueTest {
 
     public static void assertInvariants(final Function1WithGradientValue v) {
         ObjectVerifier.assertInvariants(v);// inherited

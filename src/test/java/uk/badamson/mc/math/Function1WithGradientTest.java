@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * <p>
- * Unit tests for classes that implement the {@link Function1WithGradient}
+ * Unit tests for classes that implement the {@link Function1To1WithGradient}
  * interface.
  * </p>
  */
@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class Function1WithGradientTest {
 
     @SuppressWarnings({"EmptyMethod", "unused"})
-    public static void assertInvariants(final Function1WithGradient f) {
+    public static void assertInvariants(final Function1To1WithGradient f) {
         // Do nothing
     }
 
@@ -45,11 +45,11 @@ public class Function1WithGradientTest {
         }
     }
 
-    public static Function1WithGradientValue value(final Function1WithGradient f, final double x) {
+    public static Function1WithGradientValue value(final Function1To1WithGradient f, final double x) {
         final Function1WithGradientValue v = f.value(x);
 
         assertNotNull(v, "Not null, result");// guard
-        Function1WithGradientValueTest.assertInvariants(v);
+        Function1To1WithGradientValueTest.assertInvariants(v);
         assertEquals(x, v.x(), Double.MIN_NORMAL, "x");
 
         return v;

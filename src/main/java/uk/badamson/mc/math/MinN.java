@@ -163,7 +163,7 @@ public final class MinN {
      *                                  {@code f}.
      */
     @Nonnull
-    public static Function1WithGradient createLineFunction(
+    public static Function1To1WithGradient createLineFunction(
             @Nonnull final FunctionNWithGradient f,
             @Nonnull final ImmutableVectorN x0,
             @Nonnull final ImmutableVectorN dx
@@ -177,7 +177,7 @@ public final class MinN {
                     + ", f.dimensions " + f.getDimension());
         }
 
-        return new Function1WithGradient() {
+        return new Function1To1WithGradient() {
 
             @Override
             public String toString() {
@@ -459,7 +459,7 @@ public final class MinN {
             @Nonnull final ImmutableVectorN dx
     )
             throws PoorlyConditionedFunctionException {
-        final Function1WithGradient fLine = createLineFunction(f, x, dx);
+        final Function1To1WithGradient fLine = createLineFunction(f, x, dx);
         final Function1To1 f1Line = new Function1To1() {
 
             @Override

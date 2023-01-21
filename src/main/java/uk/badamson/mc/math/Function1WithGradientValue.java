@@ -23,7 +23,7 @@ import javax.annotation.concurrent.Immutable;
 
 /**
  * <p>
- * One value from the domain of a {@linkplain Function1WithGradient single
+ * One value from the domain of a {@linkplain Function1To1WithGradient single
  * dimensional function of a continuous variable that also has a computable
  * gradient} with the corresponding value in the codomain of the function and the
  * gradient of the function.
