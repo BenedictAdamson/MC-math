@@ -97,8 +97,8 @@ public class MinNTest {
         return precision;
     }
 
-    private static Function1 createLineFunction(final FunctionN f, final double[] x0, final double[] dx) {
-        final Function1 lineFunction = MinN.createLineFunction(f, x0, dx);
+    private static Function1To1 createLineFunction(final FunctionN f, final double[] x0, final double[] dx) {
+        final Function1To1 lineFunction = MinN.createLineFunction(f, x0, dx);
 
         assertNotNull(lineFunction, "Not null, result");
 
@@ -260,7 +260,7 @@ public class MinNTest {
         final double[] x0 = { 0.0, 0.0 };
         final double[] dx = { 1.0, 0.0 };
 
-        final Function1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
+        final Function1To1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
 
         assertEquals(0.0, lineFunction.value(0.0), 1E-3, "lineFunction[0]");
         assertEquals(1.0, lineFunction.value(1.0), 1E-3, "lineFunction[1.0]");
@@ -272,7 +272,7 @@ public class MinNTest {
         final double[] x0 = { 0.0, 0.0 };
         final double[] dx = { 0.0, 1.0 };
 
-        final Function1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
+        final Function1To1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
 
         assertEquals(0.0, lineFunction.value(0.0), 1E-3, "lineFunction[0]");
         assertEquals(1.0, lineFunction.value(1.0), 1E-3, "lineFunction[1.0]");
@@ -284,7 +284,7 @@ public class MinNTest {
         final double[] x0 = { 0.0, 0.0 };
         final double[] dx = { 1.0, 1.0 };
 
-        final Function1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
+        final Function1To1 lineFunction = createLineFunction(BILINEANR_1, x0, dx);
 
         assertEquals(0.0, lineFunction.value(0.0), 1E-3, "lineFunction[0]");
         assertEquals(2.0, lineFunction.value(1.0), 1E-3, "lineFunction[1.0]");
@@ -296,7 +296,7 @@ public class MinNTest {
         final double[] x0 = { 0.0 };
         final double[] dx = { 1.0 };
 
-        final Function1 lineFunction = createLineFunction(CONSTANT_1, x0, dx);
+        final Function1To1 lineFunction = createLineFunction(CONSTANT_1, x0, dx);
 
         assertEquals(1.0, lineFunction.value(0.0), 1E-3, "lineFunction[0]");
         assertEquals(1.0, lineFunction.value(1.0), 1E-3, "lineFunction[1.0]");

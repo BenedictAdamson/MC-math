@@ -100,19 +100,19 @@ public class Min1Test {
     private static final Function1Value POINT_4 = new Function1Value(5, 4);
     private static final Function1Value POINT_5 = new Function1Value(6, 9);
 
-    private static final Function1 SQUARED = x -> x * x;
+    private static final Function1To1 SQUARED = x -> x * x;
 
-    private static final Function1 POWER_4 = x -> {
+    private static final Function1To1 POWER_4 = x -> {
         final double x2 = x * x;
         return x2 * x2;
     };
 
-    private static final Function1 ORDER_3 = x -> {
+    private static final Function1To1 ORDER_3 = x -> {
         final double x2 = x * x;
         return x + x2 - x * x2;
     };
 
-    private static final Function1 NOT_SMOOTH = x -> {
+    private static final Function1To1 NOT_SMOOTH = x -> {
         double f = x * x;
         if (-1 < x) {
             f += x + 1;
@@ -120,7 +120,7 @@ public class Min1Test {
         return f;
     };
 
-    private static final Function1 COS = Math::cos;
+    private static final Function1To1 COS = Math::cos;
 
     private static final Function1WithGradient SQUARED_WITH_GRADIENT = x -> new Function1WithGradientValue(x, x * x, 2.0 * x);
 
@@ -129,13 +129,13 @@ public class Min1Test {
         return new Function1WithGradientValue(x, x2 * x2, 4.0 * x2 * x);
     };
 
-    private static void assertConsistent(final Min1.Bracket bracket, final Function1 f) {
+    private static void assertConsistent(final Min1.Bracket bracket, final Function1To1 f) {
         assertConsistent("Left point of bracket", bracket.getLeft(), f);
         assertConsistent("Inner point of bracket", bracket.getInner(), f);
         assertConsistent("Right point of bracket", bracket.getRight(), f);
     }
 
-    private static void assertConsistent(final String message, final Function1Value p, final Function1 f) {
+    private static void assertConsistent(final String message, final Function1Value p, final Function1To1 f) {
         assertEquals(f.value(p.x()), p.f(), Double.MIN_NORMAL,
                 message + " <" + p + "> is consistent with function <" + f + ">");
     }
@@ -149,7 +149,7 @@ public class Min1Test {
                 message + " <" + p + "> is consistent with function <" + f + ">, gradient");
     }
 
-    private static Min1.Bracket findBracket(final Function1 f, final double x1, final double x2)
+    private static Min1.Bracket findBracket(final Function1To1 f, final double x1, final double x2)
             throws PoorlyConditionedFunctionException {
         final Min1.Bracket bracket = Min1.findBracket(f, x1, x2);
 
@@ -160,7 +160,7 @@ public class Min1Test {
         return bracket;
     }
 
-    private static Function1Value findBrent(final Function1 f, final Min1.Bracket bracket, final double tolerance) {
+    private static Function1Value findBrent(final Function1To1 f, final Min1.Bracket bracket, final double tolerance) {
         final Function1Value min = Min1.findBrent(f, bracket, tolerance);
 
         assertNotNull(min, "The method always returns a bracket");// guard

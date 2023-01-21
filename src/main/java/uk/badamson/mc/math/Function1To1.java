@@ -29,7 +29,7 @@ import java.util.function.DoubleUnaryOperator;
  */
 @FunctionalInterface
 @Immutable
-public interface Function1 extends DoubleUnaryOperator {
+public interface Function1To1 extends DoubleUnaryOperator {
 
     /**
      * <p>

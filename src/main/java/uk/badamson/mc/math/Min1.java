@@ -25,7 +25,7 @@ import java.util.Objects;
 
 /**
  * <p>
- * Functions and auxiliary classes for minimization of a {@linkplain Function1
+ * Functions and auxiliary classes for minimization of a {@linkplain Function1To1
  * one dimensional function}.
  * </p>
  */
@@ -34,7 +34,7 @@ public final class Min1 {
     /**
      * <p>
      * The typical fractional tolerance possible for minimization of a
-     * {@linkplain Function1 one dimensional function}.
+     * {@linkplain Function1To1 one dimensional function}.
      * </p>
      * <p>
      * If the true minimum occurs where the variable has value <var>x</var>, a
@@ -90,7 +90,7 @@ public final class Min1 {
 
     /**
      * <p>
-     * Find a {@linkplain Min1.Bracket bracket} of a {@linkplain Function1 one
+     * Find a {@linkplain Min1.Bracket bracket} of a {@linkplain Function1To1 one
      * dimensional function of a continuous variable}, given two values of the
      * continuous variable.
      * </p>
@@ -120,7 +120,7 @@ public final class Min1 {
      *                                            iterative procedure to diverge.
      */
     @Nonnull
-    public static Bracket findBracket(@Nonnull final Function1 f, final double x1, final double x2)
+    public static Bracket findBracket(@Nonnull final Function1To1 f, final double x1, final double x2)
             throws PoorlyConditionedFunctionException {
         Objects.requireNonNull(f, "f");
         if (x1 == x2) {
@@ -258,7 +258,7 @@ public final class Min1 {
 
     /**
      * <p>
-     * Find a minimum of a {@linkplain Function1 one dimensional function} using
+     * Find a minimum of a {@linkplain Function1To1 one dimensional function} using
      * <i>Brent's method</i>.
      * </p>
      * <ul>
@@ -281,7 +281,7 @@ public final class Min1 {
      */
     @Nonnull
     public static Function1Value findBrent(
-            @Nonnull final Function1 f,
+            @Nonnull final Function1To1 f,
             @Nonnull final Bracket bracket,
             @Nonnegative final double tolerance) {
         Objects.requireNonNull(f, "f");
@@ -622,7 +622,7 @@ public final class Min1 {
 
     @Nonnull
     private static Function1Value stepFurther(
-            @Nonnull final Function1 f,
+            @Nonnull final Function1To1 f,
             @Nonnull final Function1Value p1,
             @Nonnull final Function1Value p2
     )
@@ -663,7 +663,7 @@ public final class Min1 {
 
     /**
      * <p>
-     * A bracket of the minimum of a {@linkplain Function1 one dimensional
+     * A bracket of the minimum of a {@linkplain Function1To1 one dimensional
      * function}.
      * </p>
      * <p>

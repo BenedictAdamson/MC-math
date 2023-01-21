@@ -80,7 +80,7 @@ public final class MinN {
 
     /**
      * <p>
-     * Create a {@linkplain Function1 functor for a one-dimensional function of a
+     * Create a {@linkplain Function1To1 functor for a one-dimensional function of a
      * continuous variable} that is the evaluation of a {@linkplain FunctionN
      * functor for a multi-dimensional function of continuous variables} along a
      * given line.
@@ -107,7 +107,7 @@ public final class MinN {
      *                                  {@linkplain FunctionN#getDimension() number of dimensions} of
      *                                  {@code f}.
      */
-    static @Nonnull Function1 createLineFunction(
+    static @Nonnull Function1To1 createLineFunction(
             @Nonnull final FunctionN f,
             @Nonnull final double[] x0,
             @Nonnull final double[] dx
@@ -135,7 +135,7 @@ public final class MinN {
 
     /**
      * <p>
-     * Create a {@linkplain Function1 functor for a one-dimensional function of a
+     * Create a {@linkplain Function1To1 functor for a one-dimensional function of a
      * continuous variable} that is the evaluation of a {@linkplain FunctionN
      * functor for a multi-dimensional function of continuous variables} along a
      * given line.
@@ -412,7 +412,7 @@ public final class MinN {
             @Nonnull final double[] dx
     )
             throws PoorlyConditionedFunctionException {
-        final Function1 fLine = createLineFunction(f, x, dx);
+        final Function1To1 fLine = createLineFunction(f, x, dx);
         final Min1.Bracket bracket = Min1.findBracket(fLine, 0.0, 1.0);
         final Function1Value p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
         final double w = p.x();
@@ -460,7 +460,7 @@ public final class MinN {
     )
             throws PoorlyConditionedFunctionException {
         final Function1WithGradient fLine = createLineFunction(f, x, dx);
-        final Function1 f1Line = new Function1() {
+        final Function1To1 f1Line = new Function1To1() {
 
             @Override
             public String toString() {

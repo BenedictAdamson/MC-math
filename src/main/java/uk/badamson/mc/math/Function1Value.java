@@ -23,7 +23,7 @@ import javax.annotation.concurrent.Immutable;
 
 /**
  * <p>
- * One value from the domain of a {@linkplain Function1 single dimensional
+ * One value from the domain of a {@linkplain Function1To1 single dimensional
  * function of a continuous variable} with the corresponding value in the codomain
  * of the function.
  * </p>
@@ -44,7 +44,7 @@ public record Function1Value(
     }
 
 
-    public static Function1Value createFor(final Function1 f, final double x) {
+    public static Function1Value createFor(final Function1To1 f, final double x) {
         return new Function1Value(x, f.value(x));
     }
 
