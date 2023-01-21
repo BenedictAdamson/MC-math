@@ -31,7 +31,7 @@ import java.util.function.DoubleFunction;
  */
 @FunctionalInterface
 @Immutable
-public interface Function1To1WithGradient extends DoubleFunction<Function1WithGradientValue> {
+public interface Function1To1WithGradient extends DoubleFunction<Function1To1WithGradientValue> {
 
     /**
      * <p>
@@ -39,7 +39,7 @@ public interface Function1To1WithGradient extends DoubleFunction<Function1WithGr
      * continuous variable.
      * </p>
      * <ul>
-     * <li>The {@linkplain Function1WithGradientValue#x() domain value} of the
+     * <li>The {@linkplain Function1To1WithGradientValue#x() domain value} of the
      * returned object is the given domain value.</li>
      * </ul>
      *
@@ -47,10 +47,10 @@ public interface Function1To1WithGradient extends DoubleFunction<Function1WithGr
      * @return The value of the function.
      */
     @Nonnull
-    Function1WithGradientValue value(double x);
+    Function1To1WithGradientValue value(double x);
 
     @Override
-    default  Function1WithGradientValue apply(double x) {
+    default Function1To1WithGradientValue apply(double x) {
         return value(x);
     }
 }

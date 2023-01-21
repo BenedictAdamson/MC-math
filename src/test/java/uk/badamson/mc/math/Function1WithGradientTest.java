@@ -45,8 +45,8 @@ public class Function1WithGradientTest {
         }
     }
 
-    public static Function1WithGradientValue value(final Function1To1WithGradient f, final double x) {
-        final Function1WithGradientValue v = f.value(x);
+    public static Function1To1WithGradientValue value(final Function1To1WithGradient f, final double x) {
+        final Function1To1WithGradientValue v = f.value(x);
 
         assertNotNull(v, "Not null, result");// guard
         Function1To1WithGradientValueTest.assertInvariants(v);

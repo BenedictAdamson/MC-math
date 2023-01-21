@@ -122,11 +122,11 @@ public class Min1Test {
 
     private static final Function1To1 COS = Math::cos;
 
-    private static final Function1To1WithGradient SQUARED_WITH_GRADIENT = x -> new Function1WithGradientValue(x, x * x, 2.0 * x);
+    private static final Function1To1WithGradient SQUARED_WITH_GRADIENT = x -> new Function1To1WithGradientValue(x, x * x, 2.0 * x);
 
     private static final Function1To1WithGradient POWER_4_WITH_GRADIENT = x -> {
         final double x2 = x * x;
-        return new Function1WithGradientValue(x, x2 * x2, 4.0 * x2 * x);
+        return new Function1To1WithGradientValue(x, x2 * x2, 4.0 * x2 * x);
     };
 
     private static void assertConsistent(final Min1.Bracket bracket, final Function1To1 f) {
@@ -140,9 +140,9 @@ public class Min1Test {
                 message + " <" + p + "> is consistent with function <" + f + ">");
     }
 
-    private static void assertConsistent(final String message, final Function1WithGradientValue p,
+    private static void assertConsistent(final String message, final Function1To1WithGradientValue p,
             final Function1To1WithGradient f) {
-        final Function1WithGradientValue fp = f.value(p.x());
+        final Function1To1WithGradientValue fp = f.value(p.x());
         assertEquals(fp.f(), p.f(), Double.MIN_NORMAL,
                 message + " <" + p + "> is consistent with function <" + f + ">, codomain");
         assertEquals(fp.dfdx(), p.dfdx(), Double.MIN_NORMAL,
@@ -173,9 +173,9 @@ public class Min1Test {
         return min;
     }
 
-    private static Function1WithGradientValue findBrent(final Function1To1WithGradient f, final Bracket bracket,
-                                                        final double tolerance) {
-        final Function1WithGradientValue min = Min1.findBrent(f, bracket, tolerance);
+    private static Function1To1WithGradientValue findBrent(final Function1To1WithGradient f, final Bracket bracket,
+                                                           final double tolerance) {
+        final Function1To1WithGradientValue min = Min1.findBrent(f, bracket, tolerance);
 
         assertNotNull(min, "The method always returns a bracket");// guard
         BracketTest.assertInvariants(bracket);

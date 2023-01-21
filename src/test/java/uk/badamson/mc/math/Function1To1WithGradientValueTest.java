@@ -27,17 +27,17 @@ import uk.badamson.dbc.assertions.ObjectVerifier;
 
 /**
  * <p>
- * Unit tests for the class {@link Function1WithGradientValue}.
+ * Unit tests for the class {@link Function1To1WithGradientValue}.
  * </p>
  */
 @SuppressWarnings("UnusedReturnValue")
 public class Function1To1WithGradientValueTest {
 
-    public static void assertInvariants(final Function1WithGradientValue v) {
+    public static void assertInvariants(final Function1To1WithGradientValue v) {
         ObjectVerifier.assertInvariants(v);// inherited
     }
 
-    public static void assertInvariants(final Function1WithGradientValue v1, final Function1WithGradientValue v2) {
+    public static void assertInvariants(final Function1To1WithGradientValue v1, final Function1To1WithGradientValue v2) {
         ObjectVerifier.assertInvariants(v1, v2);// inherited
 
         final boolean equals = v1.equals(v2);
@@ -49,8 +49,8 @@ public class Function1To1WithGradientValueTest {
                 "Value semantics, dfdx");
     }
 
-    private static Function1WithGradientValue constructor(final double x, final double f, final double dfdx) {
-        final Function1WithGradientValue point = new Function1WithGradientValue(x, f, dfdx);
+    private static Function1To1WithGradientValue constructor(final double x, final double f, final double dfdx) {
+        final Function1To1WithGradientValue point = new Function1To1WithGradientValue(x, f, dfdx);
 
         assertInvariants(point);
         assertEquals(Double.doubleToLongBits(x), Double.doubleToLongBits(point.x()), "x bits");
@@ -60,8 +60,8 @@ public class Function1To1WithGradientValueTest {
     }
 
     private static void equals_equivalent(final double x, final double f, final double dfdx) {
-        final Function1WithGradientValue point1 = new Function1WithGradientValue(x, f, dfdx);
-        final Function1WithGradientValue point2 = new Function1WithGradientValue(x, f, dfdx);
+        final Function1To1WithGradientValue point1 = new Function1To1WithGradientValue(x, f, dfdx);
+        final Function1To1WithGradientValue point2 = new Function1To1WithGradientValue(x, f, dfdx);
 
         assertInvariants(point1, point2);
         assertEquals(point1, point2, "Equivalent");

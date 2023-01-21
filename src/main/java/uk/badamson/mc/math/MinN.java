@@ -190,10 +190,10 @@ public final class MinN {
 
             @Override
             @Nonnull
-            public Function1WithGradientValue value(final double w) {
+            public Function1To1WithGradientValue value(final double w) {
                 final ImmutableVectorN x = ImmutableVectorN.createOnLine(x0, dx, w);
                 final FunctionNWithGradientValue v = f.value(x);
-                return new Function1WithGradientValue(w, v.getF(), v.getDfDx().dot(dx));
+                return new Function1To1WithGradientValue(w, v.getF(), v.getDfDx().dot(dx));
             }
         };
     }
@@ -474,7 +474,7 @@ public final class MinN {
 
         };
         final Min1.Bracket bracket = Min1.findBracket(f1Line, 0.0, 1.0);
-        final Function1WithGradientValue p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
+        final Function1To1WithGradientValue p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
         final ImmutableVectorN xMin = ImmutableVectorN.createOnLine(x, dx, p.x());
         return f.value(xMin);
     }

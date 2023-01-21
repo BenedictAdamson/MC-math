@@ -122,7 +122,7 @@ public class MinNTest {
 
         final Function1To1WithGradient f = createLineFunction(PARABOLOID_WITH_GRADIENT, x, dx);
 
-        final Function1WithGradientValue fw = Function1WithGradientTest.value(f, w);
+        final Function1To1WithGradientValue fw = Function1WithGradientTest.value(f, w);
         assertEquals(expectedF, fw.f(), toleranceF, "f(" + w + ")");
         assertEquals(expectedDfDw, fw.dfdx(), toleranceDfDw, "dfdw(" + w + ")");
     }

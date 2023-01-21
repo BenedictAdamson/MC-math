@@ -51,7 +51,7 @@ public interface FunctionNWithGradient extends Function<ImmutableVectorN, Functi
      * </p>
      * <ul>
      * <li>Always returns a (non null) value.</li>
-     * <li>The {@linkplain Function1WithGradientValue#x() domain value} of the
+     * <li>The {@linkplain Function1To1WithGradientValue#x() domain value} of the
      * returned object is the given domain value.</li>
      * </ul>
      *

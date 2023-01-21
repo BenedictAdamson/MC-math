@@ -35,7 +35,7 @@ import javax.annotation.concurrent.Immutable;
  * </dl>
  */
 @Immutable
-public record Function1WithGradientValue(
+public record Function1To1WithGradientValue(
         double x,
         double f,
         double dfdx
