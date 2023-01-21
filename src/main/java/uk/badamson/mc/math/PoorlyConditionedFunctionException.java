@@ -31,7 +31,7 @@ import java.util.Objects;
  * <li>The exception might indicate that the function does not have a
  * minimum</li>
  * <li>The exception might indicate that, although function has a minimum, it is
- * impossible to {@linkplain Min1#findBracket(Function1To1, double, double) find a
+ * impossible to {@linkplain Min1To1#findBracket(Function1To1, double, double) find a
  * bracket} for a function with the starting points because the function has an
  * odd-powered high order term that causes the iterative procedure to
  * diverge.</li>

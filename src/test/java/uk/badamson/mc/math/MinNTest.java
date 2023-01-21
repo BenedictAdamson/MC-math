@@ -92,7 +92,7 @@ public class MinNTest {
 
     private static double adjacentPrecision(final double x) {
         final double next = Math.nextAfter(x, Double.POSITIVE_INFINITY);
-        final double precision = Math.max(next - x, Min1.TOLERANCE * Math.abs(x));
+        final double precision = Math.max(next - x, Min1To1.TOLERANCE * Math.abs(x));
         assert 0.0 < precision;
         return precision;
     }

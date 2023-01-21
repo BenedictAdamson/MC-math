@@ -62,7 +62,7 @@ public final class MinN {
             dx[n - 1][j] = xNew;
             xNewMax = Math.max(xNewMax, Math.abs(xNew));
         }
-        if (xNewMax < Min1.TOLERANCE) {
+        if (xNewMax < Min1To1.TOLERANCE) {
             /*
              * We have converged on the minimum, or the search directions have degenerated.
              */
@@ -413,8 +413,8 @@ public final class MinN {
     )
             throws PoorlyConditionedFunctionException {
         final Function1To1 fLine = createLineFunction(f, x, dx);
-        final Min1.Bracket bracket = Min1.findBracket(fLine, 0.0, 1.0);
-        final Function1To1Value p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
+        final Min1To1.Bracket bracket = Min1To1.findBracket(fLine, 0.0, 1.0);
+        final Function1To1Value p = Min1To1.findBrent(fLine, bracket, Min1To1.TOLERANCE);
         final double w = p.x();
         for (int i = 0, n = x.length; i < n; i++) {
             final double dxi = dx[i] * w;
@@ -473,8 +473,8 @@ public final class MinN {
             }
 
         };
-        final Min1.Bracket bracket = Min1.findBracket(f1Line, 0.0, 1.0);
-        final Function1To1WithGradientValue p = Min1.findBrent(fLine, bracket, Min1.TOLERANCE);
+        final Min1To1.Bracket bracket = Min1To1.findBracket(f1Line, 0.0, 1.0);
+        final Function1To1WithGradientValue p = Min1To1.findBrent(fLine, bracket, Min1To1.TOLERANCE);
         final ImmutableVectorN xMin = ImmutableVectorN.createOnLine(x, dx, p.x());
         return f.value(xMin);
     }

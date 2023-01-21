@@ -26,20 +26,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import uk.badamson.dbc.assertions.ObjectVerifier;
-import uk.badamson.mc.math.Min1.Bracket;
+import uk.badamson.mc.math.Min1To1.Bracket;
 
 /**
  * <p>
- * Unit tests for the class {@link Min1}.
+ * Unit tests for the class {@link Min1To1}.
  * </p>
  */
 @SuppressWarnings({"SameParameterValue", "UnusedReturnValue"})
-public class Min1Test {
+public class Min1To1Test {
 
     @SuppressWarnings({"UnusedReturnValue", "unused"})
     public static class BracketTest {
 
-        public static void assertInvariants(final Min1.Bracket bracket) {
+        public static void assertInvariants(final Min1To1.Bracket bracket) {
             ObjectVerifier.assertInvariants(bracket);// inherited
 
             final Function1To1Value left = bracket.getLeft();
@@ -69,13 +69,13 @@ public class Min1Test {
             assertEquals(right.x() - left.x(), width, Double.MIN_NORMAL, "width");
         }
 
-        public static void assertInvariants(final Min1.Bracket bracket1, final Min1.Bracket bracket2) {
+        public static void assertInvariants(final Min1To1.Bracket bracket1, final Min1To1.Bracket bracket2) {
             ObjectVerifier.assertInvariants(bracket1, bracket2);// inherited
         }
 
-        private static Min1.Bracket constructor(final Function1To1Value left, final Function1To1Value inner,
-                                                final Function1To1Value right) {
-            final Min1.Bracket bracket = new Min1.Bracket(left, inner, right);
+        private static Min1To1.Bracket constructor(final Function1To1Value left, final Function1To1Value inner,
+                                                   final Function1To1Value right) {
+            final Min1To1.Bracket bracket = new Min1To1.Bracket(left, inner, right);
             assertInvariants(bracket);
             assertSame(left, bracket.getLeft(), "left");
             assertSame(inner, bracket.getInner(), "inner");
@@ -129,7 +129,7 @@ public class Min1Test {
         return new Function1To1WithGradientValue(x, x2 * x2, 4.0 * x2 * x);
     };
 
-    private static void assertConsistent(final Min1.Bracket bracket, final Function1To1 f) {
+    private static void assertConsistent(final Min1To1.Bracket bracket, final Function1To1 f) {
         assertConsistent("Left point of bracket", bracket.getLeft(), f);
         assertConsistent("Inner point of bracket", bracket.getInner(), f);
         assertConsistent("Right point of bracket", bracket.getRight(), f);
@@ -149,9 +149,9 @@ public class Min1Test {
                 message + " <" + p + "> is consistent with function <" + f + ">, gradient");
     }
 
-    private static Min1.Bracket findBracket(final Function1To1 f, final double x1, final double x2)
+    private static Min1To1.Bracket findBracket(final Function1To1 f, final double x1, final double x2)
             throws PoorlyConditionedFunctionException {
-        final Min1.Bracket bracket = Min1.findBracket(f, x1, x2);
+        final Min1To1.Bracket bracket = Min1To1.findBracket(f, x1, x2);
 
         assertNotNull(bracket, "Not null, bracket");// guard
         BracketTest.assertInvariants(bracket);
@@ -160,8 +160,8 @@ public class Min1Test {
         return bracket;
     }
 
-    private static Function1To1Value findBrent(final Function1To1 f, final Min1.Bracket bracket, final double tolerance) {
-        final Function1To1Value min = Min1.findBrent(f, bracket, tolerance);
+    private static Function1To1Value findBrent(final Function1To1 f, final Min1To1.Bracket bracket, final double tolerance) {
+        final Function1To1Value min = Min1To1.findBrent(f, bracket, tolerance);
 
         assertNotNull(min, "The method always returns a bracket");// guard
         BracketTest.assertInvariants(bracket);
@@ -175,7 +175,7 @@ public class Min1Test {
 
     private static Function1To1WithGradientValue findBrent(final Function1To1WithGradient f, final Bracket bracket,
                                                            final double tolerance) {
-        final Function1To1WithGradientValue min = Min1.findBrent(f, bracket, tolerance);
+        final Function1To1WithGradientValue min = Min1To1.findBrent(f, bracket, tolerance);
 
         assertNotNull(min, "The method always returns a bracket");// guard
         BracketTest.assertInvariants(bracket);
@@ -192,7 +192,7 @@ public class Min1Test {
         assert x2 < x3;
         assert x1 < 0.0;
         assert 0.0 < x3;
-        final Min1.Bracket bracket = new Bracket(new Function1To1Value(x1, POWER_4.value(x1)),
+        final Min1To1.Bracket bracket = new Bracket(new Function1To1Value(x1, POWER_4.value(x1)),
                 new Function1To1Value(x2, POWER_4.value(x2)), new Function1To1Value(x3, POWER_4.value(x3)));
 
         findBrent(SQUARED, bracket, tolerance);
@@ -204,7 +204,7 @@ public class Min1Test {
         assert x2 < x3;
         assert x1 < 0.0;
         assert 0.0 < x3;
-        final Min1.Bracket bracket = new Bracket(new Function1To1Value(x1, SQUARED.value(x1)),
+        final Min1To1.Bracket bracket = new Bracket(new Function1To1Value(x1, SQUARED.value(x1)),
                 new Function1To1Value(x2, SQUARED.value(x2)), new Function1To1Value(x3, SQUARED.value(x3)));
 
         findBrent(SQUARED, bracket, tolerance);
@@ -216,7 +216,7 @@ public class Min1Test {
         assert x2 < x3;
         assert x1 < 0.0;
         assert 0.0 < x3;
-        final Min1.Bracket bracket = new Bracket(new Function1To1Value(x1, POWER_4.value(x1)),
+        final Min1To1.Bracket bracket = new Bracket(new Function1To1Value(x1, POWER_4.value(x1)),
                 new Function1To1Value(x2, POWER_4.value(x2)), new Function1To1Value(x3, POWER_4.value(x3)));
 
         findBrent(POWER_4_WITH_GRADIENT, bracket, tolerance);
@@ -228,7 +228,7 @@ public class Min1Test {
         assert x2 < x3;
         assert x1 < 0.0;
         assert 0.0 < x3;
-        final Min1.Bracket bracket = new Bracket(new Function1To1Value(x1, SQUARED.value(x1)),
+        final Min1To1.Bracket bracket = new Bracket(new Function1To1Value(x1, SQUARED.value(x1)),
                 new Function1To1Value(x2, SQUARED.value(x2)), new Function1To1Value(x3, SQUARED.value(x3)));
 
         findBrent(SQUARED_WITH_GRADIENT, bracket, tolerance);

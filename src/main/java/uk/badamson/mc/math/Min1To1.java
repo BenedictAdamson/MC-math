@@ -29,7 +29,7 @@ import java.util.Objects;
  * one dimensional function}.
  * </p>
  */
-public final class Min1 {
+public final class Min1To1 {
 
     /**
      * <p>
@@ -46,7 +46,7 @@ public final class Min1 {
     private static final double GOLD = (1.0 + Math.sqrt(5.0)) * 0.5;
     private static final double MAX_STEP = 100;
 
-    private Min1() {
+    private Min1To1() {
         throw new AssertionError("Class should not be instantiated");
     }
 
@@ -90,7 +90,7 @@ public final class Min1 {
 
     /**
      * <p>
-     * Find a {@linkplain Min1.Bracket bracket} of a {@linkplain Function1To1 one
+     * Find a {@linkplain Min1To1.Bracket bracket} of a {@linkplain Function1To1 one
      * dimensional function of a continuous variable}, given two values of the
      * continuous variable.
      * </p>
@@ -749,9 +749,9 @@ public final class Min1 {
          * Whether this object is <dfn>equivalent</dfn> another object.
          * </p>
          * <p>
-         * The {@link Min1.Bracket} class has <i>value semantics</i>: this object is
+         * The {@link Min1To1.Bracket} class has <i>value semantics</i>: this object is
          * equivalent to another object if, and only if, the other object is also a
-         * {@link Min1.Bracket} object, and thw two objects have equivalent attributes.
+         * {@link Min1To1.Bracket} object, and thw two objects have equivalent attributes.
          * </p>
          */
         @Override
